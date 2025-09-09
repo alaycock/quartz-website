@@ -16,6 +16,8 @@ export const sharedPageComponents: SharedLayout = {
 
 const explorerOptions: Partial<Options> = {
   folderClickBehavior: 'collapse',
+  folderDefaultState: 'open',
+  useSavedState: false,
   sortFn: (a, b) => {
     if (a.isFolder && b.isFolder) {
       var ordering: Record<string, number> = { Posts: 0, Trips: 1, Lists: 2, Years: 3 };
@@ -75,7 +77,7 @@ export const defaultContentPageLayout: PageLayout = {
           Component: Component.Search(),
           grow: true,
         },
-        { Component: Component.Darkmode() },
+        // { Component: Component.Darkmode() },
         // { Component: Component.ReaderMode() },
       ],
     }),
@@ -100,7 +102,7 @@ export const defaultListPageLayout: PageLayout = {
           Component: Component.Search(),
           grow: true,
         },
-        { Component: Component.Darkmode() },
+        // { Component: Component.Darkmode() },
       ],
     }),
     Component.Explorer(explorerOptions),

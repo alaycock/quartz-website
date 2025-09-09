@@ -242,7 +242,7 @@ export function renderPage(
 
   const lang = componentData.fileData.frontmatter?.lang ?? cfg.locale?.split("-")[0] ?? "en"
   const doc = (
-    <html lang={lang}>
+    <html lang={lang} saved-theme="dark">
       <Head {...componentData} />
       <body data-slug={slug}>
         <div id="quartz-root" class="page">
