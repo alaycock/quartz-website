@@ -2,7 +2,7 @@ import { Date, getDate } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
 import { FullSlug, resolveRelative, FilePath, slugifyFilePath } from "../util/path"
-import { Fragment, JSX } from "preact"
+import { JSX } from "preact"
 import style from "./styles/contentMeta.scss"
 
 type ArbitraryFrontmatter = Record<string, string | string[]>
