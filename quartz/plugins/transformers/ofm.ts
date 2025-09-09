@@ -7,6 +7,7 @@ import {
   DefinitionContent,
   Paragraph,
   Code,
+  Table
 } from "mdast"
 import { Element, Literal, Root as HtmlRoot } from "hast"
 import { ReplaceFunction, findAndReplace as mdastFindReplace } from "mdast-util-find-and-replace"
@@ -27,6 +28,7 @@ import { toHast } from "mdast-util-to-hast"
 import { toHtml } from "hast-util-to-html"
 import { capitalize } from "../../util/lang"
 import { PluggableList } from "unified"
+import { TableRow } from "mdast-util-to-hast/lib/handlers/table-row"
 
 export interface Options {
   comments: boolean
@@ -390,6 +392,29 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
             })
           }
           mdastFindReplace(tree, replacements)
+        }
+      })
+
+      // Insert an a default row for empty tables - happens a lot with "bases"
+      plugins.push(() => {
+        return (tree: Root, _file) => {
+          visit(tree, "table", (node: Table) => {
+            if (node.children.length > 1) {
+              return;
+            }
+
+            const newNode = {
+              type: 'tableRow',
+              children: [
+                { type: 'tableCell', children: [
+                  {type: 'text', value: `There's nothing here!` }
+                ]}
+              ]
+            } satisfies TableRow;
+
+            node.children.push(newNode);
+            return SKIP
+          })
         }
       })
 

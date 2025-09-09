@@ -1,29 +1,14 @@
 import { Date, getDate } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import readingTime from "reading-time"
 import { classNames } from "../util/lang"
-import { i18n } from "../i18n"
-import { JSX } from "preact"
+import { FullSlug, resolveRelative, FilePath, slugifyFilePath } from "../util/path"
+import { Fragment, JSX } from "preact"
 import style from "./styles/contentMeta.scss"
 
-interface ContentMetaOptions {
-  /**
-   * Whether to display reading time
-   */
-  showReadingTime: boolean
-  showComma: boolean
-}
+type ArbitraryFrontmatter = Record<string, string | string[]>
 
-const defaultOptions: ContentMetaOptions = {
-  showReadingTime: true,
-  showComma: true,
-}
-
-export default ((opts?: Partial<ContentMetaOptions>) => {
-  // Merge options with defaults
-  const options: ContentMetaOptions = { ...defaultOptions, ...opts }
-
-  function ContentMetadata({ cfg, fileData, displayClass }: QuartzComponentProps) {
+export default (() => {
+  function ContentMetadata({ allFiles, cfg, fileData, displayClass }: QuartzComponentProps) {
     const text = fileData.text
 
     if (text) {
@@ -33,18 +18,63 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
         segments.push(<Date date={getDate(cfg, fileData)!} locale={cfg.locale} />)
       }
 
-      // Display reading time if enabled
-      if (options.showReadingTime) {
-        const { minutes, words: _words } = readingTime(text)
-        const displayedTime = i18n(cfg.locale).components.contentMeta.readingTime({
-          minutes: Math.ceil(minutes),
-        })
-        segments.push(<span>{displayedTime}</span>)
+      if (fileData.frontmatter?.tags?.includes('trip')) {
+        // TODO: Prettier rendering
+        const { route, activity, people, gain, distance } = fileData.frontmatter as ArbitraryFrontmatter;
+
+        if(route) {
+          const routes = Array.isArray(route) ? route : [route];
+          routes.forEach(route => {
+            const strippedRoute = route.replace(/(\[{2})|(\]{2})/g, '');
+            const absPath = `Routes/${slugifyFilePath(strippedRoute as FilePath)}`;
+            const linkDest = resolveRelative(fileData.slug!, absPath as FullSlug)
+            if (allFiles.some(file => file.slug === absPath)) {
+              segments.push(
+                <a href={linkDest} class="internal">
+                  {strippedRoute}
+                </a>
+              )
+            } else {
+              segments.push(
+                <a href={linkDest} class="internal broken">
+                  {strippedRoute}
+                </a>
+              )
+            }
+          })
+        }
+
+        segments.push(...[
+          activity,
+          (people as string[]).join(', '),
+          gain ? `${gain} m gain` : null,
+          distance ? `${distance} km` : null
+        ].filter(Boolean) as string[]);
       }
 
+      if (fileData.frontmatter?.tags?.includes('route')) {
+        // TODO: Prettier rendering
+        const { elevation, region, DWYT, Kane, completed } = fileData.frontmatter as ArbitraryFrontmatter;
+        const completeText = completed ? 'Done! ✅' : null;
+        segments.push(...[
+          elevation ? `${elevation} m` : null,
+          region,
+          DWYT ? `DWYT rated "${DWYT}"` : null,
+          Kane ? `Kane "${Kane}"` : null,
+          completeText
+        ].filter(Boolean) as string[]);
+      }
+
+      if (segments.length === 0) {
+        return null
+      }
+
+      const joinedSegments = segments
+        .flatMap((segment, index) => index === segments.length -1 ? segment : [segment, ', ']);
+
       return (
-        <p show-comma={options.showComma} class={classNames(displayClass, "content-meta")}>
-          {segments}
+        <p class={classNames(displayClass, "content-meta")}>
+          {joinedSegments}
         </p>
       )
     } else {
