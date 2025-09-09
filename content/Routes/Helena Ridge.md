@@ -3,5 +3,6 @@
 ---
 
 
-| file name | People | Distance (km) | Elevation Gain (m) |
-| --------- | ------ | ------------- | ------------------ |
+|    Date    |    People    | Distance (km) | Elevation Gain (m) |
+| ---------- | ------------ | ------------- | ------------------ |
+| 2022-02-20 | Adam, Colton |      15       |        1150        |

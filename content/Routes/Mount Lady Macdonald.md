@@ -3,6 +3,8 @@
 ---
 
 
-| file name  |           People           | Distance (km) | Elevation Gain (m) |
+|    Date    |           People           | Distance (km) | Elevation Gain (m) |
 | ---------- | -------------------------- | ------------- | ------------------ |
 | 2022-01-30 | Adam, Colton, Emily, Laura |      7.9      |        976         |
+| 2024-09-21 |            Adam            |     11.4      |        1249        |
+| 2025-04-06 |       Adam, Francis        |     9.57      |        1013        |

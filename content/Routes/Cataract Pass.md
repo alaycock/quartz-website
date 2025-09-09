@@ -3,5 +3,5 @@
 ---
 
 
-| file name | People | Distance (km) | Elevation Gain (m) |
-| --------- | ------ | ------------- | ------------------ |
+| Date | People | Distance (km) | Elevation Gain (m) |
+| ---- | ------ | ------------- | ------------------ |

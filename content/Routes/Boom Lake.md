@@ -3,5 +3,6 @@
 ---
 
 
-| file name | People | Distance (km) | Elevation Gain (m) |
-| --------- | ------ | ------------- | ------------------ |
+|    Date    |   People    | Distance (km) | Elevation Gain (m) |
+| ---------- | ----------- | ------------- | ------------------ |
+| 2020-02-22 | Adam, Emily |     10.9      |        573         |

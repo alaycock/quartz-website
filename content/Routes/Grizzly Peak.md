@@ -3,5 +3,6 @@
 ---
 
 
-| file name | People | Distance (km) | Elevation Gain (m) |
-| --------- | ------ | ------------- | ------------------ |
+|    Date    | People | Distance (km) | Elevation Gain (m) |
+| ---------- | ------ | ------------- | ------------------ |
+| 2024-05-18 |  Adam  |      6.3      |        879         |

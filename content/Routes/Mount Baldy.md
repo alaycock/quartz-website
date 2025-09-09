@@ -3,7 +3,7 @@
 ---
 
 
-| file name  |           People           | Distance (km) | Elevation Gain (m) |
+|    Date    |           People           | Distance (km) | Elevation Gain (m) |
 | ---------- | -------------------------- | ------------- | ------------------ |
 | 2020-05-16 | Adam, Colton, Emily, Laura |       4       |        782         |
 | 2022-06-10 |        Adam, Colton        |      4.2      |        788         |

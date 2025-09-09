@@ -3,6 +3,6 @@
 ---
 
 
-| file name  |           People           | Distance (km) | Elevation Gain (m) |
+|    Date    |           People           | Distance (km) | Elevation Gain (m) |
 | ---------- | -------------------------- | ------------- | ------------------ |
 | 2022-01-29 | Adam, Colton, Corey, Jared |       9       |        1100        |

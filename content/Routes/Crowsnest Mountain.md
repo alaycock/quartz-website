@@ -3,5 +3,6 @@
 ---
 
 
-| file name | People | Distance (km) | Elevation Gain (m) |
-| --------- | ------ | ------------- | ------------------ |
+|    Date    |   People    | Distance (km) | Elevation Gain (m) |
+| ---------- | ----------- | ------------- | ------------------ |
+| 2020-07-25 | Adam, Emily |               |                    |

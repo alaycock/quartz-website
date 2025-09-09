@@ -3,5 +3,6 @@
 ---
 
 
-| file name | People | Distance (km) | Elevation Gain (m) |
-| --------- | ------ | ------------- | ------------------ |
+|    Date    |      People      | Distance (km) | Elevation Gain (m) |
+| ---------- | ---------------- | ------------- | ------------------ |
+| 2022-09-18 | Adam, Kane, Ryan |     20.1      |        1806        |

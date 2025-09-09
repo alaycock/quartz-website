@@ -3,6 +3,6 @@
 ---
 
 
-| file name  |       People        | Distance (km) | Elevation Gain (m) |
+|    Date    |       People        | Distance (km) | Elevation Gain (m) |
 | ---------- | ------------------- | ------------- | ------------------ |
 | 2022-02-18 | Adam, Colton, Corey |      15       |        1200        |

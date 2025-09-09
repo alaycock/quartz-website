@@ -3,5 +3,6 @@
 ---
 
 
-| file name | People | Distance (km) | Elevation Gain (m) |
-| --------- | ------ | ------------- | ------------------ |
+|    Date    | People | Distance (km) | Elevation Gain (m) |
+| ---------- | ------ | ------------- | ------------------ |
+| 2022-07-02 |  Adam  |     15.4      |        1480        |

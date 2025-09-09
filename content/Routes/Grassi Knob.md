@@ -3,7 +3,7 @@
 ---
 
 
-| file name  |           People           | Distance (km) | Elevation Gain (m) |
+|    Date    |           People           | Distance (km) | Elevation Gain (m) |
 | ---------- | -------------------------- | ------------- | ------------------ |
 | 2020-07-17 |        Adam, Emily         |      5.8      |        758         |
 | 2020-10-31 |    Adam, Colton, Emily     |      5.8      |        758         |
