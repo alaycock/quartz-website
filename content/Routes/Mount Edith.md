@@ -3,6 +3,6 @@
 ---
 
 
-| file name  |   People    | Distance (km) | Elevation Gain (m) |
+|    Date    |   People    | Distance (km) | Elevation Gain (m) |
 | ---------- | ----------- | ------------- | ------------------ |
 | 2020-10-11 | Adam, Emily |     15.7      |        1428        |

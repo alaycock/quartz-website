@@ -3,5 +3,6 @@
 ---
 
 
-| file name | People | Distance (km) | Elevation Gain (m) |
-| --------- | ------ | ------------- | ------------------ |
+|    Date    |    People    | Distance (km) | Elevation Gain (m) |
+| ---------- | ------------ | ------------- | ------------------ |
+| 2023-06-25 | Adam, Colton |      6.1      |        1011        |

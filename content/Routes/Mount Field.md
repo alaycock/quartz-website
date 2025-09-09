@@ -3,6 +3,6 @@
 ---
 
 
-| file name  |   People    | Distance (km) | Elevation Gain (m) |
+|    Date    |   People    | Distance (km) | Elevation Gain (m) |
 | ---------- | ----------- | ------------- | ------------------ |
 | 2022-04-10 | Adam, Corey |     18.5      |        1510        |
