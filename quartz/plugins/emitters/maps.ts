@@ -24,12 +24,14 @@ async function downloadMap(
 
   // https://docs.mapbox.com/api/maps/static-images
   const mapboxToken = process.env.MAPBOX_TOKEN;
-  const url = `https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/static/${locationsString}/${centre[1]},${centre[0]},10,0,0/256x256@2x?access_token=${mapboxToken}`
-  const body = (await fetch(url)).body as unknown as Readable;
-  if (!body) {
-    throw new Error(`Could not fetch: ${url}`);
+  const urlWithoutToken = `https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/static/${locationsString}/${centre[1]},${centre[0]},10,0,0/256x256@2x?access_token=`
+  const response = await fetch(`${urlWithoutToken}${mapboxToken}`);
+  if (!response.ok) {
+    console.log(urlWithoutToken);
+    console.error(response.body)
+    throw new Error(`Could not fetch: ${urlWithoutToken}`);
   }
-  return body;
+  return response.body as unknown as Readable;
 }
 
 const getLocationFromProperty = (location: unknown) => {

@@ -35,9 +35,9 @@ jobs:
           cache-name: cache-maps
         with:
           path: quartz/.quartz-cache/maps
-          key: quartz-maps-v2025.09.10.1
+          key: quartz-maps-v2025.09.10.2
           restore-keys: |
-            quartz-maps-v2025.09.10.1
+            quartz-maps-v2025.09.10.2
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
