@@ -8,8 +8,6 @@ import fs from "node:fs/promises"
 
 type Frontmatter = NonNullable<BuildTimeTrieData['frontmatter']>;
 
-let imagesToGenerate = 100;
-
 async function downloadMap(
   locations: string[][]
 ): Promise<Readable> {
@@ -27,7 +25,7 @@ async function downloadMap(
   const urlWithoutToken = `https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/static/${locationsString}/${centre[1]},${centre[0]},10,0,0/256x256@2x?access_token=`
   const response = await fetch(`${urlWithoutToken}${mapboxToken}`);
   if (!response.ok) {
-    console.log(urlWithoutToken, mapboxToken?.length);
+    console.log(urlWithoutToken);
     console.error(await response.text())
     throw new Error(`Could not fetch: ${urlWithoutToken}`);
   }
@@ -122,14 +120,8 @@ export const Maps: QuartzEmitterPlugin = () => {
     },
     async *emit(ctx, content, _resources) {
       for (const [_tree, vfile] of content) {
-        // TODO: Remove when caching is working
-        if (imagesToGenerate === 0) {
-          continue;
-        }
-
         const pathToMap = await processMap(ctx, vfile.data)
         if (pathToMap) {
-          imagesToGenerate--;
           yield pathToMap;
         }
       }
