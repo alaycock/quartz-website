@@ -1,4 +1,5 @@
 import { QuartzConfig } from "./quartz/cfg"
+import * as Components from "./quartz/components"
 import * as Plugin from "./quartz/plugins"
 
 /**
@@ -77,7 +78,13 @@ const config: QuartzConfig = {
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
-      Plugin.ContentPage(),
+      Plugin.ContentPage({
+        pageBody: Components.ConditionalRender({
+          condition: (page) => page.fileData.slug !== "index",
+          component: Components.Content(),
+          elseComponent: Components.IndexContent(),
+        })
+      }),
       Plugin.ContentIndex({
         enableSiteMap: true,
         enableRSS: true,
