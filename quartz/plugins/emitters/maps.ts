@@ -28,7 +28,7 @@ async function downloadMap(
   const response = await fetch(`${urlWithoutToken}${mapboxToken}`);
   if (!response.ok) {
     console.log(urlWithoutToken);
-    console.error(response.body)
+    console.error(response.text())
     throw new Error(`Could not fetch: ${urlWithoutToken}`);
   }
   return response.body as unknown as Readable;
