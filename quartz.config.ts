@@ -83,6 +83,7 @@ const config: QuartzConfig = {
         enableRSS: true,
       }),
       Plugin.Assets(),
+      Plugin.Maps(),
       Plugin.Static(),
       Plugin.Favicon(),
       Plugin.NotFoundPage(),

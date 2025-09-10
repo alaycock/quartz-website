@@ -12,7 +12,7 @@ permissions:
  
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
  
 jobs:
   build:
@@ -28,6 +28,16 @@ jobs:
         run: npm ci
       - name: Build Quartz
         run: npx quartz build
+      - name: Cache map artifacts
+        id: cache-npm
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-maps
+        with:
+          path: quartz/.quartz-cache/maps
+          key: quartz-maps-v2025.09.10
+          restore-keys: |
+            quartz-maps-v2025.09.10
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
