@@ -27,8 +27,8 @@ async function downloadMap(
   const urlWithoutToken = `https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/static/${locationsString}/${centre[1]},${centre[0]},10,0,0/256x256@2x?access_token=`
   const response = await fetch(`${urlWithoutToken}${mapboxToken}`);
   if (!response.ok) {
-    console.log(urlWithoutToken);
-    console.error(response.text())
+    console.log(urlWithoutToken, mapboxToken?.length);
+    console.error(await response.text())
     throw new Error(`Could not fetch: ${urlWithoutToken}`);
   }
   return response.body as unknown as Readable;
