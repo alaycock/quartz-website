@@ -108,7 +108,7 @@ async function processMap(
   const pathToMap = joinSegments('.', ctx.argv.output, newFileSlug + newFileExtension);
   const dir = path.dirname(pathToMap)
   await fs.mkdir(dir, { recursive: true })
-  return fs.copyFile(pathToCache, pathToMap).then(() => console.log(pathToMap));
+  return fs.copyFile(pathToCache, pathToMap);
 }
 
 export const MapsEmitterName = "Maps"
