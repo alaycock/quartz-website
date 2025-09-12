@@ -221,9 +221,36 @@ export function getAllSegmentPrefixes(tags: string): string[] {
   return results
 }
 
+export function unWikilink(wikilink: string) {
+  return wikilink.replace(/(\[{2})|(\]{2})/g, '');
+}
+
 export interface TransformOptions {
   strategy: "absolute" | "relative" | "shortest"
   allSlugs: FullSlug[]
+}
+
+// Uses the same resolution logic as `transformLink`
+export function findNearestSlug(target: string, allSlugs: FullSlug[]): FullSlug {
+  let targetSlug = transformInternalLink(target)
+
+  const canonicalSlug = stripSlashes(targetSlug.slice(".".length))
+  let [targetCanonical] = splitAnchor(canonicalSlug)
+
+  // if the file name is unique, then it's just the filename
+  const matchingFileNames = allSlugs.filter((slug) => {
+    const parts = slug.split("/")
+    const fileName = parts.at(-1)
+    return targetCanonical === fileName
+  })
+
+  // only match, just use it
+  if (matchingFileNames.length === 1) {
+    return matchingFileNames[0]
+  }
+
+  // If it's not unique, use the original slug: Obsidian has already resolved it to be absolute
+  return target as FullSlug;
 }
 
 export function transformLink(src: FullSlug, target: string, opts: TransformOptions): RelativeURL {

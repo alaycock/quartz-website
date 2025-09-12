@@ -70,7 +70,7 @@ const config: QuartzConfig = {
       Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false, disableBrokenWikilinks: true }),
       Plugin.GitHubFlavoredMarkdown(),
       Plugin.TableOfContents(),
-      Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
+      Plugin.CrawlLinks({ markdownLinkResolution: "shortest", openLinksInNewTab: true }),
       Plugin.Description(),
       Plugin.Latex({ renderEngine: "katex" }),
     ],
@@ -78,13 +78,7 @@ const config: QuartzConfig = {
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
-      Plugin.ContentPage({
-        pageBody: Components.ConditionalRender({
-          condition: (page) => page.fileData.slug !== "index",
-          component: Components.Content(),
-          elseComponent: Components.IndexContent(),
-        })
-      }),
+      Plugin.ContentPage(),
       Plugin.ContentIndex({
         enableSiteMap: true,
         enableRSS: true,

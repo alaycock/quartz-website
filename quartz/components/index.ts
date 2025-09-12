@@ -1,10 +1,10 @@
 import Content from "./pages/Content"
 import TagContent from "./pages/TagContent"
 import FolderContent from "./pages/FolderContent"
-import IndexContent from "./pages/IndexContent"
 import NotFound from "./pages/404"
 import ArticleTitle from "./ArticleTitle"
 import Darkmode from "./Darkmode"
+import CardList from "./CardList"
 import ReaderMode from "./ReaderMode"
 import Head from "./Head"
 import PageTitle from "./PageTitle"
@@ -31,7 +31,7 @@ export {
   Content,
   TagContent,
   FolderContent,
-  IndexContent,
+  CardList,
   Darkmode,
   ReaderMode,
   Head,

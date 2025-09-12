@@ -1,14 +1,14 @@
 import { Date, getDate } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
-import { FullSlug, resolveRelative, FilePath, slugifyFilePath } from "../util/path"
+import { findNearestSlug, resolveRelative, unWikilink } from "../util/path"
 import { JSX } from "preact"
 import style from "./styles/contentMeta.scss"
 
 type ArbitraryFrontmatter = Record<string, string | string[]>
 
 export default (() => {
-  function ContentMetadata({ allFiles, cfg, fileData, displayClass }: QuartzComponentProps) {
+  function ContentMetadata({ cfg, fileData, displayClass, ctx }: QuartzComponentProps) {
     const text = fileData.text
 
     if (text) {
@@ -25,22 +25,19 @@ export default (() => {
         if(route) {
           const routes = Array.isArray(route) ? route : [route];
           routes.forEach(route => {
-            const strippedRoute = route.replace(/(\[{2})|(\]{2})/g, '');
-            const absPath = `Routes/${slugifyFilePath(strippedRoute as FilePath)}`;
-            const linkDest = resolveRelative(fileData.slug!, absPath as FullSlug)
-            if (allFiles.some(file => file.slug === absPath)) {
-              segments.push(
-                <a href={linkDest} class="internal">
-                  {strippedRoute}
-                </a>
-              )
-            } else {
-              segments.push(
-                <a href={linkDest} class="internal broken">
-                  {strippedRoute}
-                </a>
-              )
-            }
+            const linkText = unWikilink(route);
+            const destSlug = findNearestSlug(linkText, ctx.allSlugs)
+            const destLink = resolveRelative(fileData.slug!, destSlug);
+            
+            const exists = ctx.allSlugs.includes(destSlug);
+            const href = exists ? destLink : undefined;
+            const cn = classNames(undefined, 'internal', exists ? '' : 'broken')
+
+            segments.push(
+              <a href={href} class={cn}>
+                {linkText}
+              </a>
+            )
           })
         }
 

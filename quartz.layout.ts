@@ -6,7 +6,12 @@ import {type Options} from './quartz/components/Explorer';
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [],
+  afterBody: [
+    Component.ConditionalRender({
+      component: Component.CardList(),
+      condition: (page) => page.fileData.slug === "index",
+    })
+  ],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/alaycock/quartz",
