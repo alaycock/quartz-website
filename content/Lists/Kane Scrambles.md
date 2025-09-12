@@ -134,7 +134,7 @@
 |           [[Routes/Unity Peak]]            | Moderate  |       Skoki       |       |
 |        [[Routes/Commonwealth Peak]]        | Moderate  |   Smith-Dorrien   |       |
 |           [[Routes/Gusty Peak]]            |   Easy    |   Smith-Dorrien   |       |
-|          [[Routes/Mount Buller]]           | Moderate  |   Smith-Dorrien   |       |
+|          [[Routes/Mount Buller]]           | Moderate  |   Smith-Dorrien   |   ✅  |
 |         [[Routes/Mount Burstall]]          | Difficult |   Smith-Dorrien   |       |
 |          [[Routes/Mount Chester]]          | Moderate  |   Smith-Dorrien   |   ✅  |
 |         [[Routes/Mount Engadine]]          | Difficult |   Smith-Dorrien   |       |

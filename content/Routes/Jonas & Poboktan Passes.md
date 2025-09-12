@@ -3,5 +3,6 @@
 ---
 
 
-| Date | People | Distance (km) | Elevation Gain (m) |
-| ---- | ------ | ------------- | ------------------ |
+|    Date    |       People        | Distance (km) | Elevation Gain (m) |
+| ---------- | ------------------- | ------------- | ------------------ |
+| 2021-06-29 | Adam, Francis, Matt |      54       |        1346        |

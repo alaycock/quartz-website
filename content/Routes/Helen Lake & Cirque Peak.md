@@ -3,5 +3,6 @@
 ---
 
 
-| Date | People | Distance (km) | Elevation Gain (m) |
-| ---- | ------ | ------------- | ------------------ |
+|    Date    |   People    | Distance (km) | Elevation Gain (m) |
+| ---------- | ----------- | ------------- | ------------------ |
+| 2020-07-11 | Adam, Emily |      14       |        662         |
