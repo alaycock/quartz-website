@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-03T13:35:59.594-06:00","modified":"2025-09-03T14:58:29.539-06:00","published":"2025-09-03T14:58:29.539-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Smith-Dorrien","location":null,"DWYT":null,"Kane":"Moderate","completed":false}
+{"publish":true,"created":"2025-09-03T13:35:59.594-06:00","modified":"2025-09-09T16:34:04.934-06:00","published":"2025-09-09T16:34:04.934-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Smith-Dorrien","location":null,"DWYT":null,"Kane":"Moderate","completed":true}
 ---
 
 
