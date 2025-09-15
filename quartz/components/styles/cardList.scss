@@ -6,13 +6,13 @@
   gap: 20px;
 
   a {
-    flex: 1 0 350px;
-    border-radius: 16px;
+    flex: 1 0 175px;
     overflow: hidden;
     position: relative;
     background-color: var(--darkgray);
-    height: 300px;
+    height: 240px;
     color: var(--dark);
+    clip-path: inset(0 round 16px);
 
     &:hover {
       color: var(--dark);
@@ -30,31 +30,41 @@
     height: 100%;
   }
 
+  .image {
+    flex: 2 350px;
+  }
+
   .color {
-    width: 100%;
-    height: 100%;
+    flex: 1 175px;
   }
 
   .content { 
     width: 100%;
     position: absolute;
     bottom: 0;
-    padding: 16px;
+    padding: 8px 16px;
     z-index: 2;
     background-color: color-mix(in srgb, var(--lightgray) 50%, transparent);
     display: inline-flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
     backdrop-filter: blur(2px);
+    border-radius: 0 0 16px 16px;
     
     p {
       margin: 0;
       color: var(--dark);
+      line-height: 1.2rem;
+      text-wrap: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     time {
-      line-height: 1.6;
+      font-weight: 400;
+      font-size: 10pt;
+      line-height: 1.2rem;
     }
   }
 }

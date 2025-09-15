@@ -86,13 +86,9 @@ type CardProps = {
 };
 const Card = ({ date, cfg, cover, link, title }: CardProps) => {  
   return (
-    <a href={link}>
+    <a href={link} class={cover.type} style={{ backgroundColor: cover.value }}>
       {cover.type === 'image' ? 
         <img src={cover.value} />
-        : null
-      }
-      {cover.type === 'color' ?
-        <div class="color" style={{ backgroundColor: cover.value }} />
         : null
       }
       <div class="content">
