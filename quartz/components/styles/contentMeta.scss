@@ -1,6 +1,9 @@
 .content-meta {
   margin-top: 0;
   color: var(--darkgray);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
   &[show-comma="true"] {
     > *:not(:last-child) {
@@ -10,5 +13,29 @@
         content: ",";
       }
     }
+  }
+}
+
+.meta-stats {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.meta-stat {
+  display: flex;
+  flex-direction: column;
+
+  .meta-stat-value {
+    font-size: 1.6rem;
+
+    span {
+      margin-left: .3rem;
+      font-size: .875rem;
+    }
+  }
+
+  .meta-stat-name {
+    font-size: .875rem;
   }
 }

@@ -1,40 +1,8 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { resolveRelative, unWikilink, isFilePath, transformLink, FullSlug } from "../util/path";
+import { resolveRelative, resolveCover, Cover } from "../util/path";
 import { classNames } from "../util/lang"
 import { Date } from "./Date"
 import style from "./styles/cardList.scss"
-
-// TODO: This util should be part of frontmatter parsing
-type Cover = {
-  type: 'image' | 'color',
-  value: string
-}
-const resolveCover = (baseSlug: FullSlug, cover: string | undefined, allSlugs: FullSlug[]): Cover => {
-  if (cover) {
-    const coverLink = unWikilink(cover);
-    if (isFilePath(coverLink)) {
-      return {
-        type: 'image',
-        value: transformLink(baseSlug, coverLink, {
-          strategy: 'shortest',
-          allSlugs
-        })
-      };
-    }
-
-    if (cover.startsWith('#') && (cover.length === 4 || cover.length === 7)) {
-      return {
-        type: 'color',
-        value: cover
-      }
-    }
-  }
-
-  return {
-    type: 'color',
-    value: '#c0ffee'
-  }
-}
 
 type Frontmatter = QuartzComponentProps['fileData']['frontmatter'];
 const getTitle = (frontmatter: Frontmatter): string | undefined => {
@@ -45,9 +13,7 @@ const getTitle = (frontmatter: Frontmatter): string | undefined => {
   return undefined;
 }
 
-// TODO:  Make a card view, that uses the "cover" frontmatter field has the image.
 // Inspo: https://toolbox.socratica.info/
-
 export default (() => {
   const CardList: QuartzComponent = ({ allFiles, cfg, displayClass, fileData, ctx }: QuartzComponentProps) => {  
     const postFiles = allFiles.filter(
