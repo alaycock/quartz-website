@@ -16,8 +16,8 @@
       box-sizing: border-box;
       position: sticky;
       background-color: var(--light);
-      padding: 1rem 0 1rem 0;
-      margin: 0;
+      padding: 1rem;
+      margin: 0 -1rem;
     }
 
     .hide-until-loaded ~ .explorer-content {
@@ -242,14 +242,13 @@ li:has(> .folder-outer:not(.open)) > .folder-container > svg {
       left: 0;
       margin-top: 0;
       background-color: var(--light);
-      max-width: calc(100vw - 2rem);;
-      width: calc(100vw - 2rem);
+      width: 100%;
       transform: translateX(-100vw);
       transition:
         transform 200ms ease,
         visibility 200ms ease;
       overflow: hidden;
-      padding: 4rem 0 2rem 0;
+      padding: 4rem 1rem 2rem;
       height: 100dvh;
       max-height: 100dvh;
       visibility: hidden;

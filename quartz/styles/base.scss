@@ -8,7 +8,6 @@ html {
   scroll-behavior: smooth;
   text-size-adjust: none;
   overflow-x: hidden;
-  width: 100vw;
 }
 
 body {
@@ -108,11 +107,7 @@ a {
       color: var(--darkgray);
       background-color: unset;
       font-weight: unset;
-      // opacity: 0.5;
       transition: opacity 0.2s ease;
-      // &:hover {
-      //   opacity: 0.8;
-      // }
     }
 
     &:has(> img) {

@@ -23,6 +23,7 @@ $boldWeight: 700;
 $semiBoldWeight: 600;
 $normalWeight: 400;
 
+// These grids aren't being properly applied to the elements on the page
 $mobileGrid: (
   templateRows: "auto auto auto auto auto",
   templateColumns: "auto",
@@ -49,7 +50,7 @@ $tabletGrid: (
 $desktopGrid: (
   templateRows: "auto auto auto",
   templateColumns: "#{$sidePanelWidth} auto #{$sidePanelWidth}",
-  rowGap: "5px",
+  rowGap: "10px",
   columnGap: "5px",
   templateAreas:
     '"grid-sidebar-left grid-header grid-sidebar-right"\
