@@ -12,7 +12,6 @@ type Cover = {
 const resolveCover = (baseSlug: FullSlug, cover: string | undefined, allSlugs: FullSlug[]): Cover => {
   if (cover) {
     const coverLink = unWikilink(cover);
-    console.log(coverLink)
     if (isFilePath(coverLink)) {
       return {
         type: 'image',
@@ -86,14 +85,19 @@ type CardProps = {
 };
 const Card = ({ date, cfg, cover, link, title }: CardProps) => {  
   return (
-    <a href={link} class={cover.type} style={{ backgroundColor: cover.value }}>
-      {cover.type === 'image' ? 
-        <img src={cover.value} />
-        : null
-      }
-      <div class="content">
-        {title ? <p>{title}</p> : null}
-        <Date date={date} locale={cfg.locale} />
+    <a
+      href={link}
+      class={cover.type}
+      style={cover?.type === 'color' ? { backgroundColor: cover.value } : undefined }>
+      <div class='clip'>
+        {cover.type === 'image' ?
+          <img src={cover.value} />
+          : null
+        }
+        <div class="content">
+          {title ? <p>{title}</p> : null}
+          <Date date={date} locale={cfg.locale} />
+        </div>
       </div>
     </a>
   )

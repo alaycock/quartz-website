@@ -32,7 +32,7 @@ export default ((opts?: Partial<Options>) => {
 
     const id = `toc-${numTocs++}`
     return (
-      <div class={classNames(displayClass, "toc")}>
+      <div class={classNames(displayClass, "toc", "sticky")}>
         <button
           type="button"
           class={fileData.collapseToc ? "collapsed toc-header" : "toc-header"}
@@ -59,6 +59,11 @@ export default ((opts?: Partial<Options>) => {
           id={id}
           class={fileData.collapseToc ? "collapsed toc-content" : "toc-content"}
         >
+          <li class="depth-0">
+            <a href="#" data-for="article-title">
+              {fileData?.frontmatter?.title}
+            </a>
+          </li>
           {fileData.toc.map((tocEntry) => (
             <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
               <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>

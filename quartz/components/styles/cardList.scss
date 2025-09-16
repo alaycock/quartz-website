@@ -7,16 +7,24 @@
 
   a {
     flex: 1 0 175px;
+    border-radius: 16px;
     overflow: hidden;
-    position: relative;
     background-color: var(--darkgray);
     height: 240px;
     color: var(--dark);
-    clip-path: inset(0 round 16px);
+    transition: transform 200ms;
 
-    &:hover {
+    &:hover, &:focus {
+      transform: scale(102%);
       color: var(--dark);
     }
+  }
+
+  .clip {
+    clip-path: inset(0 round 16px);
+    width: 100%;
+    height: 100%;
+    position: relative;
   }
 
   img {

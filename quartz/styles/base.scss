@@ -230,10 +230,9 @@ a {
       gap: 2rem;
       top: 0;
       box-sizing: border-box;
-      padding: $topSpacing 2rem 2rem 2rem;
+      margin-top: calc($topSpacing - 2rem);
+      padding: 2rem;
       display: flex;
-      height: 100vh;
-      position: sticky;
     }
 
     & .sidebar.left {
@@ -251,6 +250,13 @@ a {
         flex-direction: row;
         padding: 0;
         padding-top: 2rem;
+        margin-top: 0;
+      }
+
+      // Allow a sticky left-sidebar item
+      & .sticky {
+        position: sticky;
+        top: 2rem;
       }
     }
 
@@ -258,6 +264,9 @@ a {
       grid-area: grid-sidebar-right;
       margin-right: 0;
       flex-direction: column;
+      height: 100vh;
+      position: sticky;
+
       @media all and ($mobile) {
         margin-left: inherit;
         margin-right: inherit;
@@ -268,6 +277,8 @@ a {
         width: 100%;
         flex-direction: row;
         padding: 0;
+        margin-top: 0;
+
         & > * {
           flex: 1;
           max-height: 24rem;
@@ -374,6 +385,7 @@ thead {
   color: var(--dark);
   font-weight: revert;
   margin-bottom: 0;
+  scroll-margin-top: 2rem;
 
   article > & > a[role="anchor"] {
     color: var(--dark);
@@ -563,7 +575,6 @@ img {
   max-width: 100%;
   border-radius: 5px;
   margin: 1rem 0;
-  content-visibility: auto;
 }
 
 p > img + em {
