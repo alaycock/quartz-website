@@ -1,5 +1,5 @@
 # Adam Laycock
 
-This repo is based off of [Quartz](https://quartz.jzhao.xyz/), if you are looking to build a similar site, that's a good place to start.
+This repo is templated off of [Quartz](https://quartz.jzhao.xyz/) and is the code for my personal website https://adamlaycock.ca
 
-If you are trying to use this as a template for your own personal site through Obsidian, it won't work by default with Obsidian bases. Bases aren't a feature that Quartz supports natively, so I had to create a fork of  [Quartz-syncer](https://github.com/alaycock/quartz-syncer). If you want to try out the plugin, be sure to disable caching, otherwise pages with bases won't update.
+If you are trying to use this as a template for your own personal site through Obsidian, you will run into challenges when it comes to Obsidian's bases feature. Bases aren't supported by Quartz yet, so I had to fork[Quartz-syncer](https://github.com/alaycock/quartz-syncer) to shoehorn-in a customer renderer for bases. If you want to try out the plugin, be sure to disable caching when publishing your vault, otherwise your bases will be out of date.
