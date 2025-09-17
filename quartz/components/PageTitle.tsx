@@ -5,7 +5,7 @@ const PageTitle: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const baseDir = pathToRoot(fileData.slug!)
   return (
     <div class="page-title">
-      <a href={baseDir}><img src="/static/icon.jpg" /></a>
+      <a href={baseDir}><img src="/static/logo.jpg" /></a>
     </div>
   )
 }

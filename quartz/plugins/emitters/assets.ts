@@ -1,15 +1,21 @@
-import { FilePath, joinSegments, slugifyFilePath } from "../../util/path"
+import { FilePath, FullSlug, joinSegments, slugifyFilePath } from "../../util/path"
 import { QuartzEmitterPlugin } from "../types"
 import path from "path"
 import fs from "fs"
 import { glob } from "../../util/glob"
-import { Argv } from "../../util/ctx"
+import { Argv, BuildCtx } from "../../util/ctx"
 import { QuartzConfig } from "../../cfg"
+import sharp from "sharp"
+import { write } from "./helpers"
 
 const filesToCopy = async (argv: Argv, cfg: QuartzConfig) => {
   // glob all non MD files in content folder and copy it over
   return await glob("**", argv.directory, ["**/*.md", ...cfg.configuration.ignorePatterns])
 }
+
+const processFile = async (argv: Argv, cfg: QuartzConfig) => {
+
+};
 
 const copyFile = async (argv: Argv, fp: FilePath) => {
   const src = joinSegments(argv.directory, fp) as FilePath
@@ -21,7 +27,19 @@ const copyFile = async (argv: Argv, fp: FilePath) => {
   const dir = path.dirname(dest) as FilePath
   await fs.promises.mkdir(dir, { recursive: true })
 
-  await fs.promises.copyFile(src, dest)
+  const ext = dest.split('.').at(-1);
+  if (ext && ['jpg', 'jpeg', 'png'].includes(ext)) {
+    const imageContent = sharp(src).resize({ width: 1200, withoutEnlargement: true });
+    await write({
+      ctx: { argv } as BuildCtx,
+      slug: name,
+      ext: "",
+      content: imageContent,
+    })
+  } else {
+    await fs.promises.copyFile(src, dest)
+  }
+
   return dest
 }
 
