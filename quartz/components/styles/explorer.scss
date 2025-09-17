@@ -121,13 +121,12 @@ button.desktop-explorer {
     overscroll-behavior: contain;
 
     & li > a {
-      color: var(--dark);
-      opacity: 0.75;
+      color: var(--darkgray);
       pointer-events: all;
 
       &.active {
         opacity: 1;
-        color: var(--tertiary);
+        color: var(--secondary);
       }
     }
   }
@@ -183,15 +182,18 @@ button.desktop-explorer {
     padding-right: 0;
     display: flex;
     align-items: center;
-    font-family: var(--headerFont);
+    transition: filter 0.2s ease;
+
+    &:hover {
+      filter: brightness(.85);
+    }
 
     & span {
-      font-size: 0.95rem;
+      font-size: 1rem;
       display: inline-block;
-      color: var(--secondary);
+      color: var(--darkgray);
       font-weight: $semiBoldWeight;
       margin: 0;
-      line-height: 1.5rem;
       pointer-events: none;
     }
   }

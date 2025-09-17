@@ -39,7 +39,14 @@ async function mouseEnterHandler(
     }
   }
 
-  const targetUrl = new URL(link.href)
+  let targetUrl;
+  try {
+    targetUrl = new URL(link.href)
+  } catch (e) {
+    // Not a valid URL
+    return;
+  }
+  
   const hash = decodeURIComponent(targetUrl.hash)
   targetUrl.hash = ""
   targetUrl.search = ""

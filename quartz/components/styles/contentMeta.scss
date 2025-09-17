@@ -4,16 +4,6 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-
-  &[show-comma="true"] {
-    > *:not(:last-child) {
-      margin-right: 8px;
-
-      &::after {
-        content: ",";
-      }
-    }
-  }
 }
 
 .meta-stats {

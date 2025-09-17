@@ -1,6 +1,6 @@
 import { QuartzComponent, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
-import { FilePath, findNearestSlug, slugifyFilePath, unWikilink } from "../util/path";
+import { findNearestSlug, unWikilink } from "../util/path";
 
 const getLocationFromProperty = (location: unknown) => {
   if (location && typeof location === 'string') {
@@ -60,11 +60,17 @@ export default (() => {
     return (
       <div class={classNames(displayClass, "map")}>
         <a href={linkHref} target="_blank">
-          <img src={imgSrc} class="map-image" />
+          <img src={imgSrc} />
         </a>
       </div>
     )
   }
+
+  Map.css = `
+  .map a:hover {
+    filter: none;
+  }
+  `
 
   return Map;
 });

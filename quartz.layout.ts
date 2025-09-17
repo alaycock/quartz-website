@@ -12,11 +12,7 @@ export const sharedPageComponents: SharedLayout = {
       condition: (page) => page.fileData.slug === "index",
     })
   ],
-  footer: Component.Footer({
-    links: {
-      GitHub: "https://github.com/alaycock/quartz",
-    },
-  }),
+  footer: Component.Footer(),
 }
 
 const explorerOptions: Partial<Options> = {

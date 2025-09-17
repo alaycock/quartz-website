@@ -8,13 +8,20 @@ html {
   scroll-behavior: smooth;
   text-size-adjust: none;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  box-sizing: border-box;
+}
+
+* {
+  font-family: var(--bodyFont);
 }
 
 body {
   margin: 0;
   box-sizing: border-box;
   background-color: var(--light);
-  font-family: var(--bodyFont);
   color: var(--darkgray);
 }
 
@@ -89,16 +96,15 @@ strong {
 a {
   font-weight: $semiBoldWeight;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: filter 0.2s ease;
   color: var(--secondary);
 
   &:hover {
-    color: var(--tertiary);
+    filter: brightness(.85);
   }
 
   &.internal {
     text-decoration: none;
-    background-color: var(--highlight);
     padding: 0 0.1rem;
     border-radius: 5px;
     line-height: 1.4rem;
@@ -108,6 +114,7 @@ a {
       background-color: unset;
       font-weight: unset;
       transition: opacity 0.2s ease;
+      filter: none;
     }
 
     &:has(> img) {
@@ -198,6 +205,17 @@ a {
     column-gap: #{map.get($desktopGrid, columnGap)};
     row-gap: #{map.get($desktopGrid, rowGap)};
     grid-template-areas: #{map.get($desktopGrid, templateAreas)};
+
+    // If the sidebar should be collapses, default to the tablet view when on desktop
+    @media all and ($desktop) {
+      &.collapse-sidebar-desktop {
+        grid-template-columns: #{map.get($tabletGrid, templateColumns)};
+        grid-template-rows: #{map.get($tabletGrid, templateRows)};
+        column-gap: #{map.get($tabletGrid, columnGap)};
+        row-gap: #{map.get($tabletGrid, rowGap)};
+        grid-template-areas: #{map.get($tabletGrid, templateAreas)};
+      }  
+    }
 
     @media all and ($tablet) {
       grid-template-columns: #{map.get($tabletGrid, templateColumns)};
@@ -582,7 +600,7 @@ hr {
   margin: 2rem auto;
   height: 1px;
   border: none;
-  background-color: var(--lightgray);
+  background-color: var(--gray);
 }
 
 audio,

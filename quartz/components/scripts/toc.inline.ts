@@ -29,9 +29,8 @@ document.addEventListener('scrollend', () => {
   for (const entry of entries) {
     const slug = entry.id
     const tocEntryElements = document.querySelectorAll(`[data-for="${slug}"]`)
-    const windowPosition = window.scrollY;
-    if (windowPosition && tocEntryElements.length > 0) {
-      if (entry.getBoundingClientRect().top - 100 < 0) {
+    if (tocEntryElements.length > 0) {
+      if (entry.getBoundingClientRect().top - 150 < 0) {
         tocEntryElements.forEach((tocEntryElement) => tocEntryElement.classList.add("in-view"))
       } else {
         tocEntryElements.forEach((tocEntryElement) => tocEntryElement.classList.remove("in-view"))

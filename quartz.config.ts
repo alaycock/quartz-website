@@ -1,5 +1,4 @@
 import { QuartzConfig } from "./quartz/cfg"
-import * as Components from "./quartz/components"
 import * as Plugin from "./quartz/plugins"
 
 /**
@@ -41,13 +40,13 @@ const config: QuartzConfig = {
           textHighlight: "#fff23688",
         },
         darkMode: {
-          light: "#161618",
+          light: "#272A2D",
           lightgray: "#393639",
           gray: "#646464",
-          darkgray: "#d4d4d4",
-          dark: "#ebebec",
-          secondary: "#7b97aa",
-          tertiary: "#84a59d",
+          darkgray: "#EEEEEE",
+          dark: "#EEEEEE",
+          secondary: "#FFC53D",
+          tertiary: "#be9638",
           highlight: "rgba(143, 159, 169, 0.15)",
           textHighlight: "#b3aa0288",
         },

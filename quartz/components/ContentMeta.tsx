@@ -20,102 +20,94 @@ const Stat = ({ value, unit, statName }: StatProps) => {
 };
 
 export default (() => {
-  function ContentMetadata({ cfg, fileData, displayClass, ctx }: QuartzComponentProps) {
-    const text = fileData.text
-
-    if (text) {
-      const rowSegments: (string | JSX.Element)[] = [];
-      const statSegments: JSX.Element[] = [];
-
-      if (fileData.dates && (fileData.frontmatter?.tags?.includes('post') || fileData.frontmatter?.tags?.includes('trip'))) {
-        rowSegments.push(<Date date={getDate(cfg, fileData)!} locale={cfg.locale} />)
-      }
-
-      if (fileData.frontmatter?.tags?.includes('trip')) {
-        // TODO: Prettier rendering
-        const { route, activity, people, gain, distance } = fileData.frontmatter as ArbitraryFrontmatter;
-
-        if(route) {
-          const routes = Array.isArray(route) ? route : [route];
-
-          const initialValue = <></>;
-          const routeElements = routes.reduce<JSX.Element>((acc, route, index) => {
-            const linkText = unWikilink(route);
-            const destSlug = findNearestSlug(linkText, ctx.allSlugs)
-            const destLink = resolveRelative(fileData.slug!, destSlug);
-            
-            const exists = ctx.allSlugs.includes(destSlug);
-            if (!exists) {
-              return acc;
-            }
-            return (
-              <>
-                {acc}
-                <a href={destLink} class={'internal'}>
-                  {linkText}
-                </a>
-                {index === routes.length - 1 ? '' : ', '}
-              </>
-            );
-          }, initialValue);
-          if (routeElements !== initialValue) {
-            rowSegments.push(routeElements);
-          }
-        }
-
-        if (people && (people.length > 1 || people[0].toLowerCase() !== 'adam')) {
-          rowSegments.push((people as string[]).join(', '))
-        }
-
-        
-        if (distance) {
-          statSegments.push(<Stat value={distance as string} unit="km" statName="Distance" />);
-        }
-        if (gain) {
-          statSegments.push(<Stat value={gain as string} unit="m" statName="Elevation gain" />);
-        }
-        // if (activity) {
-        //   statSegments.push(<Stat value={activity as string} statName="Activity" />);
-        // }
-      }
-
-      if (fileData.frontmatter?.tags?.includes('route')) {
-        // TODO: Prettier rendering
-        const { elevation, region, DWYT, Kane, completed } = fileData.frontmatter as ArbitraryFrontmatter;
-        const completeText = completed ? 'Done! ✅' : null;
-        rowSegments.push(...[
-          elevation ? `${elevation} m` : null,
-          region,
-          DWYT ? `DWYT rated "${DWYT}"` : null,
-          Kane ? `Kane "${Kane}"` : null,
-          completeText
-        ].filter(Boolean) as string[]);
-      }
-
-      const joinedSegments = rowSegments
-        .flatMap((segment, index) => index === rowSegments.length -1 ? segment : [segment, ' • ']);
-
-      return (
-        <>
-          <div class={classNames(displayClass, "content-meta")}>
-            {joinedSegments ? (
-              <div class="meta-row">
-                {joinedSegments}
-              </div>
-            ) : null}
-            {statSegments.length > 0 ? (
-              <div class="meta-stats">
-                {statSegments}
-              </div>
-            ) : null}
-            
-          </div>
-          <hr />
-        </>
-      )
-    } else {
-      return null
+  function ContentMetadata({ cfg, displayClass, fileData, ctx }: QuartzComponentProps) {
+    // Only render frontmatter for posts, trips, and routes
+    if (!fileData.frontmatter?.tags?.includes('post') && !fileData.frontmatter?.tags?.includes('trip') && !fileData.frontmatter?.tags?.includes('route')) {
+      return null;
     }
+
+    const rowSegments: (string | JSX.Element)[] = [];
+    const statSegments: JSX.Element[] = [];
+
+    // Only show dates for posts and trips
+    if (fileData.dates && (fileData.frontmatter?.tags?.includes('post') || fileData.frontmatter?.tags?.includes('trip'))) {
+      rowSegments.push(<Date date={getDate(cfg, fileData)!} locale={cfg.locale} />)
+    }
+
+    const { route, people, gain, distance, elevation, region, DWYT, Kane } = fileData.frontmatter as ArbitraryFrontmatter;
+
+    if(route) {
+      const routes = Array.isArray(route) ? route : [route];
+
+      const initialValue = <></>;
+      const routeElements = routes.reduce<JSX.Element>((acc, route, index) => {
+        const linkText = unWikilink(route);
+        const destSlug = findNearestSlug(linkText, ctx.allSlugs)
+        const destLink = resolveRelative(fileData.slug!, destSlug);
+        
+        const exists = ctx.allSlugs.includes(destSlug);
+        if (!exists) {
+          return acc;
+        }
+        return (
+          <>
+            {acc}
+            <a href={destLink} class={'internal'}>
+              {linkText}
+            </a>
+            {index === routes.length - 1 ? '' : ', '}
+          </>
+        );
+      }, initialValue);
+      if (routeElements !== initialValue) {
+        rowSegments.push(routeElements);
+      }
+    }
+
+    // Don't show the 'people' if it's just me
+    if (people && (people.length > 1 || people[0].toLowerCase() !== 'adam')) {
+      rowSegments.push((people as string[]).join(', '))
+    }
+    if (distance) {
+      statSegments.push(<Stat value={distance as string} unit="km" statName="Distance" />);
+    }
+    if (gain) {
+      statSegments.push(<Stat value={gain as string} unit="m" statName="Elevation gain" />);
+    }
+    if (elevation) {
+      statSegments.push(<Stat value={elevation as string} unit="m" statName="Summit elevation" />);
+    }
+    if (region) {
+      statSegments.push(<Stat value={region as string} statName="Region" />);
+    }
+    if (DWYT) {
+      statSegments.push(<Stat value={DWYT as string} statName="DWYT rating" />);
+    }
+    if (Kane) {
+      statSegments.push(<Stat value={Kane as string} statName="Kane difficulty" />);
+    }
+
+    const joinedSegments = rowSegments
+      .flatMap((segment, index) => index === rowSegments.length -1 ? segment : [segment, ' • ']);
+
+    return (
+      <>
+        <div class={classNames(displayClass, "content-meta")}>
+          {joinedSegments.length > 0 ? (
+            <div class="meta-row">
+              {joinedSegments}
+            </div>
+          ) : null}
+          {statSegments.length > 0 ? (
+            <div class="meta-stats">
+              {statSegments}
+            </div>
+          ) : null}
+          
+        </div>
+        <hr />
+      </>
+    )
   }
 
   ContentMetadata.css = style

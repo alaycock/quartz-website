@@ -60,7 +60,7 @@ export default ((opts?: Partial<Options>) => {
           class={fileData.collapseToc ? "collapsed toc-content" : "toc-content"}
         >
           <li class="depth-0">
-            <a href="#" data-for="article-title">
+            <a href="#quartz-body" data-for="article-title">
               {fileData?.frontmatter?.title}
             </a>
           </li>
