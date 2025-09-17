@@ -169,6 +169,29 @@ a {
   }
 }
 
+// When the .collapse-sidebar-desktop is applied, the grid needs to be changed and the sidebar
+// size should be reduced for placement under the main content.
+@mixin tabletGrid() {
+  grid-template-columns: #{map.get($tabletGrid, templateColumns)};
+  grid-template-rows: #{map.get($tabletGrid, templateRows)};
+  column-gap: #{map.get($tabletGrid, columnGap)};
+  row-gap: #{map.get($tabletGrid, rowGap)};
+  grid-template-areas: #{map.get($tabletGrid, templateAreas)};
+}
+@mixin collapsedSidebar() {
+  position: initial;
+  height: unset;
+  width: 100%;
+  flex-direction: row;
+  padding: 0;
+  margin-top: 0;
+
+  & > * {
+    flex: 1;
+    max-height: 24rem;
+  }
+}
+
 .page {
   max-width: calc(#{map.get($breakpoints, desktop)} + 300px);
   margin: 0 auto;
@@ -209,20 +232,16 @@ a {
     // If the sidebar should be collapses, default to the tablet view when on desktop
     @media all and ($desktop) {
       &.collapse-sidebar-desktop {
-        grid-template-columns: #{map.get($tabletGrid, templateColumns)};
-        grid-template-rows: #{map.get($tabletGrid, templateRows)};
-        column-gap: #{map.get($tabletGrid, columnGap)};
-        row-gap: #{map.get($tabletGrid, rowGap)};
-        grid-template-areas: #{map.get($tabletGrid, templateAreas)};
-      }  
+        @include tabletGrid();
+
+        .right.sidebar {
+          @include collapsedSidebar();
+        }
+      }
     }
 
     @media all and ($tablet) {
-      grid-template-columns: #{map.get($tabletGrid, templateColumns)};
-      grid-template-rows: #{map.get($tabletGrid, templateRows)};
-      column-gap: #{map.get($tabletGrid, columnGap)};
-      row-gap: #{map.get($tabletGrid, rowGap)};
-      grid-template-areas: #{map.get($tabletGrid, templateAreas)};
+      @include tabletGrid();
     }
     @media all and ($mobile) {
       grid-template-columns: #{map.get($mobileGrid, templateColumns)};
@@ -277,7 +296,7 @@ a {
       grid-area: grid-sidebar-right;
       margin-right: 0;
       flex-direction: column;
-      height: 100vh;
+      height: calc(100vh - 4rem);
       position: sticky;
 
       @media all and ($mobile) {
@@ -285,20 +304,7 @@ a {
         margin-right: inherit;
       }
       @media all and not ($desktop) {
-        position: initial;
-        height: unset;
-        width: 100%;
-        flex-direction: row;
-        padding: 0;
-        margin-top: 0;
-
-        & > * {
-          flex: 1;
-          max-height: 24rem;
-        }
-        & > .toc {
-          display: none;
-        }
+        @include collapsedSidebar();
       }
     }
     & .page-header,

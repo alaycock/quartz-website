@@ -5,8 +5,11 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 export const Content: QuartzComponent = ({ fileData, tree }: QuartzComponentProps) => {
   const content = htmlToJsx(fileData.filePath!, tree) as ComponentChildren
   const classes: string[] = fileData.frontmatter?.cssclasses ?? []
-  const classString = ["popover-hint", ...classes].join(" ")
-  return <article class={classString}>{content}</article>
+  return (
+    <div class="popover-hint">
+      <article class={classes.join(' ')}>{content}</article>
+    </div>
+  )
 }
 
 export default (() => Content) satisfies QuartzComponentConstructor
