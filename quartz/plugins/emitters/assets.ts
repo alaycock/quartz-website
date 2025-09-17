@@ -1,4 +1,4 @@
-import { FilePath, FullSlug, joinSegments, slugifyFilePath } from "../../util/path"
+import { FilePath, joinSegments, slugifyFilePath } from "../../util/path"
 import { QuartzEmitterPlugin } from "../types"
 import path from "path"
 import fs from "fs"
@@ -12,10 +12,6 @@ const filesToCopy = async (argv: Argv, cfg: QuartzConfig) => {
   // glob all non MD files in content folder and copy it over
   return await glob("**", argv.directory, ["**/*.md", ...cfg.configuration.ignorePatterns])
 }
-
-const processFile = async (argv: Argv, cfg: QuartzConfig) => {
-
-};
 
 const copyFile = async (argv: Argv, fp: FilePath) => {
   const src = joinSegments(argv.directory, fp) as FilePath
