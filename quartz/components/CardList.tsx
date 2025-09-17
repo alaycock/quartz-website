@@ -55,15 +55,13 @@ const Card = ({ date, cfg, cover, link, title }: CardProps) => {
       href={link}
       class={cover.type}
       style={cover?.type === 'color' ? { backgroundColor: cover.value } : undefined }>
-      <div class='clip'>
-        {cover.type === 'image' ?
-          <img src={cover.value} />
-          : null
-        }
-        <div class="content">
-          {title ? <p>{title}</p> : null}
-          <Date date={date} locale={cfg.locale} />
-        </div>
+      {cover.type === 'image' ?
+        <img src={cover.value} />
+        : null
+      }
+      <div class="content">
+        {title ? <p>{title}</p> : null}
+        <Date date={date} locale={cfg.locale} />
       </div>
     </a>
   )

@@ -12,18 +12,12 @@
     height: 240px;
     color: var(--dark);
     transition: all 200ms;
+    position: relative;
 
     &:hover, &:focus {
       scale: 1.02;
       filter: none;
     }
-  }
-
-  .clip {
-    clip-path: inset(0 round 16px);
-    width: 100%;
-    height: 100%;
-    position: relative;
   }
 
   img {
@@ -38,6 +32,10 @@
     flex: 175px;
   }
 
+  .image .content {
+    backdrop-filter: blur(2px);
+  }
+
   .content { 
     width: 100%;
     position: absolute;
@@ -49,7 +47,6 @@
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
-    backdrop-filter: blur(2px);
     border-radius: 0 0 16px 16px;
     
     p {
