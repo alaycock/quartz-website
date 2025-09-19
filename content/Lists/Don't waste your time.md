@@ -1,7 +1,6 @@
 ---
-{"publish":true,"created":"2025-09-03T11:33:02.905-06:00","modified":"2025-09-05T14:31:19.542-06:00","published":"2025-09-05T14:31:19.542-06:00","tags":["list"],"cssclasses":""}
+{"publish":true,"created":"2025-09-03T11:33:02.905-06:00","modified":"2025-09-18T21:39:28.050-06:00","published":"2025-09-18T21:39:28.050-06:00","tags":["list"],"cssclasses":""}
 ---
-
 
 |                    Trip                     |      DWYT       |      Region       | Completed |
 | ------------------------------------------- | --------------- | ----------------- | --------- |
@@ -79,6 +78,7 @@
 |               [[Routes/Eiffel Peak]]               |    Premiere     |    Lake Louise    |   ✅  |
 |          [[Routes/Lake Agnes & Beehives]]          |    Don’t do     |    Lake Louise    |   ✅  |
 |            [[Routes/Mount Saint Piran]]            |   Outstanding   |    Lake Louise    |   ✅  |
+|              [[Routes/Mount Temple]]               |    Premiere     |    Lake Louise    |   ✅  |
 |          [[Routes/Plain of Six Glaciers]]          | Shoulder season |    Lake Louise    |   ✅  |
 |        [[Routes/Saddleback & Fairview Mtn]]        |   Outstanding   |    Lake Louise    |   ✅  |
 |              [[Routes/Sentinel Pass]]              |    Premiere     |    Lake Louise    |   ✅  |
