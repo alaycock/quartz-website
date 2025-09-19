@@ -123,7 +123,7 @@ async function _navigate(url: URL, isBack: boolean = false) {
   // delay setting the url until now
   // at this point everything is loaded so changing the url should resolve to the correct addresses
   if (!isBack) {
-    history.pushState({}, "", url)
+    history.pushState({ previousPage: window.location.toString() }, "", url)
   }
 
   notifyNav(getFullSlug(window))
@@ -156,7 +156,7 @@ function createRouter() {
       if (isSamePage(url) && url.hash) {
         const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
         el?.scrollIntoView()
-        history.pushState({}, "", url)
+        history.pushState({ previousPage: window.location.toString() }, "", url)
         return
       }
 

@@ -17,3 +17,20 @@ article.year-table {
     }
   }
 }
+
+article.list-table {
+  table tbody {
+    // Route name
+    td:nth-child(1) {
+      min-width: 120px;
+    }
+  }
+}
+
+article {
+  table tbody {
+    td.empty-table-cell {
+      min-width: 90px;
+    }
+  }
+}

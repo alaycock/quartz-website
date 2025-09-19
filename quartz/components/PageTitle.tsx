@@ -8,7 +8,6 @@ const PageTitle: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
     <div class="page-title">
       <a href={baseDir}>
         <img src="/static/logo.jpg" />
-        <span>Hi, I'm Adam</span>
       </a>
     </div>
   )

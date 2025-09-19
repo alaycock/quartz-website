@@ -54,13 +54,62 @@ export type FolderState = {
   collapsed: boolean
 }
 
+const MenuButton = ({ behavior, id }: { behavior: 'back' | 'menu', id: string }) => {
+  return (
+    <button
+      type="button"
+      class="explorer-toggle mobile-explorer hide-until-loaded"
+      data-mobile={true}
+      data-behavior={behavior}
+      aria-controls={id}>
+      {
+        behavior === 'menu' ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide-menu">
+            <line x1="4" x2="20" y1="12" y2="12" />
+            <line x1="4" x2="20" y1="6" y2="6" />
+            <line x1="4" x2="20" y1="18" y2="18" />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide-arrow-left">
+            <path d="m12 19-7-7 7-7"/>
+            <path d="M19 12H5"/>
+          </svg>
+        )
+      }
+    </button>
+  )
+}
+
+// TODO:
+// Nav changes:
+// - Show "next" and "previous" links on each page, to help with discoverability
 let numExplorers = 0
 export default ((userOpts?: Partial<Options>) => {
   const opts: Options = { ...defaultOptions, ...userOpts }
   const { OverflowList, overflowListAfterDOMLoaded } = OverflowListFactory()
 
-  const Explorer: QuartzComponent = ({ displayClass }: QuartzComponentProps) => {
+  const Explorer: QuartzComponent = ({ displayClass, fileData }: QuartzComponentProps) => {
     const id = `explorer-${numExplorers++}`
+
+    const menuBehavior = fileData.frontmatter?.tags?.includes('route') ? 'back' : 'menu';
 
     return (
       <div
@@ -75,27 +124,7 @@ export default ((userOpts?: Partial<Options>) => {
           mapFn: opts.mapFn.toString(),
         })}
       >
-        <button
-          type="button"
-          class="explorer-toggle mobile-explorer hide-until-loaded"
-          data-mobile={true}
-          aria-controls={id}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide-menu"
-          >
-            <line x1="4" x2="20" y1="12" y2="12" />
-            <line x1="4" x2="20" y1="6" y2="6" />
-            <line x1="4" x2="20" y1="18" y2="18" />
-          </svg>
-        </button>
+        <MenuButton behavior={menuBehavior} id={id} />
         <div id={id} class="explorer-content" aria-expanded={false} role="group">
           <OverflowList class="explorer-ul" />
         </div>

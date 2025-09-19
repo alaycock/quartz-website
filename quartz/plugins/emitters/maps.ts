@@ -1,5 +1,5 @@
 import { QuartzEmitterPlugin } from "../types"
-import { FilePath, FullSlug, joinSegments, slugifyFilePath } from "../../util/path"
+import { FilePath, FullSlug, joinSegments, slugifyFilePath, unWikilink } from "../../util/path"
 import { Readable } from "stream"
 import path from 'path';
 import { BuildCtx, BuildTimeTrieData } from "../../util/ctx"
@@ -51,7 +51,7 @@ const getLocations = (frontmatter: Frontmatter, allRoutes: [FullSlug, Frontmatte
 
   if (route && Array.isArray(route)) {
     return route.map((routeName) => {
-      const strippedRoute = routeName.replace(/(\[{2})|(\]{2})/g, '');
+      const strippedRoute = unWikilink(routeName);
       const routeSlug = `Routes/${slugifyFilePath(strippedRoute as FilePath)}`;
       const matchedRoute = allRoutes.find(([slug]) => slug === routeSlug);
       return getLocationFromProperty(matchedRoute?.[1].location);
@@ -64,6 +64,7 @@ const getLocations = (frontmatter: Frontmatter, allRoutes: [FullSlug, Frontmatte
 const cacheDir = "./quartz/.quartz-cache/maps";
 async function processMap(
   ctx: BuildCtx,
+  allFiles: QuartzPluginData[],
   fileData: QuartzPluginData,
 ) {
   const newFileSlug = `${fileData.slug}-map`;
@@ -82,15 +83,15 @@ async function processMap(
     return null;
   }
 
-  const routeEntries = ctx.trie?.entries()
-    .filter(([_name, node]) => node.data?.frontmatter?.tags?.includes('route'))
-    .map(([_name, node]) => [node.slug, node.data!.frontmatter!] satisfies [FullSlug, Frontmatter]);
+  const routeEntries = allFiles
+    .filter(file => file.frontmatter?.tags?.includes('route'))
+    .map(file => [file.slug!, file.frontmatter!] satisfies [FullSlug, Frontmatter])
 
   const locations = getLocations(fileData.frontmatter, routeEntries ?? []);
   if (locations.length === 0) {
     return null;
   }
-  
+
   const stream = cacheContent ?? await downloadMap(locations);
   if (!stream) {
     return null;
@@ -120,13 +121,14 @@ export const Maps: QuartzEmitterPlugin = () => {
     },
     async *emit(ctx, content, _resources) {
       for (const [_tree, vfile] of content) {
-        const pathToMap = await processMap(ctx, vfile.data)
+        const allFiles = content.map((c) => c[1].data)
+        const pathToMap = await processMap(ctx, allFiles, vfile.data)
         if (pathToMap) {
           yield pathToMap;
         }
       }
     },
-    async *partialEmit(ctx, _content, _resources, changeEvents) {
+    async *partialEmit(_ctx, _content, _resources, changeEvents) {
       // find all slugs that changed or were added
       for (const changeEvent of changeEvents) {
         if (!changeEvent.file) continue

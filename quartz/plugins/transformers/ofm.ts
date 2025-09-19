@@ -406,9 +406,14 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
             const newNode = {
               type: 'tableRow',
               children: [
-                { type: 'tableCell', children: [
-                  {type: 'text', value: `There's nothing here!` }
-                ]}
+                {
+                  type: 'tableCell',
+                  children: [{
+                    type: 'text',
+                    value: `No attempts`,
+                  }],
+                  data: { hProperties: { className: ["empty-table-cell"] } }
+                }
               ]
             } satisfies TableRow;
 

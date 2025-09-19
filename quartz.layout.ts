@@ -21,7 +21,7 @@ const explorerOptions: Partial<Options> = {
   useSavedState: false,
   sortFn: (a, b) => {
     if (a.isFolder && b.isFolder) {
-      var ordering: Record<string, number> = { Posts: 0, Trips: 1, Lists: 2, Years: 3 };
+      var ordering: Record<string, number> = { Notes: 0, Lists: 1, Years: 2 };
       return (ordering[a.displayName] ?? 999) - (ordering[b.displayName] ?? 999);
     }
 
@@ -61,10 +61,6 @@ const explorerOptions: Partial<Options> = {
 // components for pages that display a single page (e.g. a single note)
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
-    Component.ConditionalRender({
-      component: Component.Breadcrumbs(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
     Component.ArticleTitle(),
     Component.ContentMeta(),
   ],
@@ -91,7 +87,6 @@ export const defaultContentPageLayout: PageLayout = {
 // components for pages that display lists of pages  (e.g. tags or folders)
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [
-    Component.Breadcrumbs(),
     Component.ArticleTitle(),Component.ContentMeta()
   ],
   left: [

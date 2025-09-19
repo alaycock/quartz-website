@@ -21,6 +21,18 @@ type FolderState = {
 
 let currentExplorerState: Array<FolderState>
 function toggleExplorer(this: HTMLElement) {
+
+  // If the "back" arrow is used, go back, unless it would result in the user leaving the site.
+  // This is similar to FB + Instagram where the in-app arrow is for in-app routing
+  if (this.dataset.behavior === 'back') {
+    if (history.state?.previousPage) {
+      history.back();
+    } else {
+      window.spaNavigate(new URL('/', window.location.toString()))
+    }
+    return;
+  }
+
   const nearestExplorer = this.closest(".explorer") as HTMLElement
   if (!nearestExplorer) return
   const explorerCollapsed = nearestExplorer.classList.toggle("collapsed")
@@ -207,6 +219,10 @@ async function setupExplorer(currentSlug: FullSlug) {
 
     // Create and insert new content
     const fragment = document.createDocumentFragment()
+
+    // Insert the homepage first
+    fragment.appendChild(createFileNode(currentSlug, trie))
+
     for (const child of trie.children) {
       const node = child.isFolder
         ? createFolderNode(currentSlug, child, opts)

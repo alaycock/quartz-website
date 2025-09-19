@@ -207,10 +207,8 @@
               margin: 0;
             }
 
-            @media all and not ($mobile) {
-              & > p.card-description {
-                display: none;
-              }
+            & > p.card-description {
+              display: none;
             }
 
             & > ul.tags {
