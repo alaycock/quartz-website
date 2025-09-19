@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-03T11:33:02.905-06:00","modified":"2025-09-18T21:39:28.050-06:00","published":"2025-09-18T21:39:28.050-06:00","tags":["list"],"cssclasses":""}
+{"publish":true,"created":"2025-09-03T11:33:02.905-06:00","modified":"2025-09-19T07:53:58.685-06:00","published":"2025-09-19T07:53:58.685-06:00","tags":["list"],"cssclasses":["list-table"]}
 ---
 
 |                    Trip                     |      DWYT       |      Region       | Completed |

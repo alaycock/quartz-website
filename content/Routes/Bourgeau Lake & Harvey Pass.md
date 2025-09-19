@@ -3,7 +3,6 @@
 ---
 
 
-|    Date    |       People        | Distance (km) | Elevation Gain (m) |
-| ---------- | ------------------- | ------------- | ------------------ |
-| 2020-11-14 |     Adam, Emily     |     13.4      |        941         |
-| 2022-02-18 | Adam, Colton, Corey |      15       |        1200        |
+|    Date    |   People    | Distance (km) | Elevation Gain (m) |
+| ---------- | ----------- | ------------- | ------------------ |
+| 2020-11-14 | Adam, Emily |     13.4      |        941         |

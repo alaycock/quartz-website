@@ -3,5 +3,6 @@
 ---
 
 
-| Date | People | Distance (km) | Elevation Gain (m) |
-| ---- | ------ | ------------- | ------------------ |
+|    Date    |           People           | Distance (km) | Elevation Gain (m) |
+| ---------- | -------------------------- | ------------- | ------------------ |
+| 2021-10-31 | Adam, Colton, Emily, Laura |     11.7      |        608         |

@@ -3,5 +3,6 @@
 ---
 
 
-| Date | People | Distance (km) | Elevation Gain (m) |
-| ---- | ------ | ------------- | ------------------ |
+|    Date    |   People    | Distance (km) | Elevation Gain (m) |
+| ---------- | ----------- | ------------- | ------------------ |
+| 2021-07-23 | Adam, Emily |     42.5      |        2575        |
