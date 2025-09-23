@@ -10,4 +10,4 @@ export { ComponentResources } from "./componentResources"
 export { NotFoundPage } from "./404"
 export { CNAME } from "./cname"
 export { CustomOgImages } from "./ogImage"
-export { Maps } from './maps'
+export { ActivityMap } from './activityMap'

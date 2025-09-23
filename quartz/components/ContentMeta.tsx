@@ -34,7 +34,7 @@ export default (() => {
       rowSegments.push(<Date date={getDate(cfg, fileData)!} locale={cfg.locale} />)
     }
 
-    const { route, people, gain, distance, elevation, region, DWYT, Kane } = fileData.frontmatter as ArbitraryFrontmatter;
+    const { route, people, gain, distance, elevation, region, DWYT, Kane, strava } = fileData.frontmatter as ArbitraryFrontmatter;
 
     if(route) {
       const routes = Array.isArray(route) ? route : [route];
@@ -86,6 +86,24 @@ export default (() => {
     if (Kane) {
       statSegments.push(<Stat value={Kane as string} statName="Kane difficulty" />);
     }
+    if (strava) {
+      const stravaValue = String(strava);
+      const stravaHref = stravaValue.startsWith("http") ? stravaValue : `https://www.strava.com/activities/${stravaValue}`;
+      statSegments.push(
+        <a class="meta-stat" href={stravaHref} target="_blank" rel="noopener" aria-label="Strava">
+          <StravaIcon className="meta-stat-value" />
+          <span class="meta-stat-name">Strava</span>
+        </a>
+      );
+
+      const gpxHref = `/${fileData.slug}-strava.gpx`;
+      statSegments.push(
+        <a class="meta-stat" href={gpxHref} target="_blank" rel="noopener" aria-label="GPX file">
+          <GpxIcon className="meta-stat-value" />
+          <span class="meta-stat-name">GPX file</span>
+        </a>
+      );
+    }
 
     const joinedSegments = rowSegments
       .flatMap((segment, index) => index === rowSegments.length -1 ? segment : [segment, ' • ']);
@@ -114,3 +132,18 @@ export default (() => {
 
   return ContentMetadata
 }) satisfies QuartzComponentConstructor
+
+// Icons
+const StravaIcon = ({ className }: { className: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" class={className}>
+    <path fill="currentColor" d="M286.4 64L135 356L224.2 356L286.4 239.9L348.1 356L436.6 356L286.4 64zM436.6 356L392.7 444.2L348.1 356L280.5 356L392.7 576L504.2 356L436.6 356z"/>
+  </svg>
+);
+
+const GpxIcon = ({ className }: { className: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class={className}>
+    <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/>
+    <path d="M15 5.764v15"/>
+    <path d="M9 3.236v15"/>
+  </svg>
+);

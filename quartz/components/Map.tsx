@@ -47,7 +47,7 @@ export default (() => {
     // Dedupe this with maps.ts
     const routes = allFiles.filter(file => file.frontmatter?.tags?.includes('route'));
     const locations = getLocations(fileData.frontmatter, ctx.allSlugs, routes);
-    if (locations.length === 0) {
+    if (locations.length === 0 && !fileData.frontmatter?.strava) {
       return null;
     }
 
@@ -55,7 +55,11 @@ export default (() => {
     const location = locations[0];
 
     // https://developers.google.com/maps/documentation/urls/get-started#search-action
-    const linkHref = `https://www.google.com/maps/search/?api=1&query=${location[0]}%2C${location[1]}`;
+    // TODO: The title can be wrong, it'd be ideal for the Strava location to be baked into the frontmatter...
+    let linkHref = `https://www.google.com/maps/search/?api=1&query=${fileData.frontmatter?.title}`
+    if (location) {
+      linkHref = `https://www.google.com/maps/search/?api=1&query=${location[0]}%2C${location[1]}`;
+    }
 
     return (
       <div class={classNames(displayClass, "map")}>

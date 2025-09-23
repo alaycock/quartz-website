@@ -15,6 +15,8 @@ concurrency:
   cancel-in-progress: true
  
 jobs:
+
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -26,8 +28,44 @@ jobs:
           node-version: 22
       - name: Install Dependencies
         run: npm ci
+
+      # Get a fresh Strava access token
+      - name: Download previous encrypted token
+        uses: actions/download-artifact@v4
+        with:
+          name: strava-token
+        continue-on-error: true
+
+      - name: Decrypt token if present
+        if: hashFiles('strava-token.json.enc') != ''
+        run: node scripts/decrypt-token.js strava-token.json.enc > strava-token.json
+        env:
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+
+      - name: Refresh token if needed
+        run: node scripts/refresh-token.js
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_BOOTSTRAP_REFRESH_TOKEN: ${{ secrets.STRAVA_BOOTSTRAP_REFRESH_TOKEN }}
+
+      - name: Encrypt updated token
+        run: node scripts/encrypt-token.js strava-token.json
+        env:
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+
+      - name: Upload updated encrypted token
+        uses: actions/upload-artifact@v4
+        with:
+          name: strava-token
+          path: strava-token.json.enc
+
+      - name: Fetch GPX with Strava token
+        run: |
+          echo "STRAVA_ACCESS_TOKEN=$(jq -r '.access_token' strava-token.json)" >> .env
+
       - name: Cache map artifacts
-        id: cache-npm
+        id: cache-maps
         uses: actions/cache@v4
         env:
           cache-name: cache-maps
@@ -36,6 +74,16 @@ jobs:
           key: quartz-maps-v2025.09.10.3
           restore-keys: |
             quartz-maps-v2025.09.10.3
+      - name: Cache GPX artifacts
+        id: cache-gpx
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-gpx
+        with:
+          path: quartz/.quartz-cache/gpx
+          key: quartz-gpx-v2025.09.10.3
+          restore-keys: |
+            quartz-gpx-v2025.09.10.3
       - name: Build Quartz
         run: npx quartz build
         env:

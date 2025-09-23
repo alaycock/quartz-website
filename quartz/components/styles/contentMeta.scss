@@ -11,6 +11,15 @@
   flex-direction: row;
   gap: 24px;
   flex-wrap: wrap;
+  align-items: end;
+}
+
+a.meta-stat {
+  .meta-stat-value {
+    height: 1.6rlh;
+    font-size: 1.6rem;
+    align-self: center;
+  }
 }
 
 .meta-stat {
@@ -20,11 +29,13 @@
   .meta-stat-value {
     font-size: 1.6rem;
 
-    span {
+    .meta-stat-unit {
       margin-left: .3rem;
       font-size: .875rem;
     }
   }
+
+
 
   .meta-stat-name {
     font-size: .875rem;
