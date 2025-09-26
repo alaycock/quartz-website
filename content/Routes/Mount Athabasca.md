@@ -1,6 +1,7 @@
 ---
-{"publish":true,"created":"2025-09-18T20:58:49.738-06:00","modified":"2025-09-18T21:08:21.628-06:00","published":"2025-09-18T21:08:21.628-06:00","tags":["route","11ker"],"cssclasses":"","elevation":3479,"region":"Columbia Icefield Area","location":null,"completed":true}
+{"publish":true,"created":"2025-09-26T13:29:45.425-06:00","modified":"2025-09-26T13:29:45.426-06:00","published":"2025-09-26T13:29:45.426-06:00","tags":["route","11ker"],"cssclasses":"","elevation":3479,"region":"Columbia Icefield Area","location":"52.1811529, -117.199914","completed":true}
 ---
+
 
 
 |                Date                 | People | Distance (km) | Elevation Gain (m) |

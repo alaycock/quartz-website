@@ -1,6 +1,7 @@
 ---
-{"publish":true,"created":"2025-09-03T13:35:59.642-06:00","modified":"2025-09-03T14:54:51.318-06:00","published":"2025-09-03T14:54:51.318-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Banff","location":"51.2004008, -115.6905158","DWYT":null,"Kane":"Easy","completed":true}
+{"publish":true,"created":"2025-09-26T13:29:45.433-06:00","modified":"2025-09-26T13:29:45.434-06:00","published":"2025-09-26T13:29:45.434-06:00","tags":["route"],"cssclasses":"","elevation":2801,"region":"Banff","location":"51.2004008, -115.6905158","DWYT":null,"Kane":"Easy","completed":true}
 ---
+
 
 
 |                Date                 | People | Distance (km) | Elevation Gain (m) |

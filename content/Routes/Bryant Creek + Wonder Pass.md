@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-03T13:35:59.388-06:00","modified":"2025-09-09T16:04:50.010-06:00","published":"2025-09-09T16:04:50.010-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Assiniboine","location":"50.8982839, -115.5190281","DWYT":"Premiere","Kane":null,"completed":true}
+{"publish":true,"created":"2025-09-26T13:30:58.645-06:00","modified":"2025-09-26T13:30:58.645-06:00","published":"2025-09-26T13:30:58.645-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Assiniboine","location":"50.8982839, -115.5190281","DWYT":"Premiere","Kane":null,"completed":true}
 ---
 
 

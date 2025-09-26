@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-03T13:35:59.560-06:00","modified":"2025-09-03T14:56:15.424-06:00","published":"2025-09-03T14:56:15.424-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Bow Valley","location":"51.0225911, -115.340276","DWYT":null,"Kane":"Easy","completed":true}
+{"publish":true,"created":"2025-09-26T13:24:22.177-06:00","modified":"2025-09-26T13:24:22.178-06:00","published":"2025-09-26T13:24:22.178-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Bow Valley","location":"51.0225911, -115.340276","DWYT":null,"Kane":"Easy","completed":true}
 ---
 
 

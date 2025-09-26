@@ -1,6 +1,7 @@
 ---
-{"publish":true,"created":"2025-09-03T13:35:59.772-06:00","modified":"2025-09-03T14:56:26.675-06:00","published":"2025-09-03T14:56:26.675-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Crowsnest Pass","location":null,"DWYT":null,"Kane":"Easy","completed":false}
+{"publish":true,"created":"2025-09-26T13:29:45.458-06:00","modified":"2025-09-26T13:29:45.458-06:00","published":"2025-09-26T13:29:45.458-06:00","tags":["route"],"cssclasses":"","elevation":2530,"region":"Crowsnest Pass","location":"49.7535134, -114.6361775","DWYT":null,"Kane":"Easy","completed":false}
 ---
+
 
 
 | Date | People | Distance (km) | Elevation Gain (m) |

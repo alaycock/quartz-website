@@ -1,6 +1,7 @@
 ---
-{"publish":true,"created":"2025-09-03T13:35:59.928-06:00","modified":"2025-09-03T14:58:45.713-06:00","published":"2025-09-03T14:58:45.713-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Smith-Dorrien","location":null,"DWYT":null,"Kane":"Easy","completed":true}
+{"publish":true,"created":"2025-09-26T13:29:45.476-06:00","modified":"2025-09-26T13:29:45.476-06:00","published":"2025-09-26T13:29:45.476-06:00","tags":["route"],"cssclasses":"","elevation":3000,"region":"Smith-Dorrien","location":"50.8284238, -115.2432354","DWYT":null,"Kane":"Easy","completed":true}
 ---
+
 
 
 |                Date                 |   People    | Distance (km) | Elevation Gain (m) |
