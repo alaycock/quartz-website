@@ -60,7 +60,7 @@ jobs:
           name: strava-token
           path: strava-token.json.enc
 
-      - name: Fetch GPX with Strava token
+      - name: Use Strava access token
         run: |
           echo "STRAVA_ACCESS_TOKEN=$(jq -r '.access_token' strava-token.json)" >> .env
 
