@@ -1,6 +1,7 @@
 ---
-{"publish":true,"created":"2025-09-03T13:35:59.336-06:00","modified":"2025-09-18T20:57:57.155-06:00","published":"2025-09-18T20:57:57.155-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Waterton","location":"49.0097, -114.1067","DWYT":"Premiere","Kane":"Moderate","completed":true}
+{"publish":true,"created":"2025-09-26T13:29:45.386-06:00","modified":"2025-09-26T13:29:45.386-06:00","published":"2025-09-26T13:29:45.386-06:00","tags":["route"],"cssclasses":"","elevation":2575,"region":"Waterton","location":"49.0097, -114.1067","DWYT":"Premiere","Kane":"Moderate","completed":true}
 ---
+
 
 
 |                Date                 |   People    | Distance (km) | Elevation Gain (m) |

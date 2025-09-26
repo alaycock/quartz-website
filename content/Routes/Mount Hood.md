@@ -1,6 +1,7 @@
 ---
-{"publish":true,"created":"2025-09-03T13:35:59.673-06:00","modified":"2025-09-03T14:57:20.042-06:00","published":"2025-09-03T14:57:20.042-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Kananaskis","location":null,"DWYT":null,"Kane":"Moderate","completed":false}
+{"publish":true,"created":"2025-09-26T13:29:45.440-06:00","modified":"2025-09-26T13:29:45.440-06:00","published":"2025-09-26T13:29:45.440-06:00","tags":["route"],"cssclasses":"","elevation":2903,"region":"Kananaskis","location":"50.7469, -115.0886","DWYT":null,"Kane":"Moderate","completed":false}
 ---
+
 
 
 | Date | People | Distance (km) | Elevation Gain (m) |

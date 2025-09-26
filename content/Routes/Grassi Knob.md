@@ -1,6 +1,7 @@
 ---
-{"publish":true,"created":"2025-09-03T15:36:28.961-06:00","modified":"2025-09-03T15:41:20.667-06:00","published":"2025-09-03T15:41:20.667-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Bow Valley","location":null,"DWYT":null,"Kane":null}
+{"publish":true,"created":"2025-09-26T13:29:45.410-06:00","modified":"2025-09-26T13:29:45.410-06:00","published":"2025-09-26T13:29:45.410-06:00","tags":["route"],"cssclasses":"","elevation":2174,"region":"Bow Valley","location":"51.048667, -115.360111","DWYT":null,"Kane":null}
 ---
+
 
 
 |                Date                 |           People           | Distance (km) | Elevation Gain (m) |

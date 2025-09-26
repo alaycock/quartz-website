@@ -1,6 +1,7 @@
 ---
-{"publish":true,"created":"2025-09-03T13:35:59.798-06:00","modified":"2025-09-03T14:56:50.118-06:00","published":"2025-09-03T14:56:50.118-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Icefields Parkway","location":null,"DWYT":null,"Kane":"Easy","completed":true}
+{"publish":true,"created":"2025-09-26T13:29:45.463-06:00","modified":"2025-09-26T13:29:45.464-06:00","published":"2025-09-26T13:29:45.464-06:00","tags":["route"],"cssclasses":"","elevation":3174,"region":"Icefields Parkway","location":"51.7437213, -116.4700206","DWYT":null,"Kane":"Easy","completed":true}
 ---
+
 
 
 |                Date                 |    People    | Distance (km) | Elevation Gain (m) |
