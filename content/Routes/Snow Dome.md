@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-26T13:29:45.471-06:00","modified":"2025-09-26T13:29:45.471-06:00","published":"2025-09-26T13:29:45.471-06:00","tags":["route","11ker"],"cssclasses":"","elevation":3458,"region":"Columbia Icefield Area","location":"52.1873861, -117.317115","completed":false}
+{"publish":true,"created":"2025-09-29T12:45:37.659-06:00","modified":"2025-09-29T12:45:51.006-06:00","published":"2025-09-29T12:45:51.006-06:00","tags":["route","11ker"],"cssclasses":"","elevation":3458,"region":"Columbia Icefield Area","location":"52.1873861, -117.317115","completed":false}
 ---
 
 

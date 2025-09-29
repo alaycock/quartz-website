@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-26T13:29:45.433-06:00","modified":"2025-09-26T13:29:45.433-06:00","published":"2025-09-26T13:29:45.433-06:00","tags":["route"],"cssclasses":"","elevation":3012,"region":"Kananaskis Lakes","location":"50.5504663, -115.2324765","DWYT":null,"Kane":"Easy","completed":false}
+{"publish":true,"created":"2025-09-29T12:45:37.612-06:00","modified":"2025-09-29T12:45:50.960-06:00","published":"2025-09-29T12:45:50.960-06:00","tags":["route","kane/easy"],"cssclasses":"","elevation":3012,"region":"Kananaskis Lakes","location":"50.5504663, -115.2324765","completed":false}
 ---
 
 

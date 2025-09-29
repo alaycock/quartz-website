@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-26T13:29:45.481-06:00","modified":"2025-09-26T13:29:45.482-06:00","published":"2025-09-26T13:29:45.482-06:00","tags":["route","11ker"],"cssclasses":"","elevation":3399,"region":"Greater Mount Robson Area","location":"53.1369, -119.2669","completed":false}
+{"publish":true,"created":"2025-09-29T12:45:37.679-06:00","modified":"2025-09-29T12:45:51.024-06:00","published":"2025-09-29T12:45:51.024-06:00","tags":["route","11ker"],"cssclasses":"","elevation":3399,"region":"Greater Mount Robson Area","location":"53.1369, -119.2669","completed":false}
 ---
 
 
