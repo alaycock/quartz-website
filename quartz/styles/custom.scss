@@ -15,6 +15,10 @@ article.year-table {
     td:nth-child(6) {
       min-width: 120px;
     }
+    // Days
+    td:nth-child(7) {
+      text-wrap: nowrap;
+    }
   }
 }
 
