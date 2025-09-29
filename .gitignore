@@ -10,3 +10,5 @@ private/
 .replit
 replit.nix
 .env
+strava-token.json
+strava-token.json.enc

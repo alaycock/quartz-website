@@ -27,7 +27,7 @@ async function fetchActivityStreams(activityId: string | number) {
   })
   if (!res.ok) {
     const text = await res.text()
-    throw new Error(`Strava API error ${res.status}: ${text}`)
+    throw new Error(`Strava API error ID ${activityId} : ${res.status} : ${text}`)
   }
   return (await res.json()) as {
     latlng?: StreamLatLng
