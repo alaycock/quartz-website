@@ -7,6 +7,13 @@ import style from "./styles/contentMeta.scss"
 
 type ArbitraryFrontmatter = Record<string, string | string[]>
 
+function toTitleCase(str: string) {
+  return str.replace(
+    /\w\S*/g,
+    text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+  );
+}
+
 type StatProps = { value: string, unit?: string, statName: string };
 const Stat = ({ value, unit, statName }: StatProps) => {
   return (
@@ -34,7 +41,19 @@ export default (() => {
       rowSegments.push(<Date date={getDate(cfg, fileData)!} locale={cfg.locale} />)
     }
 
-    const { route, people, gain, distance, elevation, region, DWYT, Kane, strava } = fileData.frontmatter as ArbitraryFrontmatter;
+    const { route, people, gain, distance, elevation, region, tags, strava } = fileData.frontmatter as ArbitraryFrontmatter;
+
+    const dwytTag = (tags as string[])
+      ?.find(tag => tag.startsWith('dwyt/'))
+      ?.replace('dwyt/', '')
+      ?.replace(/-/g, ' ')
+    const dwyt = dwytTag ? toTitleCase(dwytTag) : undefined;
+
+    const kaneTag = (tags as string[])
+      ?.find(tag => tag.startsWith('kane/'))
+      ?.replace('kane/', '')
+      ?.replace(/-/g, ' ')
+    const kane = kaneTag ? toTitleCase(kaneTag) : undefined;
 
     if(route) {
       const routes = Array.isArray(route) ? route : [route];
@@ -80,11 +99,11 @@ export default (() => {
     if (region) {
       statSegments.push(<Stat value={region as string} statName="Region" />);
     }
-    if (DWYT) {
-      statSegments.push(<Stat value={DWYT as string} statName="DWYT rating" />);
+    if (dwyt) {
+      statSegments.push(<Stat value={dwyt as string} statName="DWYT rating" />);
     }
-    if (Kane) {
-      statSegments.push(<Stat value={Kane as string} statName="Kane difficulty" />);
+    if (kane) {
+      statSegments.push(<Stat value={kane as string} statName="Kane difficulty" />);
     }
     if (strava) {
       const stravaValue = String(strava);
