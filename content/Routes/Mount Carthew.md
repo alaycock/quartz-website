@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-26T13:29:45.431-06:00","modified":"2025-09-26T13:29:45.431-06:00","published":"2025-09-26T13:29:45.431-06:00","tags":["route"],"cssclasses":"","elevation":2636,"region":"Waterton","location":"49.0322483, -114.001484","DWYT":null,"Kane":"Easy","completed":false}
+{"publish":true,"created":"2025-09-29T12:45:37.610-06:00","modified":"2025-09-29T12:45:50.958-06:00","published":"2025-09-29T12:45:50.958-06:00","tags":["route","kane/easy"],"cssclasses":"","elevation":2636,"region":"Waterton","location":"49.0322483, -114.001484","completed":false}
 ---
 
 

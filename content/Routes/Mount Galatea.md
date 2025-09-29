@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-26T13:29:45.438-06:00","modified":"2025-09-26T13:29:45.438-06:00","published":"2025-09-26T13:29:45.438-06:00","tags":["route"],"cssclasses":"","elevation":3185,"region":"Smith-Dorrien","location":"50.8396851, -115.2725029","DWYT":null,"Kane":"Difficult","completed":false}
+{"publish":true,"created":"2025-09-29T12:45:37.619-06:00","modified":"2025-09-29T12:45:50.965-06:00","published":"2025-09-29T12:45:50.965-06:00","tags":["route","kane/difficult"],"cssclasses":"","elevation":3185,"region":"Smith-Dorrien","location":"50.8396851, -115.2725029","completed":false}
 ---
 
 

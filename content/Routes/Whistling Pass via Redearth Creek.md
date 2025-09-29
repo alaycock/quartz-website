@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-26T13:29:45.481-06:00","modified":"2025-09-26T13:29:45.481-06:00","published":"2025-09-26T13:29:45.481-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Banff","location":"51.10836, -115.89797","DWYT":"Outstanding","Kane":null,"completed":false}
+{"publish":true,"created":"2025-09-29T12:45:37.679-06:00","modified":"2025-09-29T12:45:51.024-06:00","published":"2025-09-29T12:45:51.024-06:00","tags":["route","dwyt/outstanding"],"cssclasses":"","elevation":null,"region":"Banff","location":"51.10836, -115.89797","completed":false}
 ---
 
 
