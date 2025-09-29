@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-26T13:29:45.418-06:00","modified":"2025-09-26T13:29:45.418-06:00","published":"2025-09-26T13:29:45.418-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":null,"location":"49.3380316, -123.2664813","DWYT":"Shoulder season","Kane":null,"completed":false}
+{"publish":true,"created":"2025-09-26T13:29:45.418-06:00","modified":"2025-09-27T11:06:19.056-06:00","published":"2025-09-27T11:06:19.056-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Kootenays","location":"49.3380316, -123.2664813","DWYT":"Shoulder season","Kane":null,"completed":false}
 ---
 
 

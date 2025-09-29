@@ -1,7 +1,6 @@
 ---
-{"publish":true,"created":"2025-09-18T21:00:39.453-06:00","modified":"2025-09-26T13:35:08.501-06:00","published":"2025-09-26T13:35:08.501-06:00","tags":["list"],"cssclasses":["list-table"]}
+{"publish":true,"created":"2025-09-18T21:00:39.453-06:00","modified":"2025-09-29T09:00:03.692-06:00","published":"2025-09-29T09:00:03.692-06:00","tags":["list"],"cssclasses":["list-table"]}
 ---
-
 
 |                Trip                 | Elevation (m) |             Region              | Completed |
 | ----------------------------------- | ------------- | ------------------------------- | --------- |
