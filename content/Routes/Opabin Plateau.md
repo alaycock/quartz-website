@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-26T13:24:22.208-06:00","modified":"2025-09-26T13:24:22.208-06:00","published":"2025-09-26T13:24:22.208-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Yoho","location":"51.3412176, -116.3150261","DWYT":"Premiere","Kane":null,"completed":true}
+{"publish":true,"created":"2025-09-29T12:45:37.649-06:00","modified":"2025-09-29T12:45:50.993-06:00","published":"2025-09-29T12:45:50.993-06:00","tags":["route","dwyt/premiere"],"cssclasses":"","elevation":null,"region":"Yoho","location":"51.3412176, -116.3150261","completed":true}
 ---
 
 

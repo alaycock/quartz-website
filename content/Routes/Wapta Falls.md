@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-26T13:24:22.228-06:00","modified":"2025-09-26T13:24:22.229-06:00","published":"2025-09-26T13:24:22.229-06:00","tags":["route"],"cssclasses":"","elevation":null,"region":"Yoho","location":"51.1873245, -116.5757917","DWYT":"Shoulder season","Kane":null,"completed":false}
+{"publish":true,"created":"2025-09-29T12:45:37.677-06:00","modified":"2025-09-29T12:45:51.022-06:00","published":"2025-09-29T12:45:51.022-06:00","tags":["route","dwyt/shoulder-season"],"cssclasses":"","elevation":null,"region":"Yoho","location":"51.1873245, -116.5757917","completed":false}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-26T13:29:45.467-06:00","modified":"2025-09-26T13:29:45.467-06:00","published":"2025-09-26T13:29:45.467-06:00","tags":["route"],"cssclasses":"","elevation":2766,"region":"Jasper","location":"52.9511, -118.1494","DWYT":null,"Kane":"Easy","completed":false}
+{"publish":true,"created":"2025-09-29T12:45:37.654-06:00","modified":"2025-09-29T12:45:51.000-06:00","published":"2025-09-29T12:45:51.000-06:00","tags":["route","kane/easy"],"cssclasses":"","elevation":2766,"region":"Jasper","location":"52.9511, -118.1494","completed":false}
 ---
 
 
