@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-09-03T11:33:16.177-06:00","modified":"2025-09-26T13:35:10.996-06:00","published":"2025-09-26T13:35:10.996-06:00","tags":["list"],"cssclasses":["list-table"]}
+{"publish":true,"created":"2025-09-03T11:33:16.177-06:00","modified":"2025-11-08T20:35:11.725-07:00","published":"2025-11-08T20:35:11.725-07:00","tags":["list"],"cssclasses":["list-table"]}
 ---
 
 |                Trip                 |   Kane    |      Region       | Elevation (m) | Completed |
@@ -65,7 +65,7 @@
 |          [[Routes/Mount Sarbach]]          | Difficult | Icefields Parkway |     3155      |       |
 |           [[Routes/Mount Weed]]            | Moderate  | Icefields Parkway |     3080      |       |
 |          [[Routes/Mount Wilcox]]           | Moderate  | Icefields Parkway |     2884      |       |
-|           [[Routes/Nigel Peak]]            | Moderate  | Icefields Parkway |     3211      |   ✅  |
+|           [[Routes/Nigel Peak]]            | Moderate  | Icefields Parkway |     3211      |       |
 |        [[Routes/Observation Peak]]         |   Easy    | Icefields Parkway |     3174      |   ✅  |
 |          [[Routes/Sunwapta Peak]]          |   Easy    | Icefields Parkway |     3320      |       |
 |          [[Routes/Tangle Ridge]]           |   Easy    | Icefields Parkway |     3001      |       |
@@ -82,7 +82,7 @@
 |           [[Routes/Fisher Peak]]           | Difficult |    Kananaskis     |     3053      |       |
 |          [[Routes/Gap Mountain]]           | Moderate  |    Kananaskis     |     2675      |       |
 |          [[Routes/Grizzly Peak]]           |   Easy    |    Kananaskis     |     2545      |   ✅  |
-|          [[Routes/Mount Bogart]]           | Moderate  |    Kananaskis     |     3144      |       |
+|          [[Routes/Mount Bogart]]           | Moderate  |    Kananaskis     |     3144      |   ✅  |
 |           [[Routes/Mount Denny]]           | Moderate  |    Kananaskis     |     3000      |       |
 |        [[Routes/Mount Evan-Thomas]]        | Difficult |    Kananaskis     |     3097      |       |
 |         [[Routes/Mount Fullerton]]         | Moderate  |    Kananaskis     |     2735      |       |
@@ -181,3 +181,4 @@
 |          [[Routes/Walcott Peak]]           | Moderate  |       Yoho        |     2575      |       |
 |         [[Routes/Wapta Mountain]]          | Difficult |       Yoho        |     2782      |       |
 |        [[Routes/Yukness Mountain]]         | Moderate  |       Yoho        |     2851      |       |
+

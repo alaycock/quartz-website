@@ -1,9 +1,9 @@
 ---
-{"publish":true,"created":"2025-09-29T12:45:37.550-06:00","modified":"2025-09-29T12:45:50.906-06:00","published":"2025-09-29T12:45:50.906-06:00","tags":["route","kane/moderate"],"cssclasses":"","elevation":2514,"region":"Bow Valley","location":"51.1356232, -115.337138","completed":true}
+{"publish":true,"created":"2025-10-01T10:23:27.504-06:00","modified":"2025-10-01T10:23:27.505-06:00","published":"2025-10-01T10:23:27.505-06:00","tags":["route","kane/moderate"],"cssclasses":"","elevation":2514,"region":"Bow Valley","location":"51.1356232, -115.337138","completed":true}
 ---
 
 
 
-|                       Date                        |    People    | Distance (km) | Elevation Gain (m) |
-| ------------------------------------------------- | ------------ | ------------- | ------------------ |
-| [[Notes/2021-10-08\|2021-10-08T00:00:00.000Z]] | Adam, Colton |       8       |        1217        |
+|                Date                 |    People    | Distance (km) | Elevation Gain (m) |
+| ----------------------------------- | ------------ | ------------- | ------------------ |
+| [[Notes/2021-10-08\|2021-10-07]] | Adam, Colton |       8       |        1217        |
