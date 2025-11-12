@@ -283,7 +283,7 @@ export function findNearestSlug(target: string, allSlugs: FullSlug[]): FullSlug 
   }
 
   // If it's not unique, use the original slug: Obsidian has already resolved it to be absolute
-  return target as FullSlug;
+  return targetCanonical as FullSlug;
 }
 
 export function transformLink(src: FullSlug, target: string, opts: TransformOptions): RelativeURL {

@@ -72,7 +72,7 @@ export default (() => {
           <>
             {acc}
             <a href={destLink} class={'internal'}>
-              {linkText}
+              {linkText.split('/').at(-1)}
             </a>
             {index === routes.length - 1 ? '' : ', '}
           </>
