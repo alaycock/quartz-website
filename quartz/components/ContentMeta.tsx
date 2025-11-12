@@ -59,22 +59,27 @@ export default (() => {
       const routes = Array.isArray(route) ? route : [route];
 
       const initialValue = <></>;
-      const routeElements = routes.reduce<JSX.Element>((acc, route, index) => {
+      const routeLinks = routes.flatMap((route) => {
         const linkText = unWikilink(route);
         const destSlug = findNearestSlug(linkText, ctx.allSlugs)
         const destLink = resolveRelative(fileData.slug!, destSlug);
-        
+
         const exists = ctx.allSlugs.includes(destSlug);
         if (!exists) {
-          return acc;
+          return [];
         }
+
+        return [{ destLink, linkText: linkText.split('/').at(-1) }];
+      });
+      
+      const routeElements = routeLinks.reduce<JSX.Element>((acc, routeLink, index) => {
         return (
           <>
             {acc}
-            <a href={destLink} class={'internal'}>
-              {linkText.split('/').at(-1)}
+            <a href={routeLink.destLink} class={'internal'}>
+              {routeLink.linkText}
             </a>
-            {index === routes.length - 1 ? '' : ', '}
+            {index === routeLinks.length - 1 ? '' : ', '}
           </>
         );
       }, initialValue);
