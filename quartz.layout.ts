@@ -26,7 +26,8 @@ const explorerOptions: Partial<Options> = {
     }
 
     if ((!a.isFolder && !b.isFolder)) {
-      if (a.data?.date && b.data?.date) {
+      
+      if (a.data?.date && b.data?.date && !a.allSlugSegments.includes('Lists') && !b.allSlugSegments.includes('Lists')) {
         const aDate = new Date(a.data.date);
         const bDate = new Date(b.data.date);
         aDate.setHours(0,0,0,0);

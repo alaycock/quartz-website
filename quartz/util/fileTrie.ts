@@ -51,6 +51,10 @@ export class FileTrieNode<T extends FileTrieData = ContentDetails> {
     return this.slugSegments[this.slugSegments.length - 1]
   }
 
+  get allSlugSegments(): string[] {
+    return this.slugSegments
+  }
+
   private makeChild(path: string[], file?: T) {
     const fullPath = [...this.slugSegments, path[0]]
     const child = new FileTrieNode<T>(fullPath, file)
