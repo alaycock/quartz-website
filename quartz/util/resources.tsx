@@ -25,10 +25,15 @@ export type CSSResource = {
 
 export function JSResourceToScriptElement(resource: JSResource, preserve?: boolean): JSX.Element {
   const scriptType = resource.moduleType ?? "application/javascript"
-  const spaPreserve = preserve ?? resource.spaPreserve
+  const preserveDomNode = preserve ?? resource.spaPreserve
   if (resource.contentType === "external") {
     return (
-      <script key={resource.src} src={resource.src} type={scriptType} spa-preserve={spaPreserve} />
+      <script
+        key={resource.src}
+        src={resource.src}
+        type={scriptType}
+        spa-preserve={preserveDomNode}
+        data-persist={preserveDomNode} />
     )
   } else {
     const content = resource.script
@@ -36,7 +41,8 @@ export function JSResourceToScriptElement(resource: JSResource, preserve?: boole
       <script
         key={randomUUID()}
         type={scriptType}
-        spa-preserve={spaPreserve}
+        spa-preserve={preserveDomNode}
+        data-persist={preserveDomNode}
         dangerouslySetInnerHTML={{ __html: content }}
       ></script>
     )
