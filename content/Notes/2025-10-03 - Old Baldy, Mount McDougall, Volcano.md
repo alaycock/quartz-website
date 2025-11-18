@@ -1,5 +1,5 @@
 ---
-{"publish":true,"title":"Old Baldy, Mount McDougall, Volcano","created":"2025-10-03","modified":"2025-11-12T07:57:11.173-07:00","published":"2025-10-03","tags":["trip","hike"],"cssclasses":"","socialImage":"[[assets/2025-10-03/Pasted image 20251006145044.png]]","route":["[[Routes/Old Baldy Mountain]]","[[Routes/Mount McDougall]]","[[Volcano peak]]"],"date":"2025-10-03","people":["Adam","Colton"],"distance":18.4,"gain":1683,"strava":"16025325545","cover":"[[assets/2025-10-03/Pasted image 20251006145044.png]]"}
+{"publish":true,"title":"Old Baldy, Mount McDougall, Volcano","created":"2025-10-03","modified":"2025-11-12T09:23:51.623-07:00","published":"2025-10-03","tags":["trip","hike"],"cssclasses":"","socialImage":"[[assets/2025-10-03/Pasted image 20251006145044.png]]","route":["[[Routes/Old Baldy Mountain]]","[[Routes/Mount McDougall]]","[[Volcano peak]]"],"date":"2025-10-03","people":["Adam","Colton"],"distance":18.4,"gain":1683,"strava":"16025325545","cover":"[[assets/2025-10-03/Pasted image 20251006145044.png]]"}
 ---
 
 - This was a really fun day until the descent down off of Volcano.
