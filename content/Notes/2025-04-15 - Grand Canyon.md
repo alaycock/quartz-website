@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-04-15T00:00:00.000Z","modified":"2025-11-18T15:15:17.986-07:00","published":"2025-04-15T00:00:00.000Z","tags":["trip","hike"],"cssclasses":"","route":["[[Grand Canyon]]"],"date":"2025-04-15T00:00:00.000Z","people":["Adam","Francis"],"distance":31,"gain":1638,"strava":"14189363806"}
+{"publish":true,"title":"Grand Canyon","created":"2025-04-15T00:00:00.000Z","modified":"2025-11-18T15:18:47.568-07:00","published":"2025-04-15T00:00:00.000Z","tags":["trip","hike"],"cssclasses":"","socialImage":"[[assets/2025-04-15/Pasted image 20251118151023.png]]","route":["[[Grand Canyon]]"],"date":"2025-04-15T00:00:00.000Z","people":["Adam","Francis"],"distance":31,"gain":1638,"strava":"14189363806","cover":"[[assets/2025-04-15/Pasted image 20251118151023.png]]"}
 ---
 
 This was an amazing day. It was my first time to Arizona and it was a great way to explore such an iconic destination. 
