@@ -1,5 +1,5 @@
 ---
-{"publish":true,"title":"2024 Retrospective","created":"2025-01-01T00:00:00.000Z","modified":"2025-10-01T10:23:27.493-06:00","published":"2025-01-01T00:00:00.000Z","tags":["post"],"cssclasses":"","socialImage":"#FACADE","date":"2025-01-01T00:00:00.000Z","cover":"#FACADE"}
+{"publish":true,"title":"2024 Retrospective","created":"2025-01-01T00:00:00.000Z","modified":"2025-11-18T15:27:00.386-07:00","published":"2025-01-01T00:00:00.000Z","tags":["post"],"cssclasses":"","socialImage":"#FACADE","date":"2025-01-01T00:00:00.000Z","cover":"#FACADE"}
 ---
 
 2024 was a year of recovery. My Mt Louis accident was an undercurrent this year, though dealing with trauma and finding my way back into the outdoors.
@@ -12,9 +12,9 @@ I attempted two 11ers and summited one, Victoria North was saved for another day
 
 Other highlights include:  
 
-- Opal North — A spectacular day out, I was surprised by the beauty of the ridge
-- Mt Niles — A long and strenuous scramble but incredible glacial views from the summit
-- Ha Ling — The sub 1-hour completion wasn’t a PB but was a recovery milestone
+- [[Routes/North Peak Opal Ridge\|Opal North]] — A spectacular day out, I was surprised by the beauty of the ridge
+- [[Routes/Mount Niles]] — A long and strenuous scramble but incredible glacial views from the summit
+- [[Notes/2024-07-07\|Ha Ling]] — The sub 1-hour completion wasn’t a PB but was a recovery milestone
 
 ---
 
@@ -23,18 +23,18 @@ I don’t like setting firm goals, I prefer to pick my trips based on a variety 
 **Climb an interesting peak close to home**
 
 - The Little Sister
-- Mt Lorette
-- Mt Bell NE ridge
+- [[Routes/Mount Lorette]]
+- [[Routes/Mount Bell]] NE ridge
 
 **Kane Scrambles**
 
-- Roche Miette ❤️
-- Niblock (and Whyte)
+- [[Routes/Roche Miette]] ❤️
+- [[Routes/Mount Niblock]] (and [[Routes/Mount Whyte]])
 
 **Repair my ankle for skiing, and use it!**
 
 - The Wapta Traverse
-- Snowdome
+- [[Routes/Snow Dome]]
 
 **A substantial international objective**
 
@@ -43,5 +43,5 @@ I don’t like setting firm goals, I prefer to pick my trips based on a variety 
 
 **Another 11er**
 
-- Murchison
-- Willingdon + Crown
+- [[Routes/Mount Murchison]]
+- [[Routes/Mount Willingdon]] + [[Routes/Crown Peak]]
