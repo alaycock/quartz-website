@@ -6,4 +6,4 @@
 
 |                Date                 |            People             | Distance (km) | Elevation Gain (m) |
 | ----------------------------------- | ----------------------------- | ------------- | ------------------ |
-| [[Notes/2022-04-24\|2022-04-23]] | Adam, Topher, Minetta, Parker |      13       |        1505        |
+| [[Notes/2022-04-24\|2022-04-24]] | Adam, Topher, Minetta, Parker |      13       |        1505        |

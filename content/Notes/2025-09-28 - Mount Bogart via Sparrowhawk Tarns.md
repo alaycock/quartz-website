@@ -1,5 +1,5 @@
 ---
-{"publish":true,"title":"Mount Bogart via Sparrowhawk Tarns","created":"2025-09-28T00:00:00.000Z","modified":"2025-10-01T10:23:27.502-06:00","published":"2025-09-28T00:00:00.000Z","tags":["trip","hike"],"cssclasses":"","socialImage":"[[assets/2025-09-28/Pasted image 20250929085309.png]]","route":["[[Mount Bogart]]"],"date":"2025-09-28T00:00:00.000Z","people":["Adam"],"distance":17.1,"gain":1596,"strava":"15969561656","cover":"[[assets/2025-09-28/Pasted image 20250929085309.png]]"}
+{"publish":true,"title":"Mount Bogart via Sparrowhawk Tarns","created":"2025-09-28T00:00:00.000Z","modified":"2025-11-21T10:03:03.339-07:00","published":"2025-09-28T00:00:00.000Z","tags":["trip","hike"],"cssclasses":"","socialImage":"[[assets/2025-09-28/Pasted image 20250929085309.jpeg]]","route":["[[Mount Bogart]]"],"date":"2025-09-28T00:00:00.000Z","people":["Adam"],"distance":17.1,"gain":1596,"strava":"15969561656","cover":"[[assets/2025-09-28/Pasted image 20250929085309.jpeg]]"}
 ---
 
 This one took me 6 hours car-to-car, but I was pushing it because I had a firm turnaround time. It'd be more fun if you took a bit longer.
@@ -10,11 +10,11 @@ The Nugara scramble book outlines this one well, I'd recommend reading that if y
 - When deciding between the two routes on the final ascent, the tradeoff is: The ridge has better rock quality once up top at the expense of an exposed 4th class scramble.
 - I chose to climb the ridge, the last move felt a little airy, and descended below the ridge to avoid the down-climb. Both choices feel correct in retrospect.
 
-![[assets/2025-09-28/Pasted image 20250929085253.png]]
+![[assets/2025-09-28/Pasted image 20250929085253.jpeg]]
 *Looking down at Ribbon Peak.*
 
-![[assets/2025-09-28/Pasted image 20250929085309.png]]
+![[assets/2025-09-28/Pasted image 20250929085309.jpeg]]
 *The ascent ridge. The ridge is mostly easy walking on slab. The spine can be gained for higher quality rock, or bypassed to the right.*
 
-![[assets/2025-09-28/Pasted image 20250929085639.png]]
+![[assets/2025-09-28/Pasted image 20250929085639.jpeg]]
 *Looking down at the mostly-empty Sparrowhawk Tarns.*

@@ -7,4 +7,4 @@ This one is incorrectly named "panorama ridge" in the table of contents of the D
 
 |                Date                 | People | Distance (km) | Elevation Gain (m) |
 | ----------------------------------- | ------ | ------------- | ------------------ |
-| [[Notes/2025-09-06\|2025-09-05]] |  Adam  |     20.4      |        1122        |
+| [[Notes/2025-09-06\|2025-09-06]] |  Adam  |     20.4      |        1122        |
