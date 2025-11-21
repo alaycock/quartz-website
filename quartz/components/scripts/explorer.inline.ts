@@ -169,7 +169,7 @@ function createFolderNode(
 
   if (node.children.length > ul.children.length) {
     ul.appendChild(createFileNode(currentSlug, {
-      slug: 'notes',
+      slug: 'Notes',
       displayName: `View more...`,
     } as FileTrieNode));
   }
