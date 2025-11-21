@@ -25,7 +25,11 @@ const copyFile = async (argv: Argv, fp: FilePath) => {
 
   const ext = dest.split('.').at(-1);
   if (ext && ['jpg', 'jpeg', 'png'].includes(ext)) {
-    const imageContent = sharp(src).resize({ width: 1200, withoutEnlargement: true });
+    let imageContent = sharp(src).resize({ width: 1200, withoutEnlargement: true });
+    if (ext && ['jpg', 'jpeg'].includes(ext)) {
+      imageContent = imageContent.jpeg({ quality: 80 });
+    }
+
     await write({
       ctx: { argv } as BuildCtx,
       slug: name,
