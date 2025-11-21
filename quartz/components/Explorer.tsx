@@ -16,8 +16,8 @@ export interface Options {
   folderClickBehavior: "collapse" | "link"
   useSavedState: boolean
   sortFn: (a: FileTrieNode, b: FileTrieNode) => number
-  filterFn: (node: FileTrieNode) => boolean
-  mapFn: (node: FileTrieNode) => void
+  filterFn: (node: FileTrieNode, index: number) => boolean
+  mapFn: (node: FileTrieNode, index: number) => void
   order: OrderEntries[]
 }
 

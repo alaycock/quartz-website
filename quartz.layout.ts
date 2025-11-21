@@ -8,7 +8,7 @@ export const sharedPageComponents: SharedLayout = {
   header: [],
   afterBody: [
     Component.ConditionalRender({
-      component: Component.CardList(),
+      component: Component.CardList({ limit: 11 }),
       condition: (page) => page.fileData.slug === "index",
     })
   ],
@@ -16,7 +16,7 @@ export const sharedPageComponents: SharedLayout = {
 }
 
 const explorerOptions: Partial<Options> = {
-  folderClickBehavior: 'collapse',
+  folderClickBehavior: 'link',
   folderDefaultState: 'open',
   useSavedState: false,
   sortFn: (a, b) => {

@@ -9,6 +9,7 @@ import { QuartzPluginData } from "../../plugins/vfile"
 import { ComponentChildren } from "preact"
 import { concatenateResources } from "../../util/resources"
 import { trieFromAllFiles } from "../../util/ctx"
+import { CardList} from "../CardList"
 
 interface FolderContentOptions {
   /**
@@ -102,6 +103,8 @@ export default ((opts?: Partial<FolderContentOptions>) => {
         : htmlToJsx(fileData.filePath!, tree)
     ) as ComponentChildren
 
+    const isNotesFolder = folder.allSlugSegments[0] === 'Notes';
+
     return (
       <div class="popover-hint">
         <article class={classes}>{content}</article>
@@ -113,8 +116,13 @@ export default ((opts?: Partial<FolderContentOptions>) => {
               })}
             </p>
           )}
+          <hr />
           <div>
-            <PageList {...listProps} />
+            {isNotesFolder ? (
+              <CardList {...listProps} />
+            ) : (
+              <PageList {...listProps} />
+            )}
           </div>
         </div>
       </div>

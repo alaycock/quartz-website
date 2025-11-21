@@ -131,6 +131,11 @@ function createFolderNode(
     a.dataset.for = folderPath
     a.className = "folder-title"
     a.textContent = node.displayName
+
+    if (currentSlug === node.slug) {
+      a.classList.add("active")
+    }
+
     button.replaceWith(a)
   } else {
     const span = titleContainer.querySelector(".folder-title") as HTMLElement
@@ -152,11 +157,21 @@ function createFolderNode(
     folderOuter.classList.add("open")
   }
 
-  for (const child of node.children) {
+  // Limit the Notes folder to 5 children
+  const filteredChildren = node.children.filter((node, index) => node.allSlugSegments[0] !== 'Notes' || index < 5);
+
+  for (const child of filteredChildren) {
     const childNode = child.isFolder
       ? createFolderNode(currentSlug, child, opts)
       : createFileNode(currentSlug, child)
     ul.appendChild(childNode)
+  }
+
+  if (node.children.length > ul.children.length) {
+    ul.appendChild(createFileNode(currentSlug, {
+      slug: 'notes',
+      displayName: `View more...`,
+    } as FileTrieNode));
   }
 
   return li
