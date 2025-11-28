@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-11-11T14:35:23.676-07:00","modified":"2025-11-11T19:40:31.181-07:00","published":"2025-11-11T19:40:31.181-07:00","tags":["route","nugara/easy"],"cssclasses":"","elevation":2352,"region":"Kananaskis","completed":true}
+{"publish":true,"created":"2025-11-11T14:35:23.676-07:00","modified":"2025-11-27T19:33:11.000-07:00","published":"2025-11-27T19:33:11.000-07:00","tags":["route","nugara/easy"],"cssclasses":"","elevation":2352,"region":"Kananaskis","completed":true,"location":"50.9463598, -115.099955"}
 ---
 
 

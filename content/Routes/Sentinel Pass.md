@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-10-01T10:23:27.584-06:00","modified":"2025-10-01T10:23:27.584-06:00","published":"2025-10-01T10:23:27.584-06:00","tags":["route","dwyt/premiere"],"cssclasses":"","elevation":null,"region":"Lake Louise","location":"50.2442446, -114.4868209","completed":true}
+{"publish":true,"created":"2025-10-01T10:23:27.584-06:00","modified":"2025-11-27T19:33:10.992-07:00","published":"2025-11-27T19:33:10.992-07:00","tags":["route","dwyt/premiere"],"cssclasses":"","elevation":null,"region":"Lake Louise","location":"51.3405495, -116.221902","completed":true}
 ---
 
 
