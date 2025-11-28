@@ -56,6 +56,11 @@ function startLoading() {
   }, 100)
 }
 
+function endLoading() {
+  const loadingBar = document.querySelector(".navigation-progress")
+  loadingBar?.remove()
+}
+
 let isNavigating = false
 let p: DOMParser
 async function _navigate(url: URL, isBack: boolean = false) {
@@ -75,7 +80,11 @@ async function _navigate(url: URL, isBack: boolean = false) {
       window.location.assign(url)
     })
 
-  if (!contents) return
+  if (!contents) {
+    // Hide the loading bar when a file is being downloaded
+    endLoading()
+    return
+  }
 
   // notify about to nav
   const event: CustomEventMap["prenav"] = new CustomEvent("prenav", { detail: {} })

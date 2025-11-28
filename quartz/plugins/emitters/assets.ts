@@ -23,11 +23,11 @@ const copyFile = async (argv: Argv, fp: FilePath) => {
   const dir = path.dirname(dest) as FilePath
   await fs.promises.mkdir(dir, { recursive: true })
 
-  const ext = dest.split('.').at(-1);
-  if (ext && ['jpg', 'jpeg', 'png'].includes(ext)) {
-    let imageContent = sharp(src).resize({ width: 1200, withoutEnlargement: true });
-    if (ext && ['jpg', 'jpeg'].includes(ext)) {
-      imageContent = imageContent.jpeg({ quality: 80 });
+  const ext = dest.split(".").at(-1)
+  if (ext && ["jpg", "jpeg", "png"].includes(ext)) {
+    let imageContent = sharp(src).resize({ width: 1200, withoutEnlargement: true })
+    if (ext && ["jpg", "jpeg"].includes(ext)) {
+      imageContent = imageContent.jpeg({ quality: 80 })
     }
 
     await write({

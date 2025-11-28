@@ -15,7 +15,8 @@
     transition: all 200ms;
     position: relative;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       scale: 1.02;
       filter: none;
     }
@@ -36,7 +37,7 @@
     backdrop-filter: blur(2px);
   }
 
-  .content { 
+  .content {
     width: 100%;
     position: absolute;
     bottom: 0;
@@ -47,7 +48,7 @@
     justify-content: space-between;
     box-sizing: border-box;
     border-radius: 0 0 16px 16px;
-    
+
     p {
       margin: 0;
       color: var(--dark);

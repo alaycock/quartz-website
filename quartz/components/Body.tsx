@@ -5,10 +5,14 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 
 const Body: QuartzComponent = ({ children, fileData }: QuartzComponentProps) => {
   let classNames = []
-  if (fileData.frontmatter?.tags?.includes('list')) {
-    classNames.push('collapse-sidebar-desktop');
+  if (fileData.frontmatter?.tags?.includes("list")) {
+    classNames.push("collapse-sidebar-desktop")
   }
-  return <div id="quartz-body" class={classNames.join(' ')}>{children}</div>
+  return (
+    <div id="quartz-body" class={classNames.join(" ")}>
+      {children}
+    </div>
+  )
 }
 
 Body.afterDOMLoaded = clipboardScript

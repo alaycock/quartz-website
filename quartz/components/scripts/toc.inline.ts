@@ -24,8 +24,10 @@ document.addEventListener("nav", () => {
 })
 
 // Update highlighting for entries
-document.addEventListener('scrollend', () => {
-  const entries = Array.from(document.querySelectorAll("h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]")).map(node => node);
+document.addEventListener("scrollend", () => {
+  const entries = Array.from(
+    document.querySelectorAll("h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]"),
+  ).map((node) => node)
   for (const entry of entries) {
     const slug = entry.id
     const tocEntryElements = document.querySelectorAll(`[data-for="${slug}"]`)
@@ -37,4 +39,4 @@ document.addEventListener('scrollend', () => {
       }
     }
   }
-});
+})

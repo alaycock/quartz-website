@@ -36,7 +36,12 @@ const defaultOptions: BreadcrumbOptions = {
   showCurrentPage: true,
 }
 
-function formatCrumb(isFolder: boolean, displayName: string, baseSlug: FullSlug, currentSlug: SimpleSlug): CrumbData {
+function formatCrumb(
+  isFolder: boolean,
+  displayName: string,
+  baseSlug: FullSlug,
+  currentSlug: SimpleSlug,
+): CrumbData {
   return {
     displayName: displayName.replaceAll("-", " "),
     path: resolveRelative(baseSlug, currentSlug),
@@ -61,10 +66,15 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
     }
 
     const crumbs: CrumbData[] = pathNodes.map((node, idx) => {
-      const crumb = formatCrumb(node.isFolder, node.displayName, fileData.slug!, simplifySlug(node.slug))
+      const crumb = formatCrumb(
+        node.isFolder,
+        node.displayName,
+        fileData.slug!,
+        simplifySlug(node.slug),
+      )
       if (idx === 0) {
         crumb.displayName = options.rootName
-        crumb.isFolder = false;
+        crumb.isFolder = false
       }
 
       // For last node (current page), set empty path

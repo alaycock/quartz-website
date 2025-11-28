@@ -49,7 +49,7 @@ ul.toc-content.overflow {
 
   & > li > a {
     color: var(--dark);
-    filter: brightness(.7);
+    filter: brightness(0.7);
     transition: 0.2s ease filter;
     &.in-view {
       filter: none;

@@ -13,6 +13,6 @@ const PageTitle: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   )
 }
 
-PageTitle.css = styles;
+PageTitle.css = styles
 
 export default (() => PageTitle) satisfies QuartzComponentConstructor

@@ -100,7 +100,7 @@ a {
   color: var(--secondary);
 
   &:hover {
-    filter: brightness(.85);
+    filter: brightness(0.85);
   }
 
   &.internal {

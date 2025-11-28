@@ -33,7 +33,8 @@ export function JSResourceToScriptElement(resource: JSResource, preserve?: boole
         src={resource.src}
         type={scriptType}
         spa-preserve={preserveDomNode}
-        data-persist={preserveDomNode} />
+        data-persist={preserveDomNode}
+      />
     )
   } else {
     const content = resource.script

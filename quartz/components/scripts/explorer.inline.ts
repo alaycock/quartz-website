@@ -21,16 +21,15 @@ type FolderState = {
 
 let currentExplorerState: Array<FolderState>
 function toggleExplorer(this: HTMLElement) {
-
   // If the "back" arrow is used, go back, unless it would result in the user leaving the site.
   // This is similar to FB + Instagram where the in-app arrow is for in-app routing
-  if (this.dataset.behavior === 'back') {
+  if (this.dataset.behavior === "back") {
     if (history.state?.previousPage) {
-      history.back();
+      history.back()
     } else {
-      window.spaNavigate(new URL('/', window.location.toString()))
+      window.spaNavigate(new URL("/", window.location.toString()))
     }
-    return;
+    return
   }
 
   const nearestExplorer = this.closest(".explorer") as HTMLElement
@@ -158,7 +157,9 @@ function createFolderNode(
   }
 
   // Limit the Notes folder to 5 children
-  const filteredChildren = node.children.filter((node, index) => node.allSlugSegments[0] !== 'Notes' || index < 5);
+  const filteredChildren = node.children.filter(
+    (node, index) => node.allSlugSegments[0] !== "Notes" || index < 5,
+  )
 
   for (const child of filteredChildren) {
     const childNode = child.isFolder
@@ -168,10 +169,12 @@ function createFolderNode(
   }
 
   if (node.children.length > ul.children.length) {
-    ul.appendChild(createFileNode(currentSlug, {
-      slug: 'Notes',
-      displayName: `View more...`,
-    } as FileTrieNode));
+    ul.appendChild(
+      createFileNode(currentSlug, {
+        slug: "Notes",
+        displayName: `View more...`,
+      } as FileTrieNode),
+    )
   }
 
   return li

@@ -7,7 +7,7 @@ import {
   DefinitionContent,
   Paragraph,
   Code,
-  Table
+  Table,
 } from "mdast"
 import { Element, Literal, Root as HtmlRoot } from "hast"
 import { ReplaceFunction, findAndReplace as mdastFindReplace } from "mdast-util-find-and-replace"
@@ -400,24 +400,26 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
         return (tree: Root, _file) => {
           visit(tree, "table", (node: Table) => {
             if (node.children.length > 1) {
-              return;
+              return
             }
 
             const newNode = {
-              type: 'tableRow',
+              type: "tableRow",
               children: [
                 {
-                  type: 'tableCell',
-                  children: [{
-                    type: 'text',
-                    value: `No attempts`,
-                  }],
-                  data: { hProperties: { className: ["empty-table-cell"] } }
-                }
-              ]
-            } satisfies TableRow;
+                  type: "tableCell",
+                  children: [
+                    {
+                      type: "text",
+                      value: `No attempts`,
+                    },
+                  ],
+                  data: { hProperties: { className: ["empty-table-cell"] } },
+                },
+              ],
+            } satisfies TableRow
 
-            node.children.push(newNode);
+            node.children.push(newNode)
             return SKIP
           })
         }

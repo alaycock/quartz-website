@@ -65,7 +65,7 @@ function sluggify(s: string): string {
         .replace(/\?/g, "")
         .replace(/#/g, "")
         .replace(/,/g, "")
-        .replace(/-+/g, '-'),
+        .replace(/-+/g, "-"),
     )
     .join("/") // always use / as sep
     .replace(/\/$/, "")
@@ -224,7 +224,7 @@ export function getAllSegmentPrefixes(tags: string): string[] {
 }
 
 export function unWikilink(wikilink: string) {
-  return wikilink.replace(/(\[{2})|(\]{2})/g, '');
+  return wikilink.replace(/(\[{2})|(\]{2})/g, "")
 }
 
 export interface TransformOptions {
@@ -252,7 +252,7 @@ export function findNearestSlug(target: string, allSlugs: FullSlug[]): FullSlug 
   }
 
   // If it's not unique, use the original slug: Obsidian has already resolved it to be absolute
-  return targetCanonical as FullSlug;
+  return targetCanonical as FullSlug
 }
 
 export function transformLink(src: FullSlug, target: string, opts: TransformOptions): RelativeURL {

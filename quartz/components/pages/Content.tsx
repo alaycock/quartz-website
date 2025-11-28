@@ -7,7 +7,7 @@ export const Content: QuartzComponent = ({ fileData, tree }: QuartzComponentProp
   const classes: string[] = fileData.frontmatter?.cssclasses ?? []
   return (
     <div class="popover-hint">
-      <article class={classes.join(' ')}>{content}</article>
+      <article class={classes.join(" ")}>{content}</article>
     </div>
   )
 }
