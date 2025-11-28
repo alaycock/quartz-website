@@ -155,7 +155,7 @@ const getLocations = (frontmatter: Frontmatter, allRoutes: [FullSlug, Frontmatte
     return route
       .map((routeName) => {
         const strippedRoute = unWikilink(routeName)
-        const routeSlug = `Routes/${slugifyFilePath(strippedRoute as FilePath)}`
+        const routeSlug = strippedRoute.startsWith("Routes/") ? slugifyFilePath(strippedRoute as FilePath) : `Routes/${slugifyFilePath(strippedRoute as FilePath)}`
         const matchedRoute = allRoutes.find(([slug]) => slug === routeSlug)
         return getLocationFromProperty(matchedRoute?.[1].location)
       })
@@ -198,7 +198,7 @@ async function downloadMap(locations: string[][], encodedPolyline?: string): Pro
   const url = `https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/static/${overlay}/${extent}/256x256@2x?access_token=${mapboxToken}${padding}`
   const response = await fetch(url)
   if (!response.ok) {
-    console.log(url)
+    console.log({ overlay, extent, padding })
     console.error(await response.text())
     throw new Error(`Could not fetch: ${url}`)
   }

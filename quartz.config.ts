@@ -12,7 +12,7 @@ const config: QuartzConfig = {
     pageTitle: "Adam Laycock",
     pageTitleSuffix: "",
     enableSPA: true,
-    enablePopovers: true,
+    enablePopovers: false,
     analytics: null,
     locale: "en-US",
     baseUrl: "adamlaycock.ca",
