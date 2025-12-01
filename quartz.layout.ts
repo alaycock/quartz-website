@@ -66,6 +66,7 @@ const explorerOptions: Partial<Options> = {
 // components for pages that display a single page (e.g. a single note)
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [Component.ArticleTitle(), Component.ContentMeta()],
+  afterBody: [Component.Disqus()],
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
