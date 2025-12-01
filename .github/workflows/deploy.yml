@@ -69,7 +69,7 @@ jobs:
           cache-name: cache-maps
         with:
           path: quartz/.quartz-cache/maps
-          key: quartz-maps-v2025.12.01.0-${{ hashFiles('quartz/.quartz-cache/maps/.manifest.json') }}
+          key: quartz-maps-v2025.12.01.0
           restore-keys: |
             quartz-maps-v2025.12.01.0
       - name: Cache GPX artifacts
@@ -79,7 +79,7 @@ jobs:
           cache-name: cache-gpx
         with:
           path: quartz/.quartz-cache/gpx
-          key: quartz-gpx-v2025.12.01.0-${{ hashFiles('quartz/.quartz-cache/gpx/.manifest.json') }}
+          key: quartz-gpx-v2025.12.01.0
           restore-keys: |
             quartz-gpx-v2025.12.01.0
       - name: Build Quartz
