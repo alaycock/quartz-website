@@ -54,7 +54,7 @@ export const CardList: QuartzComponent = ({
       ))}
       {hasViewMore ? (
         <Card
-          title="View all..."
+          title="View more..."
           cover={resolveCover(fileData.slug!, undefined, ctx.allSlugs)}
           link="/notes"
           cfg={cfg}

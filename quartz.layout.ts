@@ -8,7 +8,7 @@ export const sharedPageComponents: SharedLayout = {
   header: [],
   afterBody: [
     Component.ConditionalRender({
-      component: Component.CardList({ limit: 11 }),
+      component: Component.CardList({ limit: 7 }),
       condition: (page) => page.fileData.slug === "index",
     }),
   ],
