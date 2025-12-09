@@ -155,7 +155,9 @@ const getLocations = (frontmatter: Frontmatter, allRoutes: [FullSlug, Frontmatte
     return route
       .map((routeName) => {
         const strippedRoute = unWikilink(routeName)
-        const routeSlug = strippedRoute.startsWith("Routes/") ? slugifyFilePath(strippedRoute as FilePath) : `Routes/${slugifyFilePath(strippedRoute as FilePath)}`
+        const routeSlug = strippedRoute.startsWith("Routes/")
+          ? slugifyFilePath(strippedRoute as FilePath)
+          : `Routes/${slugifyFilePath(strippedRoute as FilePath)}`
         const matchedRoute = allRoutes.find(([slug]) => slug === routeSlug)
         return getLocationFromProperty(matchedRoute?.[1].location)
       })
