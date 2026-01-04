@@ -25,7 +25,6 @@ import Breadcrumbs from "./Breadcrumbs"
 import Comments from "./Comments"
 import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
-import Disqus from "./Disqus"
 
 export {
   ArticleTitle,
@@ -34,7 +33,6 @@ export {
   FolderContent,
   CardList,
   Darkmode,
-  Disqus,
   ReaderMode,
   Head,
   PageTitle,
