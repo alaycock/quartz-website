@@ -1,13 +1,13 @@
 ---
-{"publish":true,"title":"2025 Retrospective","created":"2026-01-01","modified":"2026-01-10T13:17:02.554-07:00","published":"2026-01-01","tags":["post"],"cssclasses":"","date":"2026-01-01"}
+{"publish":true,"title":"2025 Retrospective","created":"2026-01-01","modified":"2026-01-10T13:19:51.923-07:00","published":"2026-01-01","tags":["post"],"cssclasses":"","date":"2026-01-01"}
 ---
 
 2025 was a year of change. I left my role at Canny to take a few months off. Visited New York and San Francisco for work, and did some really cool trips. It was also my lowest of days spent outdoors in all the years I've been tracking.
 
 The year was slow to start because of my inability to ski due to my 2023 injury. It hurt my fitness and generally set the stage for a slower year.
 ## Highlights
-**Two [[Lists/11000ers of the Canadian Rockies\|11kers]]: [[Notes/2025-09-17\|Mount Victoria]] & [[Notes/2025-08-15\|Willingdon]]**
-Willingdon was more of a backpacking trip than a mountaineering trip, but it was still great to get out with a good friend. Can't say I loved Quartzite Col, but it was an exceptional destination and cool to bag a peak while I was out there.
+**Two [[Lists/11000ers of the Canadian Rockies\|11kers]]: [[Notes/2025-09-17\|Mount Victoria]] & [[Routes/Mount Willingdon]]**
+Willingdon was more of a backpacking trip than a mountaineering trip, but it was still great to get out with a good friend. Can't say I loved Quartzite Col, but it was an exceptional destination and cool to bag a peak while I was out there. Victoria was not something I expected to achieve this year and it was an outstanding day out, testing my confidence and mountaineering abilities in a way that I haven't done previously.
 
 **[[Notes/2025-04-15 - Grand Canyon\|Grand Canyon]]**
 A one-in-a-lifetime kind of trip. I would have loved to do the rim-to-rim (or rim-to-rim-to-rim, if my fitness were better), but it was closed that early in the year. It was really fun to test my fitness despite my inability to ski during the winter.
