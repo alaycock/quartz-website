@@ -103,10 +103,10 @@ views:
     sort:
       - property: file.ctime
         direction: DESC
-    limit: 12
+    limit: 8
     image: note.cover
-    cardSize: 170
-    imageAspectRatio: 1
+    cardSize: 310
+    imageAspectRatio: 0.5
   - type: table
     name: Default
     order:
