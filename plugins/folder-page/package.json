@@ -1,0 +1,56 @@
+{
+  "name": "@quartz-community/folder-page",
+  "version": "1.0.0",
+  "description": "Vendored @quartz-community/folder-page 1.0.0, reconstructed from its published source maps. Vendored so the site can patch it.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Quartz Community",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "import": "./dist/types.js"
+    },
+    "./components": {
+      "import": "./dist/components/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "sideEffects": false,
+  "dependencies": {
+    "@quartz-community/types": "^1.0.0",
+    "@quartz-community/utils": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10.9.2"
+  },
+  "quartz": {
+    "name": "folder-page",
+    "displayName": "Folder Page",
+    "category": [
+      "pageType",
+      "component"
+    ],
+    "version": "1.0.0",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 50,
+    "defaultEnabled": true,
+    "defaultOptions": {
+      "showFolderCount": true,
+      "showSubfolders": true
+    },
+    "optionSchema": {
+      "showFolderCount": {
+        "type": "boolean"
+      },
+      "showSubfolders": {
+        "type": "boolean"
+      }
+    }
+  },
+  "private": true
+}
