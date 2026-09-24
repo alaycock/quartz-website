@@ -87,7 +87,8 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 - [x] Explorer fork (`plugins/explorer`, vendored unmodified in `2b7e7ca1`): new options set in `quartz.ts`: `showTitle: false`, `showHomePage`, `folderLimits: { notes: 5 }` ("View more..."), `backButtonTag: "route"` (mobile back button, uses the `spa` `previousPage` patch). Also highlights the open folder. v4 explorer styles are overrides in `custom.scss`. Tree checked by rendering it in jsdom.
 - [x] Table of contents fork (`plugins/table-of-contents`, vendored unmodified in `2b7e7ca1`): `titleEntry: true` (page title first) and `highlight: passed` (v4: headings scrolled past, updated on `scrollend`). Sticky and v4 link styles are in `custom.scss`.
 - [-] CardList (the v4 card grid on the home page and Notes folder page): dropped
-- [ ] **Add an embedded base (cards view) where the card grid was:** the home page (latest posts/trips, e.g. `limit: 7`) and the Notes folder page. `Posts.base` has a cards view (`image: note.cover`) to start from. For the Notes folder page, the embed goes in a `Notes/index.md`.
+- [x] Home page: embeds `![[Trips.base#Index]]` (cards view, 8 of the published trips)
+- [ ] Notes folder page: embed a cards base where the card grid was (in a `Notes/index.md`)
 - [x] Folder pages: vendored `plugins/folder-page` (rebuilt from the npm source maps; unmodified in `b5059fa4`). No "Folder:" prefix (upstream default), `showFolderCount: false`, new `showDates`/`showTags` options, `<hr />` above the listing.
 - [ ] **Broken: folder pages render too narrow** (e.g. `/lists/`)
 - [x] Footer social icons (`plugins/site-footer`)
