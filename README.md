@@ -89,6 +89,7 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 - [-] CardList (the v4 card grid on the home page and Notes folder page): dropped
 - [ ] **Add an embedded base (cards view) where the card grid was:** the home page (latest posts/trips, e.g. `limit: 7`) and the Notes folder page. `Posts.base` has a cards view (`image: note.cover`) to start from. For the Notes folder page, the embed goes in a `Notes/index.md`.
 - [x] Folder pages: vendored `plugins/folder-page` (rebuilt from the npm source maps; unmodified in `3adeebab`). No "Folder:" prefix (upstream default), `showFolderCount: false`, new `showDates`/`showTags` options, `<hr />` above the listing.
+- [ ] **Broken: folder pages render too narrow** (e.g. `/lists/`)
 - [x] Footer social icons (`plugins/site-footer`)
 - [x] Page title logo (`plugins/site-title`). As in v4, the mobile styles expect a text `<span>` that the component never rendered, so mobile shows no title; add one if wanted.
 - [x] Map component in the right sidebar (`plugins/activity-map`)
