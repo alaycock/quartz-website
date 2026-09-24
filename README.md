@@ -108,10 +108,12 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 
 ### 5. CI and cutover
 
-- [ ] New deploy workflow: `npm run plugins:build` (local plugins in `plugins/` are symlinked, never built by Quartz), plugin install, `.quartz/plugins` cache, Strava token steps, map/GPX caches
-- [ ] `quartz.lock.json` records local plugins with an absolute `resolved` path. Check that `npx quartz plugin install` works in CI.
-- [ ] Compare against the v4 build and check old (mixed-case) URLs redirect
-- [ ] Switch GitHub default branch to `v5`
+- [x] Deploy workflow for v5 (`.github/workflows/deploy.yml`): triggers on push to `v5` and manually. Builds local plugins (`npm run plugins:build`), links them (`plugin install --from-config`), same Strava token steps, then `npx quartz build`. Tested on a fresh clone: same output as a local build.
+- [x] Map/GPX caches: separate `maps` and `gpx` caches keyed per run and restored by prefix, so new files are cached (the v4 fixed keys were saved once and never updated). The first v5 run restores the v4 caches and `activity-map` migrates them.
+- [x] `quartz.lock.json` untracked: it only lists local plugins, by machine-specific absolute path
+- [ ] The Strava "download previous token" step never finds a token (`download-artifact` only sees the current run without `run-id`/`github-token`), so every build refreshes from `STRAVA_BOOTSTRAP_REFRESH_TOKEN`. Same as v4; fine as long as that refresh token stays valid.
+- [ ] Check old URLs after the first deploy: `alias-redirects` case redirects only run on case-sensitive filesystems (CI yes, macOS no), and `legacy-redirects` covers the 52 URLs that changed beyond case
+- [ ] Switch GitHub default branch to `v5` and re-enable deploys
 
 ### Upstream candidates
 
