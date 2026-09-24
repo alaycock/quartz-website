@@ -14,7 +14,7 @@ type ExplorerNode = {
   data: { date?: string } | null
 }
 
-componentRegistry.setOptionOverrides("@quartz-community/explorer", {
+componentRegistry.setOptionOverrides("explorer", {
   folderClickBehavior: "link",
   folderDefaultState: "open",
   useSavedState: false,

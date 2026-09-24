@@ -63,7 +63,7 @@ plugins:
   - source: "@quartz-community/github-flavored-markdown"
     enabled: true
     order: 40
-  - source: "@quartz-community/table-of-contents"
+  - source: ./plugins/table-of-contents
     enabled: true
     order: 50
     layout:
@@ -135,7 +135,7 @@ plugins:
       showTags: false
   - source: "@quartz-community/tag-page"
     enabled: true
-  - source: "@quartz-community/explorer"
+  - source: ./plugins/explorer
     enabled: true
     layout:
       position: left

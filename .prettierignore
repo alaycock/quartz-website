@@ -6,3 +6,5 @@ node_modules
 plugins/bases-page
 plugins/folder-page
 plugins/content-index
+plugins/explorer
+plugins/table-of-contents

@@ -1,0 +1,76 @@
+{
+  "name": "@quartz-community/table-of-contents",
+  "version": "1.0.0",
+  "description": "Vendored @quartz-community/table-of-contents 1.0.0 so the site can patch it. Table of Contents component for Quartz",
+  "type": "module",
+  "license": "MIT",
+  "author": "Quartz Community",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "import": "./dist/components/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "sideEffects": false,
+  "dependencies": {
+    "@quartz-community/types": "^1.0.0",
+    "@quartz-community/utils": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10.9.2"
+  },
+  "quartz": {
+    "name": "table-of-contents",
+    "displayName": "Table of Contents",
+    "category": [
+      "transformer",
+      "component"
+    ],
+    "version": "1.0.0",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 50,
+    "defaultEnabled": true,
+    "defaultOptions": {
+      "maxDepth": 3,
+      "minEntries": 1,
+      "showByDefault": true,
+      "collapseByDefault": false,
+      "layout": "modern"
+    },
+    "components": {
+      "TableOfContents": {
+        "displayName": "Table of Contents",
+        "defaultPosition": "right",
+        "defaultPriority": 50
+      }
+    },
+    "optionSchema": {
+      "maxDepth": {
+        "type": "number"
+      },
+      "minEntries": {
+        "type": "number"
+      },
+      "showByDefault": {
+        "type": "boolean"
+      },
+      "collapseByDefault": {
+        "type": "boolean"
+      },
+      "layout": {
+        "type": "enum",
+        "values": [
+          "modern",
+          "legacy"
+        ]
+      }
+    }
+  },
+  "private": true
+}
