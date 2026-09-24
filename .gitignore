@@ -13,3 +13,5 @@ replit.nix
 quartz/cli/tui/dist/
 .turbo/
 plugins/*/dist/
+# Only records local plugins (by absolute path); nothing to lock
+quartz.lock.json
