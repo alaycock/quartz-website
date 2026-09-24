@@ -95,3 +95,15 @@ article.list-table {
     margin: 0 -1rem;
   }
 }
+
+// Table of contents: v4 dims entries with brightness instead of opacity
+ul.toc-content.overflow > li > a {
+  opacity: 1;
+  filter: brightness(0.7);
+  transition: 0.2s ease filter;
+
+  &.in-view {
+    opacity: 1;
+    filter: none;
+  }
+}

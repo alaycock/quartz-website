@@ -83,8 +83,8 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 ### 3. Layout and components
 
 - [x] Explorer options (`quartz.ts`, `componentRegistry.setOptionOverrides`): v4 sort (Notes/Lists/Years, newest first), hide `routes`/`templates`/`tags`, open folders, no saved state. Dates come from `contentIndex.json` via the vendored `plugins/content-index` (`includeDates`, the v4 patch). Functions are stringified for the browser, so no named inner functions (esbuild's keepNames adds `__name()`).
-- [ ] **Explorer fork** (needs the real source: the npm package's inline script is minified): mobile back button on route pages, homepage entry first, Notes capped at 5 with "View more", active folder highlight, no desktop "Explorer" title button. Needs the `spa` `previousPage` patch below for the back button.
-- [ ] **Table of contents fork** (also needs the real source): page-title entry, highlight on scroll end instead of IntersectionObserver. Sticky is done in `custom.scss`.
+- [x] Explorer fork (`plugins/explorer`, vendored unmodified in `6265954f`): new options set in `quartz.ts`: `showTitle: false`, `showHomePage`, `folderLimits: { notes: 5 }` ("View more..."), `backButtonTag: "route"` (mobile back button, uses the `spa` `previousPage` patch). Also highlights the open folder. v4 explorer styles are overrides in `custom.scss`. Tree checked by rendering it in jsdom.
+- [x] Table of contents fork (`plugins/table-of-contents`, vendored unmodified in `6265954f`): `titleEntry: true` (page title first) and `highlight: passed` (v4: headings scrolled past, updated on `scrollend`). Sticky and v4 link styles are in `custom.scss`.
 - [-] CardList (the v4 card grid on the home page and Notes folder page): dropped
 - [ ] **Add an embedded base (cards view) where the card grid was:** the home page (latest posts/trips, e.g. `limit: 7`) and the Notes folder page. `Posts.base` has a cards view (`image: note.cover`) to start from. For the Notes folder page, the embed goes in a `Notes/index.md`.
 - [x] Folder pages: vendored `plugins/folder-page` (rebuilt from the npm source maps; unmodified in `3adeebab`). No "Folder:" prefix (upstream default), `showFolderCount: false`, new `showDates`/`showTags` options, `<hr />` above the listing.
@@ -140,6 +140,17 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 **[quartz-community/content-index](https://github.com/quartz-community/content-index)** (`plugins/content-index`; diff against `64e6361f`):
 
 - [ ] `includeDates` option to keep page dates in `contentIndex.json` (useful for Explorer sort functions)
+
+**[quartz-community/explorer](https://github.com/quartz-community/explorer)** (`plugins/explorer`; diff against `6265954f`):
+
+- [ ] Bug: the client script ignores `folderDefaultState` (always collapsed) and `useSavedState` (always reads localStorage)
+- [ ] Bug (not patched): the client script ignores `order` (always filter → map → sort)
+- [ ] Options: `showTitle`, `showHomePage`, `folderLimits` ("View more" link), `backButtonTag` (mobile back button; relies on the core `spa` `previousPage` patch, so upstream would need that too)
+- [ ] Highlight the folder whose page is open
+
+**[quartz-community/table-of-contents](https://github.com/quartz-community/table-of-contents)** (`plugins/table-of-contents`; diff against `6265954f`):
+
+- [ ] Options: `titleEntry` (page title as the first entry), `highlight: "visible" | "passed"`
 
 **Quartz core / other plugins:**
 

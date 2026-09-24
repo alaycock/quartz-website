@@ -66,6 +66,9 @@ plugins:
   - source: ./plugins/table-of-contents
     enabled: true
     order: 50
+    options:
+      titleEntry: true
+      highlight: passed
     layout:
       position: left
       priority: 60

@@ -40,14 +40,41 @@ function setupToc() {
   }
 }
 
+// Site patch: highlight: "passed" marks entries whose heading has scrolled above the top of
+// the viewport (with an offset), updated when scrolling stops. The page title entry
+// (data-for="article-title") tracks h1.article-title, which has no id.
+const PASSED_OFFSET = 150;
+
+function highlightPassedHeadings() {
+  const headings = [
+    ...Array.from(document.querySelectorAll("h1.article-title")),
+    ...Array.from(document.querySelectorAll("h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]")),
+  ];
+  for (const heading of headings) {
+    const slug = heading.classList.contains("article-title") ? "article-title" : heading.id;
+    const passed = heading.getBoundingClientRect().top - PASSED_OFFSET < 0;
+    document
+      .querySelectorAll(`.toc[data-highlight="passed"] a[data-for="${slug}"]`)
+      .forEach((entry) => entry.classList.toggle("in-view", passed));
+  }
+}
+
 function handleNavOrRender() {
   setupToc();
 
   // update toc entry highlighting
   observer.disconnect();
+  if (document.querySelector('.toc[data-highlight="passed"]')) {
+    highlightPassedHeadings();
+    return;
+  }
   const headers = document.querySelectorAll("h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]");
   headers.forEach((header) => observer.observe(header));
 }
+
+document.addEventListener("scrollend", () => {
+  if (document.querySelector('.toc[data-highlight="passed"]')) highlightPassedHeadings();
+});
 
 document.addEventListener("nav", handleNavOrRender);
 document.addEventListener("render", handleNavOrRender);

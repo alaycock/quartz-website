@@ -14,15 +14,26 @@ import { concatenateResources } from "../util/resources";
 
 interface Options {
   layout: "modern" | "legacy";
+  // Site patch: modern layout options
+  /** List the page title as the first entry (links to the top of the page). Default: false */
+  titleEntry: boolean;
+  /**
+   * Which entries are highlighted: "visible" headings (default), or headings the reader has
+   * "passed" (scrolled above the top of the viewport), updated when scrolling stops
+   */
+  highlight: "visible" | "passed";
 }
 
 const defaultOptions: Options = {
   layout: "modern",
+  titleEntry: false,
+  highlight: "visible",
 };
 
 let numTocs = 0;
 export default ((opts?: Partial<Options>) => {
   const layout = opts?.layout ?? defaultOptions.layout;
+  const { titleEntry, highlight } = { ...defaultOptions, ...opts };
   const { OverflowList, overflowListAfterDOMLoaded } = OverflowListFactory();
   const TableOfContents: QuartzComponent = (props: QuartzComponentProps) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,7 +44,7 @@ export default ((opts?: Partial<Options>) => {
 
     const id = `toc-${numTocs++}`;
     return (
-      <div class={classNames("toc")}>
+      <div class={classNames("toc")} data-highlight={highlight}>
         <button
           type="button"
           class={fileData.collapseToc ? "collapsed toc-header" : "toc-header"}
@@ -60,6 +71,14 @@ export default ((opts?: Partial<Options>) => {
           id={id}
           class={fileData.collapseToc ? "collapsed toc-content" : "toc-content"}
         >
+          {/* Site patch: titleEntry; toc.inline.ts maps "article-title" to h1.article-title */}
+          {titleEntry && fileData.frontmatter?.title && (
+            <li class="depth-0">
+              <a href="#quartz-body" data-for="article-title">
+                {fileData.frontmatter.title}
+              </a>
+            </li>
+          )}
           {fileData.toc.map((tocEntry: Record<string, unknown>) => {
             const slug = String(tocEntry.slug);
             const depth = String(tocEntry.depth);
