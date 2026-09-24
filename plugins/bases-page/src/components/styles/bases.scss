@@ -54,6 +54,13 @@
   overflow-x: auto;
 }
 
+// Site patch: Quartz's `.table-container > table` rule adds a 1rem margin on every side. With
+// the table at width: 100% that pushes it 1rem past the right edge of the column, where
+// .bases-page clips it. Keep the vertical spacing and drop the side margins.
+.bases-table-wrapper .table-container > .bases-table {
+  margin: 1rem 0;
+}
+
 .bases-table {
   width: 100%;
   border-collapse: collapse;

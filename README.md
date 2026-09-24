@@ -132,6 +132,7 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 - [ ] Links to entries that have no page (`components/shared/links.tsx`, `cell.tsx`, `views/table.tsx`, `views/cards.tsx`): render as `<a class="internal broken">` instead of linking to a 404. Still to do for list, gallery and board views.
 - [ ] Opt-in for querying `unlisted` pages (`resolver.ts`): we include notes with `dataOnly`. Upstream would need a general option (e.g. `includeUnlisted`, or a per-page flag).
 - [ ] Regex literals and a duration type (see the Bases section).
+- [ ] Table width (`components/styles/bases.scss`): Quartz's `.table-container > table { margin: 1rem }` plus `.bases-table { width: 100% }` makes tables 2rem wider than the column, and `.bases-page { overflow: hidden }` clips the right edge. Fix: zero the side margins for `.bases-table`.
 
 **[quartz-community/folder-page](https://github.com/quartz-community/folder-page)** (`plugins/folder-page`; diff against `3adeebab`):
 
