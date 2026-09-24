@@ -147,6 +147,7 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 - [ ] Bug (not patched): the client script ignores `order` (always filter → map → sort)
 - [ ] Options: `showTitle`, `showHomePage`, `folderLimits` ("View more" link), `backButtonTag` (mobile back button; relies on the core `spa` `previousPage` patch, so upstream would need that too)
 - [ ] Highlight the folder whose page is open
+- [ ] `overscroll-behavior: contain` on `ul.explorer-ul` blocks mouse-wheel page scrolling over the explorer when the list doesn't scroll on its own (non-height-limited sidebar). Overridden in `custom.scss` except on mobile; upstream could scope it to the mobile drawer.
 
 **[quartz-community/table-of-contents](https://github.com/quartz-community/table-of-contents)** (`plugins/table-of-contents`; diff against `6265954f`):
 

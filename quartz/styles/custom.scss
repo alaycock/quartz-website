@@ -87,6 +87,15 @@ article.list-table {
       padding: 4rem 1rem 2rem;
     }
   }
+
+  // Upstream sets overscroll-behavior: contain on the list, which stops the mouse wheel from
+  // scrolling the page while over the explorer. The sidebar isn't height-limited here, so the
+  // list never scrolls on its own; keep "contain" only for the mobile drawer.
+  @media not all and ($mobile) {
+    .explorer-content ul.explorer-ul {
+      overscroll-behavior: auto;
+    }
+  }
 }
 
 @media all and ($mobile) {
