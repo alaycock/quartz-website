@@ -1,0 +1,19 @@
+footer {
+  text-align: left;
+  margin-bottom: 4rem;
+
+  & ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-bottom: -1rem;
+  }
+
+  a {
+    display: block;
+    width: 44px;
+  }
+}

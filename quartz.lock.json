@@ -13,11 +13,35 @@
       "commit": "local",
       "installedAt": "2026-09-24T17:27:15.044Z"
     },
+    "card-list": {
+      "source": "./plugins/card-list",
+      "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/card-list",
+      "commit": "local",
+      "installedAt": "2026-09-24T18:00:22.774Z"
+    },
     "data-only": {
       "source": "./plugins/data-only",
       "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/data-only",
       "commit": "local",
       "installedAt": "2026-09-24T17:25:12.813Z"
+    },
+    "folder-page": {
+      "source": "./plugins/folder-page",
+      "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/folder-page",
+      "commit": "local",
+      "installedAt": "2026-09-24T17:57:35.247Z"
+    },
+    "site-footer": {
+      "source": "./plugins/site-footer",
+      "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/site-footer",
+      "commit": "local",
+      "installedAt": "2026-09-24T18:00:22.773Z"
+    },
+    "site-title": {
+      "source": "./plugins/site-title",
+      "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/site-title",
+      "commit": "local",
+      "installedAt": "2026-09-24T18:00:22.773Z"
     },
     "trip-meta": {
       "source": "./plugins/trip-meta",

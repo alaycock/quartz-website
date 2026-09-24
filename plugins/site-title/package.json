@@ -1,0 +1,34 @@
+{
+  "name": "site-title",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Round logo linking to the home page.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "import": "./dist/components/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "quartz": {
+    "name": "site-title",
+    "displayName": "Site title",
+    "description": "Round logo linking to the home page.",
+    "category": "component",
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "defaultEnabled": true,
+    "defaultOptions": {},
+    "components": {
+      "SiteTitle": {
+        "displayName": "Site title",
+        "defaultPosition": "left",
+        "defaultPriority": 10
+      }
+    }
+  }
+}

@@ -1,3 +1,7 @@
 public
 node_modules
 .quartz-cache
+
+# Vendored upstream plugins keep their own formatting so patches diff cleanly
+plugins/bases-page
+plugins/folder-page

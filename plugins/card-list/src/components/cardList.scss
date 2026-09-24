@@ -1,0 +1,67 @@
+.card-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  a {
+    flex: 1 0 290px;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 240px;
+    color: var(--dark);
+    transition: all 200ms;
+    position: relative;
+
+    &:hover,
+    &:focus {
+      scale: 1.02;
+      filter: none;
+    }
+  }
+
+  img {
+    overflow: hidden;
+    display: flex;
+    object-fit: cover;
+    margin: 0;
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    flex: 175px;
+  }
+
+  .image .content {
+    backdrop-filter: blur(2px);
+  }
+
+  .content {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding: 8px 16px;
+    background-color: color-mix(in srgb, var(--lightgray) 50%, transparent);
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    border-radius: 0 0 16px 16px;
+
+    p {
+      margin: 0;
+      color: var(--dark);
+      line-height: 1.2rem;
+      text-wrap: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    time {
+      font-weight: 400;
+      font-size: 10pt;
+      line-height: 1.2rem;
+    }
+  }
+}

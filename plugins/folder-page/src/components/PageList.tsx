@@ -46,6 +46,9 @@ function DateDisplay({ date, locale }: DateComponentProps) {
 type PageListProps = {
   limit?: number;
   sort?: SortFn;
+  // Site patch: see FolderContentOptions
+  showDates?: boolean;
+  showTags?: boolean;
 } & QuartzComponentProps;
 
 export const PageList: QuartzComponent = ({
@@ -54,6 +57,8 @@ export const PageList: QuartzComponent = ({
   allFiles,
   limit,
   sort,
+  showDates = true,
+  showTags = true,
 }: PageListProps) => {
   const sorter = sort ?? byDateAndAlphabeticalFolderFirst(cfg);
   let list = [...allFiles].sort(sorter);
@@ -72,6 +77,7 @@ export const PageList: QuartzComponent = ({
         return (
           <li class="section-li">
             <div class="section">
+              {showDates && (
               <p class="meta">
                 {page.dates && getDate(page) && (
                   <DateDisplay
@@ -80,6 +86,7 @@ export const PageList: QuartzComponent = ({
                   />
                 )}
               </p>
+              )}
               <div class="desc">
                 <h3>
                   <a
@@ -90,6 +97,7 @@ export const PageList: QuartzComponent = ({
                   </a>
                 </h3>
               </div>
+              {showTags && (
               <ul class="tags">
                 {tags.map((tag) => (
                   <li>
@@ -105,6 +113,7 @@ export const PageList: QuartzComponent = ({
                   </li>
                 ))}
               </ul>
+              )}
             </div>
           </li>
         );

@@ -84,15 +84,15 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 
 - [ ] Explorer: sort, filter and order options (`quartz.ts` override); mobile back button on routes; homepage entry first; Notes capped at 5 with "View more"; active folder highlight
 - [ ] Table of contents: page-title entry, sticky, highlight on scroll end
-- [ ] CardList: index page (`afterBody`, limit 7) and the Notes folder page
-- [ ] Folder pages: title without the "Folder:" prefix, no count, PageList without dates or tags
-- [ ] Footer social icons (currently shows "Created with Quartz")
-- [ ] Page title logo (`static/logo.jpg`)
-- [ ] Map component in the right sidebar
+- [x] CardList (`plugins/card-list`): home page (`afterBody`, limit 7, via the `is-index` condition registered in `quartz.ts`) and the Notes folder page. Skips data-only notes. Default cover colours differ from v4 because v5 slugs changed; v4 also left some cards without a colour (negative hash index), now fixed.
+- [x] Folder pages: vendored `plugins/folder-page` (rebuilt from the npm source maps; unmodified in `3adeebab`). No "Folder:" prefix (upstream default), `showFolderCount: false`, new `showDates`/`showTags`/`cardFolders` options, `<hr />` above the listing.
+- [x] Footer social icons (`plugins/site-footer`)
+- [x] Page title logo (`plugins/site-title`). As in v4, the mobile styles expect a text `<span>` that the component never rendered, so mobile shows no title; add one if wanted.
+- [x] Map component in the right sidebar (`plugins/activity-map`)
 - [ ] Body class `collapse-sidebar-desktop` for pages tagged `list`
 - [ ] Force dark theme (v4 set `saved-theme="dark"`, no toggle)
 - [ ] Styles: `custom.scss`, `base.scss`, component styles
-- [ ] Icon, OG image and logo in `quartz/static`
+- [x] Icon, OG image and logo in `quartz/static`
 
 ### 4. Core patches (check each; re-apply only if still needed)
 
@@ -126,6 +126,11 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 - [ ] Links to entries that have no page (`components/shared/links.tsx`, `cell.tsx`, `views/table.tsx`, `views/cards.tsx`): render as `<a class="internal broken">` instead of linking to a 404. Still to do for list, gallery and board views.
 - [ ] Opt-in for querying `unlisted` pages (`resolver.ts`): we include notes with `dataOnly`. Upstream would need a general option (e.g. `includeUnlisted`, or a per-page flag).
 - [ ] Regex literals and a duration type (see the Bases section).
+
+**[quartz-community/folder-page](https://github.com/quartz-community/folder-page)** (`plugins/folder-page`; diff against `3adeebab`):
+
+- [ ] `showDates` / `showTags` options for the page listing (`components/PageList.tsx`, `FolderContent.tsx`)
+- [ ] (site-specific, not for upstream) `cardFolders` renders a folder's listing with `plugins/card-list`
 
 **Quartz core / other plugins:**
 

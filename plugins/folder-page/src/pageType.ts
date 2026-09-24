@@ -17,6 +17,10 @@ export interface FolderPageOptions {
   sort?: SortFn;
   /** Show "Folder: " prefix before folder name in generated titles. Default: false */
   prefixFolders?: boolean;
+  // Site patch: listing options (see FolderContentOptions)
+  showDates?: boolean;
+  showTags?: boolean;
+  cardFolders?: string[];
 }
 
 const folderMatcher: PageMatcher = ({ slug }) => {

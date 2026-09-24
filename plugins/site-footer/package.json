@@ -1,0 +1,34 @@
+{
+  "name": "site-footer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Footer with social media icon links.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "import": "./dist/components/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "quartz": {
+    "name": "site-footer",
+    "displayName": "Site footer",
+    "description": "Footer with social media icon links.",
+    "category": "component",
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "defaultEnabled": true,
+    "defaultOptions": {},
+    "components": {
+      "SiteFooter": {
+        "displayName": "Site footer",
+        "defaultPosition": "footer",
+        "defaultPriority": 50
+      }
+    }
+  }
+}

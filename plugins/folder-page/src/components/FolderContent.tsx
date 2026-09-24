@@ -12,17 +12,29 @@ import type { ComponentChildren } from "preact";
 import type { Root } from "hast";
 import { i18n } from "../i18n";
 import style from "./styles/listPage.scss";
+// Site patch: card listings
+import CardListComponent from "../../../card-list/src/components/CardList";
 
 interface FolderContentOptions {
   showFolderCount: boolean;
   showSubfolders: boolean;
   sort?: SortFn;
+  // Site patch: show each page's date and tags in the listing
+  showDates: boolean;
+  showTags: boolean;
+  // Site patch: folders (top-level slug segment, e.g. "notes") listed as cards (plugins/card-list)
+  cardFolders: string[];
 }
 
 const defaultOptions: FolderContentOptions = {
   showFolderCount: true,
   showSubfolders: true,
+  showDates: true,
+  showTags: true,
+  cardFolders: [],
 };
+
+const CardList = CardListComponent();
 
 interface TrieNode {
   isFolder: boolean;
@@ -175,6 +187,8 @@ export default ((opts?: Partial<FolderContentOptions>) => {
     const listProps = {
       ...props,
       sort: options.sort,
+      showDates: options.showDates,
+      showTags: options.showTags,
       allFiles: allPagesInFolder,
     };
 
@@ -184,7 +198,10 @@ export default ((opts?: Partial<FolderContentOptions>) => {
         ? (fileData as { description?: unknown } | undefined)?.description
         : htmlToJsx(hastRoot);
 
-    const pageListContent = PageList(listProps) as unknown as ComponentChildren;
+    const asCards = options.cardFolders.includes(slug.split("/")[0]!);
+    const pageListContent = (
+      asCards ? CardList(listProps) : PageList(listProps)
+    ) as unknown as ComponentChildren;
 
     return (
       <div class="popover-hint">
@@ -201,12 +218,14 @@ export default ((opts?: Partial<FolderContentOptions>) => {
               })}
             </p>
           )}
+          {/* Site patch: rule between the folder's own content and its listing */}
+          <hr />
           <div>{pageListContent}</div>
         </div>
       </div>
     );
   };
 
-  FolderContent.css = concatenateResources(style, PageList.css);
+  FolderContent.css = concatenateResources(style, PageList.css, CardList.css);
   return FolderContent;
 }) satisfies QuartzComponentConstructor;
