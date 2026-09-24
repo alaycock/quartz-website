@@ -1,11 +1,7 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
-import { registerCondition } from "./quartz/plugins/loader/conditions"
 import { componentRegistry } from "./quartz/components/registry"
 
 // Everything here must run before loadQuartzConfig()
-
-// Layout conditions used in quartz.config.yaml
-registerCondition("is-index", (props) => props.fileData.slug === "index")
 
 // Explorer options that can't be expressed in YAML. These functions are stringified and
 // run in the browser, so they must be self-contained. `node.data.date` comes from

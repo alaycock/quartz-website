@@ -85,8 +85,9 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 - [x] Explorer options (`quartz.ts`, `componentRegistry.setOptionOverrides`): v4 sort (Notes/Lists/Years, newest first), hide `routes`/`templates`/`tags`, open folders, no saved state. Dates come from `contentIndex.json` via the vendored `plugins/content-index` (`includeDates`, the v4 patch). Functions are stringified for the browser, so no named inner functions (esbuild's keepNames adds `__name()`).
 - [ ] **Explorer fork** (needs the real source: the npm package's inline script is minified): mobile back button on route pages, homepage entry first, Notes capped at 5 with "View more", active folder highlight, no desktop "Explorer" title button. Needs the `spa` `previousPage` patch below for the back button.
 - [ ] **Table of contents fork** (also needs the real source): page-title entry, highlight on scroll end instead of IntersectionObserver. Sticky is done in `custom.scss`.
-- [x] CardList (`plugins/card-list`): home page (`afterBody`, limit 7, via the `is-index` condition registered in `quartz.ts`) and the Notes folder page. Skips data-only notes. Default cover colours differ from v4 because v5 slugs changed; v4 also left some cards without a colour (negative hash index), now fixed.
-- [x] Folder pages: vendored `plugins/folder-page` (rebuilt from the npm source maps; unmodified in `3adeebab`). No "Folder:" prefix (upstream default), `showFolderCount: false`, new `showDates`/`showTags`/`cardFolders` options, `<hr />` above the listing.
+- [-] CardList (the v4 card grid on the home page and Notes folder page): dropped
+- [ ] **Add an embedded base (cards view) where the card grid was:** the home page (latest posts/trips, e.g. `limit: 7`) and the Notes folder page. `Posts.base` has a cards view (`image: note.cover`) to start from. For the Notes folder page, the embed goes in a `Notes/index.md`.
+- [x] Folder pages: vendored `plugins/folder-page` (rebuilt from the npm source maps; unmodified in `3adeebab`). No "Folder:" prefix (upstream default), `showFolderCount: false`, new `showDates`/`showTags` options, `<hr />` above the listing.
 - [x] Footer social icons (`plugins/site-footer`)
 - [x] Page title logo (`plugins/site-title`). As in v4, the mobile styles expect a text `<span>` that the component never rendered, so mobile shows no title; add one if wanted.
 - [x] Map component in the right sidebar (`plugins/activity-map`)
@@ -101,7 +102,7 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 - [x] `spa`: `previousPage` history state (for the Explorer back button), hide the loading bar on file downloads (core patch, `quartz/components/scripts/spa.inline.ts`)
 - [x] Content index: keep `date` (vendored `plugins/content-index`, `includeDates` option). The v4 client-side `Date` parsing isn't needed; the sort function parses the date itself.
 - [x] Assets: resize jpg/png with sharp (max width 1200, jpeg quality 80), core patch in `quartz/plugins/emitters/assets.ts`. Output assets 13 MB (same as v4) from 114 MB of originals.
-- [x] Slugs: v4 dropped commas and collapsed repeated dashes; v5 emits e.g. `amesthst-lakes--and--surprise-point`. Matching v4's rules isn't practical (every community plugin bundles its own copy of the slug function), so `plugins/legacy-redirects` writes redirects at the 52 v4 URLs that differ by more than case. `alias-redirects` covers case-only changes, but only on case-sensitive filesystems (it skips on macOS, runs in CI).
+- [-] Slugs: v4 dropped commas and collapsed repeated dashes; v5 emits e.g. `amesthst-lakes--and--surprise-point`. Accepted: 52 v4 URLs (most posts) change beyond case and aren't redirected. `alias-redirects` covers case-only changes on case-sensitive filesystems (CI).
 - [x] Core patch (`processors/emit.ts`, `build.ts`): emitters other than the page dispatcher never see data-only notes (otherwise alias-redirects would emit ~295 case redirects to pages that don't exist).
 - [-] Google Fonts `display=swap` removal and JPEG favicon: dropped. The reason for the v4 change isn't recorded and `swap` is the recommended default; v5 writes a standard PNG favicon. Easy to restore if they mattered.
 - [ ] Fonts are loaded twice: core (`quartz/util/theme.ts`) and the `quartz-fonts` plugin both add a Google Fonts stylesheet. Pick one.
@@ -111,8 +112,7 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 - [x] Deploy workflow for v5 (`.github/workflows/deploy.yml`): triggers on push to `v5` and manually. Builds local plugins (`npm run plugins:build`), links them (`plugin install --from-config`), same Strava token steps, then `npx quartz build`. Tested on a fresh clone: same output as a local build.
 - [x] Map/GPX caches: separate `maps` and `gpx` caches keyed per run and restored by prefix, so new files are cached (the v4 fixed keys were saved once and never updated). The first v5 run restores the v4 caches and `activity-map` migrates them.
 - [x] `quartz.lock.json` untracked: it only lists local plugins, by machine-specific absolute path
-- [ ] The Strava "download previous token" step never finds a token (`download-artifact` only sees the current run without `run-id`/`github-token`), so every build refreshes from `STRAVA_BOOTSTRAP_REFRESH_TOKEN`. Same as v4; fine as long as that refresh token stays valid.
-- [ ] Check old URLs after the first deploy: `alias-redirects` case redirects only run on case-sensitive filesystems (CI yes, macOS no), and `legacy-redirects` covers the 52 URLs that changed beyond case
+- [ ] (later) The Strava "download previous token" step never finds a token (`download-artifact` only sees the current run without `run-id`/`github-token`), so every build refreshes from `STRAVA_BOOTSTRAP_REFRESH_TOKEN`. Same as v4; fine as long as that refresh token stays valid.
 - [ ] Switch GitHub default branch to `v5` and re-enable deploys
 
 ### Upstream candidates
@@ -136,7 +136,6 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 **[quartz-community/folder-page](https://github.com/quartz-community/folder-page)** (`plugins/folder-page`; diff against `3adeebab`):
 
 - [ ] `showDates` / `showTags` options for the page listing (`components/PageList.tsx`, `FolderContent.tsx`)
-- [ ] (site-specific, not for upstream) `cardFolders` renders a folder's listing with `plugins/card-list`
 
 **[quartz-community/content-index](https://github.com/quartz-community/content-index)** (`plugins/content-index`; diff against `64e6361f`):
 

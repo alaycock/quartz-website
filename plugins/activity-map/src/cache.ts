@@ -2,8 +2,6 @@ import fs from "node:fs/promises"
 import path from "node:path"
 import { createHash } from "node:crypto"
 
-export { legacySlug } from "../../legacy-redirects/src/legacySlug"
-
 /**
  * Content-addressed file cache: a key is derived from everything that affects the
  * file, so an existing file is always valid and renames never cause refetches.
@@ -59,6 +57,26 @@ function legacyDependencyHash(dependencies: Record<string, unknown>): number {
     a = (a << 5) - a + b.charCodeAt(0)
     return a & a
   }, 0)
+}
+
+// v4 slugifyFilePath, including the site's comma and repeated-dash patches
+export function legacySlug(relativePath: string): string {
+  return relativePath
+    .replace(/\.md$/, "")
+    .split("/")
+    .map((segment) =>
+      segment
+        .replace(/\s/g, "-")
+        .replace(/&/g, "-and-")
+        .replace(/%/g, "-percent")
+        .replace(/\?/g, "")
+        .replace(/#/g, "")
+        .replace(/,/g, "")
+        .replace(/-+/g, "-"),
+    )
+    .join("/")
+    .replace(/\/$/, "")
+    .replace(/_index$/, "index")
 }
 
 export async function readLegacy(

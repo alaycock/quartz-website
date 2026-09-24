@@ -12,8 +12,6 @@ import type { ComponentChildren } from "preact";
 import type { Root } from "hast";
 import { i18n } from "../i18n";
 import style from "./styles/listPage.scss";
-// Site patch: card listings
-import CardListComponent from "../../../card-list/src/components/CardList";
 
 interface FolderContentOptions {
   showFolderCount: boolean;
@@ -22,8 +20,6 @@ interface FolderContentOptions {
   // Site patch: show each page's date and tags in the listing
   showDates: boolean;
   showTags: boolean;
-  // Site patch: folders (top-level slug segment, e.g. "notes") listed as cards (plugins/card-list)
-  cardFolders: string[];
 }
 
 const defaultOptions: FolderContentOptions = {
@@ -31,10 +27,7 @@ const defaultOptions: FolderContentOptions = {
   showSubfolders: true,
   showDates: true,
   showTags: true,
-  cardFolders: [],
 };
-
-const CardList = CardListComponent();
 
 interface TrieNode {
   isFolder: boolean;
@@ -198,10 +191,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
         ? (fileData as { description?: unknown } | undefined)?.description
         : htmlToJsx(hastRoot);
 
-    const asCards = options.cardFolders.includes(slug.split("/")[0]!);
-    const pageListContent = (
-      asCards ? CardList(listProps) : PageList(listProps)
-    ) as unknown as ComponentChildren;
+    const pageListContent = PageList(listProps) as unknown as ComponentChildren;
 
     return (
       <div class="popover-hint">
@@ -226,6 +216,6 @@ export default ((opts?: Partial<FolderContentOptions>) => {
     );
   };
 
-  FolderContent.css = concatenateResources(style, PageList.css, CardList.css);
+  FolderContent.css = concatenateResources(style, PageList.css);
   return FolderContent;
 }) satisfies QuartzComponentConstructor;

@@ -111,8 +111,6 @@ plugins:
     enabled: false
   - source: "@quartz-community/alias-redirects"
     enabled: true
-  - source: ./plugins/legacy-redirects
-    enabled: true
   - source: ./plugins/content-index
     enabled: true
     options:
@@ -135,8 +133,6 @@ plugins:
       showFolderCount: false
       showDates: false
       showTags: false
-      cardFolders:
-        - notes
   - source: "@quartz-community/tag-page"
     enabled: true
   - source: "@quartz-community/explorer"
@@ -225,14 +221,6 @@ plugins:
     layout:
       position: footer
       priority: 50
-  - source: ./plugins/card-list
-    enabled: true
-    options:
-      limit: 7
-    layout:
-      position: afterBody
-      priority: 10
-      condition: is-index
   - source: "@quartz-community/recent-notes"
     enabled: false
   - source: "@quartz-community/spacer"
