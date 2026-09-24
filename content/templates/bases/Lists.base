@@ -1,0 +1,182 @@
+filters:
+  and:
+    - file.inFolder("Routes")
+formulas:
+  Trips: file(file.name)
+  Trip: link(file.name)
+  DWYT: tags.filter(value.startsWith("#dwyt"))[0].replace('#dwyt/', '').replace('-', ' ').title()
+  Kane: tags.filter(value.startsWith("#kane"))[0].replace('#kane/', '').replace('-', ' ').title()
+  Nugara: tags.filter(value.startsWith("#nugara"))[0].replace('#nugara/', '').replace('-', ' / ').title()
+properties:
+  file.name:
+    displayName: Trip
+  note.completed:
+    displayName: Completed
+  note.region:
+    displayName: Region
+  note.elevation:
+    displayName: Elevation (m)
+views:
+  - type: table
+    name: All routes
+    order:
+      - file.name
+      - location
+      - elevation
+      - region
+    columnSize:
+      note.location: 206
+  - type: table
+    name: Don't waste your time
+    filters:
+      and:
+        - file.hasTag("dwyt")
+    order:
+      - formula.Trip
+      - formula.DWYT
+      - region
+      - completed
+    sort:
+      - property: region
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      formula.Trip: 251
+      formula.DWYT: 145
+      note.region: 165
+  - type: map
+    name: Don't waste your time - Map
+    filters:
+      and:
+        - file.hasTag("dwyt")
+    order:
+      - formula.Trip
+      - formula.DWYT
+      - region
+      - completed
+    sort:
+      - property: region
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      formula.Trip: 251
+      note.DWYT: 143
+      note.region: 165
+    coordinates: note.location
+  - type: table
+    name: Kane Scrambles
+    filters:
+      and:
+        - file.hasTag("kane")
+    order:
+      - formula.Trip
+      - formula.Kane
+      - region
+      - elevation
+      - completed
+    sort:
+      - property: region
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      formula.Kane: 97
+      note.region: 135
+  - type: map
+    name: Kane Scrambles - map
+    filters:
+      and:
+        - file.hasTag("kane")
+    order:
+      - formula.Trip
+      - formula.Kane
+      - region
+      - elevation
+      - completed
+    sort:
+      - property: region
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      formula.Kane: 97
+      note.region: 135
+    coordinates: note.location
+  - type: table
+    name: 11000ers of the Canadian Rockies
+    filters:
+      and:
+        - file.tags.contains("11ker")
+    order:
+      - formula.Trip
+      - elevation
+      - region
+      - completed
+    sort:
+      - property: elevation
+        direction: DESC
+    columnSize:
+      note.region: 219
+  - type: map
+    name: 11000ers of the Canadian Rockies - map
+    filters:
+      and:
+        - file.tags.contains("11ker")
+    order:
+      - formula.Trip
+      - elevation
+      - region
+      - completed
+    sort:
+      - property: elevation
+        direction: DESC
+    columnSize:
+      note.region: 219
+    coordinates: note.location
+  - type: table
+    name: Nugara Scrambles
+    filters:
+      and:
+        - file.hasTag("nugara")
+    order:
+      - formula.Trip
+      - formula.Nugara
+      - region
+      - elevation
+      - completed
+    sort:
+      - property: region
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      formula.Trip: 251
+      formula.Nugara: 140
+      note.region: 147
+      note.elevation: 69
+      note.completed: 70
+  - type: map
+    name: Nugara Scrambles - Map
+    filters:
+      and:
+        - file.hasTag("nugara")
+    order:
+      - formula.Trip
+      - formula.Nugara
+      - region
+      - elevation
+      - completed
+    sort:
+      - property: region
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      formula.Trip: 251
+      formula.Nugara: 140
+      note.region: 147
+      note.elevation: 69
+      note.completed: 70
+    coordinates: note.location
