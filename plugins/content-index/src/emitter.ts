@@ -38,6 +38,8 @@ interface Options {
   includeEmptyFiles: boolean;
   rssRecentNotesText?: string;
   rssLastFewNotesText?: (count: number) => string;
+  // Site patch: keep each page's date in contentIndex.json (e.g. for Explorer sort functions)
+  includeDates: boolean;
 }
 
 const defaultOptions: Options = {
@@ -49,6 +51,7 @@ const defaultOptions: Options = {
   includeEmptyFiles: true,
   rssRecentNotesText: "Recent notes",
   rssLastFewNotesText: (count) => `Last ${count} notes`,
+  includeDates: false,
 };
 
 const write = async (args: {
@@ -186,7 +189,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
     const simplifiedIndex = Object.fromEntries(
       Array.from(linkIndex).map(([slug, content]) => {
         delete content.description;
-        delete content.date;
+        if (!options.includeDates) delete content.date;
         return [slug, content];
       }),
     );

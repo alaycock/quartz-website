@@ -82,8 +82,9 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 
 ### 3. Layout and components
 
-- [ ] Explorer: sort, filter and order options (`quartz.ts` override); mobile back button on routes; homepage entry first; Notes capped at 5 with "View more"; active folder highlight
-- [ ] Table of contents: page-title entry, sticky, highlight on scroll end
+- [x] Explorer options (`quartz.ts`, `componentRegistry.setOptionOverrides`): v4 sort (Notes/Lists/Years, newest first), hide `routes`/`templates`/`tags`, open folders, no saved state. Dates come from `contentIndex.json` via the vendored `plugins/content-index` (`includeDates`, the v4 patch). Functions are stringified for the browser, so no named inner functions (esbuild's keepNames adds `__name()`).
+- [ ] **Explorer fork** (needs the real source: the npm package's inline script is minified): mobile back button on route pages, homepage entry first, Notes capped at 5 with "View more", active folder highlight, no desktop "Explorer" title button. Needs the `spa` `previousPage` patch below for the back button.
+- [ ] **Table of contents fork** (also needs the real source): page-title entry, `sticky` class, highlight on scroll end instead of IntersectionObserver
 - [x] CardList (`plugins/card-list`): home page (`afterBody`, limit 7, via the `is-index` condition registered in `quartz.ts`) and the Notes folder page. Skips data-only notes. Default cover colours differ from v4 because v5 slugs changed; v4 also left some cards without a colour (negative hash index), now fixed.
 - [x] Folder pages: vendored `plugins/folder-page` (rebuilt from the npm source maps; unmodified in `3adeebab`). No "Folder:" prefix (upstream default), `showFolderCount: false`, new `showDates`/`showTags`/`cardFolders` options, `<hr />` above the listing.
 - [x] Footer social icons (`plugins/site-footer`)
@@ -98,11 +99,12 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 ### 4. Core patches (check each; re-apply only if still needed)
 
 - [ ] `spa`: `previousPage` history state (used by the Explorer back button), hide the loading bar on file downloads
-- [ ] Content index: keep `date` and parse it client-side
-- [ ] Assets: resize jpg/png with sharp (max width 1200, jpeg quality 80)
+- [x] Content index: keep `date` (vendored `plugins/content-index`, `includeDates` option). The v4 client-side `Date` parsing isn't needed; the sort function parses the date itself.
+- [x] Assets: resize jpg/png with sharp (max width 1200, jpeg quality 80), core patch in `quartz/plugins/emitters/assets.ts`. Output assets 13 MB (same as v4) from 114 MB of originals.
 - [x] Slugs: v4 dropped commas and collapsed repeated dashes; v5 emits e.g. `amesthst-lakes--and--surprise-point`. Matching v4's rules isn't practical (every community plugin bundles its own copy of the slug function), so `plugins/legacy-redirects` writes redirects at the 52 v4 URLs that differ by more than case. `alias-redirects` covers case-only changes, but only on case-sensitive filesystems (it skips on macOS, runs in CI).
 - [x] Core patch (`processors/emit.ts`, `build.ts`): emitters other than the page dispatcher never see data-only notes (otherwise alias-redirects would emit ~295 case redirects to pages that don't exist).
-- [ ] Google Fonts `display=swap` removal, favicon format
+- [-] Google Fonts `display=swap` removal and JPEG favicon: dropped. The reason for the v4 change isn't recorded and `swap` is the recommended default; v5 writes a standard PNG favicon. Easy to restore if they mattered.
+- [ ] Fonts are loaded twice: core (`quartz/util/theme.ts`) and the `quartz-fonts` plugin both add a Google Fonts stylesheet. Pick one.
 
 ### 5. CI and cutover
 
@@ -134,7 +136,13 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 - [ ] `showDates` / `showTags` options for the page listing (`components/PageList.tsx`, `FolderContent.tsx`)
 - [ ] (site-specific, not for upstream) `cardFolders` renders a folder's listing with `plugins/card-list`
 
+**[quartz-community/content-index](https://github.com/quartz-community/content-index)** (`plugins/content-index`; diff against `64e6361f`):
+
+- [ ] `includeDates` option to keep page dates in `contentIndex.json` (useful for Explorer sort functions)
+
 **Quartz core / other plugins:**
+
+- [ ] Explorer `sortFn`/`filterFn`/`mapFn` are serialized with `Function.toString()`, so any named inner function in a `quartz.ts` override breaks in the browser (`__name is not defined`, from esbuild `keepNames`). Document it, or strip `keepNames` when transpiling `quartz.ts`.
 
 - [ ] "Data-only" pages as a concept (`plugins/data-only` + `quartz/plugins/pageTypes/dispatcher.ts`): parse a note so plugins like bases can query it, but never emit a page or link to it. Currently a local plugin plus a one-line dispatcher patch; upstream this could be a core `file.data` flag the dispatcher and crawl-links respect.
 - [ ] crawl-links: `disableBrokenWikilinks` adds a `broken` class but keeps the `href`, so broken links still go to a 404. Option to drop the `href` (we do it in `plugins/data-only`).

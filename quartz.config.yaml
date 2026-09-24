@@ -116,6 +116,7 @@ plugins:
   - source: ./plugins/content-index
     enabled: true
     options:
+      includeDates: true
       enableSiteMap: true
       enableRSS: true
   - source: "@quartz-community/favicon"
