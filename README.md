@@ -33,7 +33,12 @@ Status key: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` dropped
 ### 1. Bases (main goal)
 
 - [x] Publish `.base` files (Syncer → `content/templates/bases/`) and remove `templates` from `ignorePatterns`
-- [ ] **Trip data is unpublished.** `Trips.base#Trip reports` (483 route pages) and `Trips.base#By Year` (7 year pages) query trip notes, but only 9 of 314 trip notes are published. The old tables were pre-rendered from the whole vault. Decide how trip data reaches Quartz (see below).
+- [~] **Trip data is unpublished.** `Trips.base#Trip reports` (483 route pages) and `Trips.base#By Year` (7 year pages) query trip notes, but only 9 of 314 trip notes are published. The old tables were pre-rendered from the whole vault. Plan: "data-only" notes.
+  - [ ] Syncer publishes every note (including `publish: false` ones) to the repo
+  - [ ] Site plugin marks notes without `publish: true` as `unlisted` + `dataOnly`. `unlisted` hides them from the content index, sitemap, RSS, search, graph, explorer, backlinks, and folder/tag listings.
+  - [ ] Core patch: the page dispatcher skips emitting `dataOnly` notes
+  - [ ] Remove `dataOnly` slugs from `ctx.allSlugs` before links are crawled, so wikilinks to them render as broken/plain text (as in v4)
+  - [ ] bases-page (vendored fork): include `dataOnly` notes even though they're `unlisted`
 - [ ] bases-page bug: embeds whose view name has an apostrophe fail with "View not found" (`Lists.base#Don't waste your time`). OFM slugifies the `#block` (`dont-waste-your-time`), but bases-page's `normalize()` only lowercases and dashes spaces. Fix upstream in `pageType.ts`.
 - [ ] bases-page bug: `link(this.file)` returns `[[[object Object]]]` because the embedding page's `this.file` is a plain object, not a file value. Breaks `route.contains(link(this.file))` (Trips `Trip reports`). `route.contains(this.file)` works, so either fix upstream or change the formula.
 - [ ] Formula: `tags.filter(value.startsWith("#kane"))` and the equivalents for `#dwyt` and `#nugara` return nothing. Quartz tags don't have the `#` prefix. Affects the Kane, DWYT and Nugara columns.
