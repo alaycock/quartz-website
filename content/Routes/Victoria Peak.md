@@ -1,7 +1,15 @@
 ---
-{"publish":true,"created":"2025-11-11T14:35:23.669-07:00","modified":"2025-11-27T19:33:10.998-07:00","published":"2025-11-27T19:33:10.998-07:00","tags":["route","nugara/moderate"],"cssclasses":"","elevation":2587,"region":"East Castle","completed":false,"location":"49.2966622, -114.1421943"}
+publish: true
+created: 2025-11-11T14:35:23.669-07:00
+modified: 2025-11-27T19:33:10.998-07:00
+published: 2025-11-27T19:33:10.998-07:00
+tags:
+  - route
+  - nugara/moderate
+elevation: 2587
+region: East Castle
+completed: false
+location: 49.2966622, -114.1421943
 ---
 
-
-| Date | People | Distance (km) | Elevation Gain (m) |
-| ---- | ------ | ------------- | ------------------ |
+![[Trips.base#Trip reports]]

@@ -1,9 +1,15 @@
 ---
-{"publish":true,"created":"2025-10-01T10:23:27.576-06:00","modified":"2025-10-01T10:23:27.576-06:00","published":"2025-10-01T10:23:27.576-06:00","tags":["route","kane/moderate"],"cssclasses":"","elevation":2605,"region":"Kananaskis","location":"50.785947, -115.137127","completed":true}
+publish: true
+created: 2025-10-01T10:23:27.576-06:00
+modified: 2025-10-01T10:23:27.576-06:00
+published: 2025-10-01T10:23:27.576-06:00
+tags:
+  - route
+  - kane/moderate
+elevation: 2605
+region: Kananaskis
+location: 50.785947, -115.137127
+completed: true
 ---
 
-
-
-|                Date                 | People | Distance (km) | Elevation Gain (m) |
-| ----------------------------------- | ------ | ------------- | ------------------ |
-| [[Notes/2024-07-28\|2024-07-28]] |  Adam  |     11.2      |        1120        |
+![[Trips.base#Trip reports]]

@@ -1,5 +1,14 @@
 ---
-{"publish":true,"title":"2024 Retrospective","created":"2025-01-01T00:00:00.000Z","modified":"2025-11-18T15:27:00.386-07:00","published":"2025-01-01T00:00:00.000Z","tags":["post"],"cssclasses":"","socialImage":"#FACADE","date":"2025-01-01T00:00:00.000Z","cover":"#FACADE"}
+publish: true
+title: 2024 Retrospective
+created: 2025-01-01T00:00:00.000Z
+modified: 2025-11-18T15:27:00.386-07:00
+published: 2025-01-01T00:00:00.000Z
+tags:
+  - post
+socialImage: "#FACADE"
+date: 2025-01-01T00:00:00.000Z
+cover: "#FACADE"
 ---
 
 2024 was a year of recovery. My Mt Louis accident was an undercurrent this year, though dealing with trauma and finding my way back into the outdoors.
@@ -10,11 +19,11 @@ The benchmark of “500 meters elevation gain” used to be my benchmark to dete
 
 I attempted two 11ers and summited one, Victoria North was saved for another day. Assiniboine felt like a lifetime achievement and I summiting it on the anniversary of my accident the year before. Doing so was a questionable choice but definitely felt impactful at the time.
 
-Other highlights include:  
+Other highlights include:
 
-- [[Routes/North Peak Opal Ridge\|Opal North]] — A spectacular day out, I was surprised by the beauty of the ridge
-- [[Routes/Mount Niles]] — A long and strenuous scramble but incredible glacial views from the summit
-- [[Notes/2024-07-07\|Ha Ling]] — The sub 1-hour completion wasn’t a PB but was a recovery milestone
+- [[North Peak Opal Ridge|Opal North]] — A spectacular day out, I was surprised by the beauty of the ridge
+- [[Mount Niles]] — A long and strenuous scramble but incredible glacial views from the summit
+- [[2024-07-07|Ha Ling]] — The sub 1-hour completion wasn’t a PB but was a recovery milestone
 
 ---
 
@@ -23,18 +32,18 @@ I don’t like setting firm goals, I prefer to pick my trips based on a variety 
 **Climb an interesting peak close to home**
 
 - The Little Sister
-- [[Routes/Mount Lorette]]
-- [[Routes/Mount Bell]] NE ridge
+- [[Mount Lorette]]
+- [[Mount Bell]] NE ridge
 
 **Kane Scrambles**
 
-- [[Routes/Roche Miette]] ❤️
-- [[Routes/Mount Niblock]] (and [[Routes/Mount Whyte]])
+- [[Roche Miette]] ❤️
+- [[Mount Niblock]] (and [[Mount Whyte]])
 
 **Repair my ankle for skiing, and use it!**
 
 - The Wapta Traverse
-- [[Routes/Snow Dome]]
+- [[Snow Dome]]
 
 **A substantial international objective**
 
@@ -43,5 +52,5 @@ I don’t like setting firm goals, I prefer to pick my trips based on a variety 
 
 **Another 11er**
 
-- [[Routes/Mount Murchison]]
-- [[Routes/Mount Willingdon]] + [[Routes/Crown Peak]]
+- [[Mount Murchison]]
+- [[Mount Willingdon]] + [[Crown Peak]]

@@ -1,27 +1,15 @@
 ---
-{"publish":true,"created":"2025-10-01T10:23:27.525-06:00","modified":"2025-12-01T12:35:19.450-07:00","published":"2025-12-01T12:35:19.450-07:00","tags":["route","kane/easy"],"cssclasses":"","elevation":2407,"region":"Bow Valley","location":"51.06428, -115.39949","completed":true}
+publish: true
+created: 2025-10-01T10:23:27.525-06:00
+modified: 2025-12-01T12:35:19.450-07:00
+published: 2025-12-01T12:35:19.450-07:00
+tags:
+  - route
+  - kane/easy
+elevation: 2407
+region: Bow Valley
+location: 51.06428, -115.39949
+completed: true
 ---
 
-|                     Date                      |           People           | Distance (km) | Elevation Gain (m) |
-| --------------------------------------------- | -------------------------- | ------------- | ------------------ |
-| [[Notes/2025-11-08 - Ha ling\|2025-11-08]] |            Adam            |     7.78      |        794         |
-|      [[Notes/2025-05-31\|2025-05-31]]      |            Adam            |      7.8      |        832         |
-|      [[Notes/2025-02-23\|2025-02-23]]      |            Adam            |      6.8      |        625         |
-|      [[Notes/2024-11-10\|2024-11-10]]      |            Adam            |      7.8      |        788         |
-|      [[Notes/2024-07-07\|2024-07-07]]      |            Adam            |      7.6      |        796         |
-|      [[Notes/2024-01-06\|2024-01-06]]      |            Adam            |       8       |        806         |
-|      [[Notes/2023-07-22\|2023-07-22]]      |    Adam, Calvin, Emily     |      3.6      |        375         |
-|      [[Notes/2023-04-03\|2023-04-03]]      |            Adam            |      7.2      |        748         |
-|      [[Notes/2023-03-11\|2023-03-11]]      |    Adam, Colton, Laura     |      7.2      |        748         |
-|      [[Notes/2023-02-19\|2023-02-19]]      |        Adam, Colton        |      7.2      |        748         |
-|      [[Notes/2022-03-09\|2022-03-09]]      |        Adam, Sophie        |      6.5      |        635         |
-|      [[Notes/2022-01-01\|2022-01-01]]      | Adam, Colton, Emily, Laura |      7.2      |        748         |
-|      [[Notes/2021-12-05\|2021-12-05]]      |            Adam            |      7.2      |        748         |
-|      [[Notes/2021-08-19\|2021-08-19]]      |            Adam            |      6.7      |        790         |
-|      [[Notes/2021-04-26\|2021-04-26]]      |        Adam, Emily         |      8.2      |        864         |
-|      [[Notes/2021-01-01\|2021-01-01]]      |        Adam, Emily         |      7.2      |        748         |
-|      [[Notes/2020-12-18\|2020-12-18]]      |            Adam            |      7.2      |        748         |
-|      [[Notes/2020-11-01\|2020-11-01]]      |        Adam, Colton        |      7.2      |        748         |
-|      [[Notes/2020-10-25\|2020-10-25]]      |    Adam, Colton, Emily     |      7.2      |        748         |
-|      [[Notes/2020-09-27\|2020-09-27]]      | Adam, Colton, Emily, Laura |      7.2      |        748         |
-|      [[Notes/2020-01-01\|2020-01-01]]      |        Adam, Emily         |      7.2      |        748         |
+![[Trips.base#Trip reports]]

@@ -1,8 +1,15 @@
 ---
-{"publish":true,"created":"2025-11-11T14:35:23.692-07:00","modified":"2025-11-27T19:33:10.982-07:00","published":"2025-11-27T19:33:10.982-07:00","tags":["route","nugara/difficult"],"cssclasses":"","elevation":3107,"region":"Kananaskis","completed":true,"location":"50.966, -115.262"}
+publish: true
+created: 2025-11-11T14:35:23.692-07:00
+modified: 2025-11-27T19:33:10.982-07:00
+published: 2025-11-27T19:33:10.982-07:00
+tags:
+  - route
+  - nugara/difficult
+elevation: 3107
+region: Kananaskis
+completed: true
+location: 50.966, -115.262
 ---
 
-
-|                Date                 |    People    | Distance (km) | Elevation Gain (m) |
-| ----------------------------------- | ------------ | ------------- | ------------------ |
-| [[Notes/2023-08-12\|2023-08-12]] | Adam, Colton |     17.5      |        1689        |
+![[Trips.base#Trip reports]]

@@ -1,7 +1,15 @@
 ---
-{"publish":true,"created":"2025-11-11T14:35:23.675-07:00","modified":"2025-11-27T19:33:11.000-07:00","published":"2025-11-27T19:33:11.000-07:00","tags":["route","nugara/easy-difficult"],"cssclasses":"","elevation":2294,"region":"Kananaskis","completed":false,"location":"51.147500, -115.133600"}
+publish: true
+created: 2025-11-11T14:35:23.675-07:00
+modified: 2025-11-27T19:33:11.000-07:00
+published: 2025-11-27T19:33:11.000-07:00
+tags:
+  - route
+  - nugara/easy-difficult
+elevation: 2294
+region: Kananaskis
+completed: false
+location: 51.147500, -115.133600
 ---
 
-
-| Date | People | Distance (km) | Elevation Gain (m) |
-| ---- | ------ | ------------- | ------------------ |
+![[Trips.base#Trip reports]]

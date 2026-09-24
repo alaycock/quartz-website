@@ -1,7 +1,15 @@
 ---
-{"publish":true,"created":"2025-11-11T14:35:23.669-07:00","modified":"2025-11-27T19:33:10.967-07:00","published":"2025-11-27T19:33:10.967-07:00","tags":["route","nugara/moderate"],"cssclasses":"","elevation":2440,"region":"Waterton","completed":false,"location":"49.1265678, -114.1585922"}
+publish: true
+created: 2025-11-11T14:35:23.669-07:00
+modified: 2025-11-27T19:33:10.967-07:00
+published: 2025-11-27T19:33:10.967-07:00
+tags:
+  - route
+  - nugara/moderate
+elevation: 2440
+region: Waterton
+completed: false
+location: 49.1265678, -114.1585922
 ---
 
-
-| Date | People | Distance (km) | Elevation Gain (m) |
-| ---- | ------ | ------------- | ------------------ |
+![[Trips.base#Trip reports]]

@@ -1,8 +1,15 @@
 ---
-{"publish":true,"created":"2025-10-01T10:23:27.568-06:00","modified":"2025-10-01T10:23:27.568-06:00","published":"2025-10-01T10:23:27.568-06:00","tags":["route","dwyt/outstanding"],"cssclasses":"","elevation":2649,"region":"Lake Louise","location":"51.421649, -116.253386","completed":true}
+publish: true
+created: 2025-10-01T10:23:27.568-06:00
+modified: 2025-10-01T10:23:27.568-06:00
+published: 2025-10-01T10:23:27.568-06:00
+tags:
+  - route
+  - dwyt/outstanding
+elevation: 2649
+region: Lake Louise
+location: 51.421649, -116.253386
+completed: true
 ---
 
-
-
-| Date | People | Distance (km) | Elevation Gain (m) |
-| ---- | ------ | ------------- | ------------------ |
+![[Trips.base#Trip reports]]

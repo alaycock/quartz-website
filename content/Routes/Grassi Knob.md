@@ -1,18 +1,13 @@
 ---
-{"publish":true,"created":"2025-10-01T10:23:27.524-06:00","modified":"2025-10-01T10:23:27.524-06:00","published":"2025-10-01T10:23:27.524-06:00","tags":["route"],"cssclasses":"","elevation":2174,"region":"Bow Valley","location":"51.048667, -115.360111"}
+publish: true
+created: 2025-10-01T10:23:27.524-06:00
+modified: 2025-10-01T10:23:27.524-06:00
+published: 2025-10-01T10:23:27.524-06:00
+tags:
+  - route
+elevation: 2174
+region: Bow Valley
+location: 51.048667, -115.360111
 ---
 
-
-
-|                Date                 |           People           | Distance (km) | Elevation Gain (m) |
-| ----------------------------------- | -------------------------- | ------------- | ------------------ |
-| [[Notes/2024-12-14\|2024-12-14]] |            Adam            |      9.8      |        802         |
-| [[Notes/2022-11-11\|2022-11-11]] |        Adam, Colton        |      8.6      |        804         |
-| [[Notes/2022-05-15\|2022-05-15]] |        Adam, Emily         |      8.6      |        804         |
-| [[Notes/2021-11-26\|2021-11-26]] |            Adam            |      8.6      |        804         |
-| [[Notes/2021-10-30\|2021-10-30]] | Adam, Colton, Emily, Laura |      8.6      |        804         |
-| [[Notes/2021-04-11\|2021-04-11]] |        Adam, Colton        |      8.6      |        804         |
-| [[Notes/2021-01-22\|2021-01-22]] |            Adam            |      9.2      |        832         |
-| [[Notes/2020-11-15\|2020-11-15]] |        Adam, Colton        |      8.7      |        801         |
-| [[Notes/2020-10-31\|2020-10-31]] |    Adam, Colton, Emily     |      5.8      |        758         |
-| [[Notes/2020-07-17\|2020-07-17]] |        Adam, Emily         |      5.8      |        758         |
+![[Trips.base#Trip reports]]
