@@ -1,3 +1,32 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+// "year-table" defined in Obsidian through cssclasses
+article.year-table {
+  table tbody {
+    // Date
+    td:nth-child(1) {
+      text-wrap: nowrap;
+    }
+    // Route name(s)
+    td:nth-child(2) {
+      min-width: 150px;
+    }
+    // People
+    td:nth-child(6) {
+      min-width: 120px;
+    }
+    // Days
+    td:nth-child(7) {
+      text-wrap: nowrap;
+    }
+  }
+}
+
+article.list-table {
+  table tbody {
+    // Route name
+    td:nth-child(1) {
+      min-width: 120px;
+    }
+  }
+}

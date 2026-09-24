@@ -8,18 +8,24 @@ html {
   scroll-behavior: smooth;
   text-size-adjust: none;
   overflow-x: hidden;
-  width: 100vw;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  box-sizing: border-box;
 
   @media all and ($mobile) {
     scroll-padding-top: 4rem;
   }
 }
 
+* {
+  font-family: var(--bodyFont);
+}
+
 body {
   margin: 0;
   box-sizing: border-box;
   background-color: var(--light);
-  font-family: var(--bodyFont);
   color: var(--darkgray);
 }
 
@@ -84,27 +90,25 @@ strong {
 a {
   font-weight: $semiBoldWeight;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: filter 0.2s ease;
   color: var(--secondary);
 
   &:hover {
-    color: var(--tertiary);
+    filter: brightness(0.85);
   }
 
   &.internal {
     text-decoration: none;
-    background-color: var(--highlight);
     padding: 0 0.1rem;
     border-radius: 5px;
     line-height: 1.4rem;
 
     &.broken {
-      color: var(--secondary);
-      opacity: 0.5;
+      color: var(--darkgray);
+      background-color: unset;
+      font-weight: unset;
       transition: opacity 0.2s ease;
-      &:hover {
-        opacity: 0.8;
-      }
+      filter: none;
     }
 
     &:has(> img) {
@@ -159,6 +163,29 @@ a {
   }
 }
 
+// When the .collapse-sidebar-desktop is applied, the grid needs to be changed and the sidebar
+// size should be reduced for placement under the main content.
+@mixin tabletGrid() {
+  grid-template-columns: #{map.get($tabletGrid, templateColumns)};
+  grid-template-rows: #{map.get($tabletGrid, templateRows)};
+  column-gap: #{map.get($tabletGrid, columnGap)};
+  row-gap: #{map.get($tabletGrid, rowGap)};
+  grid-template-areas: #{map.get($tabletGrid, templateAreas)};
+}
+@mixin collapsedSidebar() {
+  position: initial;
+  height: unset;
+  width: 100%;
+  flex-direction: row;
+  padding: 0;
+  margin-top: 0;
+
+  & > * {
+    flex: 1;
+    max-height: 24rem;
+  }
+}
+
 .page {
   max-width: calc(#{map.get($breakpoints, desktop)} + 300px);
   margin: 0 auto;
@@ -196,12 +223,19 @@ a {
     row-gap: #{map.get($desktopGrid, rowGap)};
     grid-template-areas: #{map.get($desktopGrid, templateAreas)};
 
+    // If the sidebar should be collapses, default to the tablet view when on desktop
+    @media all and ($desktop) {
+      &.collapse-sidebar-desktop {
+        @include tabletGrid();
+
+        .right.sidebar {
+          @include collapsedSidebar();
+        }
+      }
+    }
+
     @media all and ($tablet) {
-      grid-template-columns: #{map.get($tabletGrid, templateColumns)};
-      grid-template-rows: #{map.get($tabletGrid, templateRows)};
-      column-gap: #{map.get($tabletGrid, columnGap)};
-      row-gap: #{map.get($tabletGrid, rowGap)};
-      grid-template-areas: #{map.get($tabletGrid, templateAreas)};
+      @include tabletGrid();
     }
     @media all and ($mobile) {
       grid-template-columns: #{map.get($mobileGrid, templateColumns)};
@@ -222,16 +256,17 @@ a {
       gap: 1.2rem;
       top: 0;
       box-sizing: border-box;
-      padding: $topSpacing 2rem 2rem 2rem;
+      margin-top: calc($topSpacing - 2rem);
+      padding: 2rem;
       display: flex;
-      height: 100vh;
-      position: sticky;
     }
 
     & .sidebar.left {
       z-index: 1;
       grid-area: grid-sidebar-left;
       flex-direction: column;
+      z-index: 3;
+
       @media all and ($mobile) {
         gap: 0;
         align-items: center;
@@ -241,6 +276,13 @@ a {
         flex-direction: row;
         padding: 0;
         padding-top: 2rem;
+        margin-top: 0;
+      }
+
+      // Allow a sticky left-sidebar item
+      & .sticky {
+        position: sticky;
+        top: 2rem;
       }
     }
 
@@ -248,23 +290,15 @@ a {
       grid-area: grid-sidebar-right;
       margin-right: 0;
       flex-direction: column;
+      height: calc(100vh - 4rem);
+      position: sticky;
+
       @media all and ($mobile) {
         margin-left: inherit;
         margin-right: inherit;
       }
       @media all and not ($desktop) {
-        position: initial;
-        height: unset;
-        width: 100%;
-        flex-direction: row;
-        padding: 0;
-        & > * {
-          flex: 1;
-          max-height: 24rem;
-        }
-        & > .toc {
-          display: none;
-        }
+        @include collapsedSidebar();
       }
     }
     & .page-header,
@@ -406,6 +440,7 @@ thead {
   color: var(--dark);
   font-weight: revert;
   margin-bottom: 0;
+  scroll-margin-top: 2rem;
 
   article > & > a[role="anchor"] {
     color: var(--dark);
@@ -568,11 +603,6 @@ p {
     padding: 1.5rem;
     border-collapse: collapse;
 
-    th,
-    td {
-      min-width: 75px;
-    }
-
     & > * {
       line-height: 2rem;
     }
@@ -583,6 +613,7 @@ th {
   text-align: left;
   padding: 0.4rem 0.7rem;
   border-bottom: 2px solid var(--gray);
+  text-wrap: nowrap;
 }
 
 td {
@@ -590,7 +621,7 @@ td {
 }
 
 tr {
-  border-bottom: 1px solid var(--lightgray);
+  border-bottom: 1px solid var(--gray);
   &:last-child {
     border-bottom: none;
   }
@@ -600,12 +631,11 @@ img {
   max-width: 100%;
   border-radius: 5px;
   margin: 1rem 0;
-  content-visibility: auto;
 }
 
-p > img + em {
-  display: block;
-  transform: translateY(-1rem);
+// Image caption
+p:has(img + em) img {
+  margin-bottom: 0;
 }
 
 hr {
@@ -613,7 +643,7 @@ hr {
   margin: 2rem auto;
   height: 1px;
   border: none;
-  background-color: var(--lightgray);
+  background-color: var(--gray);
 }
 
 audio,
