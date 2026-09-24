@@ -60,6 +60,7 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
   - Fix: a duration type in bases-page (Date − Date, `duration()`, `+`/`-`, `.days`/`.hours`/…, humanized rendering like "2 days"), `list.reduce()`, and custom formula summaries. Upstream candidate.
 - [ ] By Year: trips on the same day can come out in a different order (the view only sorts by `formula.Date`). Add a secondary sort in the `.base` if it matters.
 - [ ] Standalone base pages are emitted at `/templates/bases/*.base` (unlinked, but public). Hide them. They also show raw `#`-prefixed tags.
+- [ ] **Broken: base tables render too wide.** They overflow the content column and sit against the edge of the page with no breathing room. Likely cause: Quartz's `.table-container > table { margin: 1rem }` plus bases-page's `.bases-table { width: 100% }` (2rem wider than the column), clipped on the right by `.bases-page { overflow: hidden }`. A margin-only fix (`margin: 1rem 0`) was tried and reverted.
 - [ ] bases-page list, gallery and board views still link entries without pages (only table and cards are patched; the site doesn't use the others yet)
 - [ ] Offer the bases-page fixes upstream as PRs (see "Upstream candidates" below)
 - [x] `Nugara Scrambles` 117 → 115 rows: the old pre-rendered table was stale. It still listed "Loaf Mountain north/south" and "Mount Rowe southeast/via lakes", route notes deleted from the site on 2025-11-27 (`ed1dcb7f`) and merged into `Loaf Mountain` and `Mount Rowe`. The new table lists the merged notes. Not a bug.
