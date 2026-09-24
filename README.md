@@ -88,6 +88,7 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 - [x] Table of contents fork (`plugins/table-of-contents`, vendored unmodified in `2b7e7ca1`): `titleEntry: true` (page title first) and `highlight: passed` (v4: headings scrolled past, updated on `scrollend`). Sticky and v4 link styles are in `custom.scss`.
 - [-] CardList (the v4 card grid on the home page and Notes folder page): dropped
 - [x] Home page: embeds `![[Trips.base#Index]]` (cards view, 8 of the published trips). Cards view patched to match Obsidian: `imageAspectRatio` is height/width, cards show the `order` properties (first as title, no labels) instead of title + labelled properties, and cards without an image keep an empty image area.
+- [ ] **Broken: card/gallery bases have a 1rem margin above the images**
 - [ ] Card order differs from Obsidian: the Index view sorts by `file.ctime`, which in Obsidian is the vault file's creation time on disk; the site only has the `created` frontmatter. Sort by `date` in the `.base` for the same order in both.
 - [ ] Notes folder page: embed a cards base where the card grid was (in a `Notes/index.md`)
 - [x] Folder pages: vendored `plugins/folder-page` (rebuilt from the npm source maps; unmodified in `b5059fa4`). No "Folder:" prefix (upstream default), `showFolderCount: false`, new `showDates`/`showTags` options, `<hr />` above the listing.
