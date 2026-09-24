@@ -103,19 +103,6 @@ views:
     sort:
       - property: file.ctime
         direction: DESC
-    limit: 8
     image: note.cover
     cardSize: 310
     imageAspectRatio: 0.5
-  - type: table
-    name: Default
-    order:
-      - file.name
-      - date
-      - distance
-      - end date
-      - gain
-      - people
-      - strava
-      - route
-      - tags
