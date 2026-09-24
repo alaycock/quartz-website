@@ -1,3 +1,10 @@
+---
+publish: true
+created: 2026-09-24T13:24:52.615-06:00
+modified: 2026-09-24T13:42:49.010-06:00
+published: 2026-09-24T13:42:49.010-06:00
+---
+
 ## [[11000ers of the Canadian Rockies]]
 
 The Canadian Rockies have 58 peaks over 11000 feet most of which are mountaineering objectives.
