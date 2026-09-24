@@ -2,8 +2,8 @@ import type { ViewRenderer, ViewTypeRegistration } from "../../types";
 import type { FullSlug } from "@quartz-community/types";
 import { i18n } from "../../i18n";
 import {
+  formatValue,
   isEmptyValue,
-  renderCellValue,
   resolveEntryPropertyValue,
 } from "../shared/cell";
 import { transformLink } from "@quartz-community/utils";
@@ -47,6 +47,14 @@ export function resolveImageSrc(
   return { src: raw, isColor: false };
 }
 
+// Site patch: the whole card is a link, and links can't nest, so card values render as text:
+// "[[Notes/2025-04-15|Grand Canyon]]" → "Grand Canyon", "[[Mount Bourgeau]]" → "Mount Bourgeau"
+function cardText(value: unknown): string {
+  return formatValue(value)
+    .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$2")
+    .replace(/\[\[([^\]]+)\]\]/g, (_, target: string) => target.split("/").pop() ?? target);
+}
+
 const CardsView: ViewRenderer = ({
   entries,
   view,
@@ -86,7 +94,6 @@ const CardsView: ViewRenderer = ({
       </div>
       <div class="bases-cards" style={gridStyle}>
         {entries.map((entry) => {
-          const ctx = { slug, allSlugs, linkResolution };
           const imageValue = imageProperty
             ? resolveEntryPropertyValue(imageProperty, entry)
             : undefined;
@@ -136,7 +143,7 @@ const CardsView: ViewRenderer = ({
                     if (isEmptyValue(value)) return null;
                     return (
                       <span class={index === 0 ? "bases-card-title" : "bases-card-value"}>
-                        {column === "file.name" ? entry.title : renderCellValue(value, ctx)}
+                        {column === "file.name" ? entry.title : cardText(value)}
                       </span>
                     );
                   })

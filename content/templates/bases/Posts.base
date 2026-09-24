@@ -1,9 +1,7 @@
 filters:
   and:
     - publish == true
-    - '!file.hasTag("route", "list")'
-    - file.name != "index"
-    - file.folder != "Years"
+    - file.hasTag("post", "trip")
 formulas:
   title: if(file.properties.title, link( file.name, file.properties.title), link(file.name))
 properties:

@@ -370,7 +370,8 @@ registerGlobalFunction("file", ([path]) => {
 registerMethodFunction("file", "hasTag", (target, args) => {
   if (!isFileValue(target)) return false;
   if (args.length === 0) return false;
-  return args.every((tag) => {
+  // Site patch: like Obsidian, true if the file has ANY of the given tags
+  return args.some((tag) => {
     const value = toStringValue(tag)?.toLowerCase();
     if (!value) return false;
     const prefix = value.endsWith("/") ? value : `${value}/`;
