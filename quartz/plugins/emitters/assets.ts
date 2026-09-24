@@ -5,6 +5,7 @@ import fs from "fs"
 import { glob } from "../../util/glob"
 import { Argv, BuildCtx } from "../../util/ctx"
 import { QuartzConfig } from "../../cfg"
+import sharp from "sharp"
 
 function getPageTypeExtensions(ctx: BuildCtx): Set<string> {
   const extensions = new Set<string>()
@@ -36,7 +37,15 @@ const copyFile = async (argv: Argv, fp: FilePath) => {
   const dir = path.dirname(dest) as FilePath
   await fs.promises.mkdir(dir, { recursive: true })
 
-  await fs.promises.copyFile(src, dest)
+  // Site patch: shrink photos to at most 1200px wide (JPEGs at quality 80)
+  const ext = path.extname(dest).toLowerCase()
+  if ([".jpg", ".jpeg", ".png"].includes(ext)) {
+    let image = sharp(src).resize({ width: 1200, withoutEnlargement: true })
+    if (ext !== ".png") image = image.jpeg({ quality: 80 })
+    await image.toFile(dest)
+  } else {
+    await fs.promises.copyFile(src, dest)
+  }
   return dest
 }
 
