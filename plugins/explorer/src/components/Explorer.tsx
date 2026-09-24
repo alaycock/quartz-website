@@ -28,6 +28,15 @@ export interface ExplorerOptions {
   filterFn?: (node: FileTrieNode) => boolean;
   mapFn?: (node: FileTrieNode) => FileTrieNode;
   order?: Array<"filter" | "map" | "sort">;
+  // Site patch: extra options
+  /** Show the desktop title button (which collapses the explorer). Default: true */
+  showTitle: boolean;
+  /** List the home page as the first entry. Default: false */
+  showHomePage: boolean;
+  /** Max entries shown per folder (keyed by folder path, e.g. "notes"), then a "View more" link */
+  folderLimits: Record<string, number>;
+  /** On mobile, pages with this tag get a back button instead of the menu button */
+  backButtonTag?: string;
 }
 
 const defaultOptions: ExplorerOptions = {
@@ -52,6 +61,9 @@ const defaultOptions: ExplorerOptions = {
   },
   filterFn: (node: FileTrieNode) => node.slugSegment !== "tags",
   order: ["filter", "map", "sort"],
+  showTitle: true,
+  showHomePage: false,
+  folderLimits: {},
 };
 
 let numExplorers = 0;
@@ -65,12 +77,15 @@ export default ((userOpts?: Partial<ExplorerOptions>) => {
   const { OverflowList, overflowListAfterDOMLoaded } = OverflowListFactory();
 
   const ExplorerComponent: QuartzComponent = (props: QuartzComponentProps) => {
-    const { cfg } = props;
+    const { cfg, fileData } = props;
     const displayClass = (props as { displayClass?: "mobile-only" | "desktop-only" }).displayClass;
     const id = `explorer-${numExplorers++}`;
     const locale = cfg?.locale ?? "en-US";
 
     const title = opts.title ?? i18n(locale).components.explorer.title;
+    const tags = ((fileData?.frontmatter as { tags?: unknown } | undefined)?.tags ?? []) as string[];
+    const mobileBehavior =
+      opts.backButtonTag && tags.includes(opts.backButtonTag) ? "back" : "menu";
 
     return (
       <div
@@ -78,6 +93,8 @@ export default ((userOpts?: Partial<ExplorerOptions>) => {
         data-behavior={opts.folderClickBehavior}
         data-collapsed={opts.folderDefaultState}
         data-savestate={opts.useSavedState}
+        data-show-home={opts.showHomePage}
+        data-folder-limits={JSON.stringify(opts.folderLimits)}
         data-data-fns={JSON.stringify({
           order: opts.order,
           sortFn: opts.sortFn?.toString(),
@@ -89,9 +106,28 @@ export default ((userOpts?: Partial<ExplorerOptions>) => {
           type="button"
           class="explorer-toggle mobile-explorer hide-until-loaded"
           data-mobile={true}
+          data-behavior={mobileBehavior}
           aria-controls={id}
-          aria-label={i18n(cfg?.locale ?? "en-US").components.explorer.title}
+          aria-label={mobileBehavior === "back" ? "Back" : i18n(cfg?.locale ?? "en-US").components.explorer.title}
         >
+          {/* Site patch: back button (see backButtonTag) */}
+          {mobileBehavior === "back" ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide-arrow-left"
+            >
+              <path d="m12 19-7-7 7-7" />
+              <path d="M19 12H5" />
+            </svg>
+          ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -106,7 +142,10 @@ export default ((userOpts?: Partial<ExplorerOptions>) => {
             <line x1="4" x2="20" y1="6" y2="6" />
             <line x1="4" x2="20" y1="18" y2="18" />
           </svg>
+          )}
         </button>
+        {/* Site patch: showTitle */}
+        {opts.showTitle && (
         <button
           type="button"
           class="title-button explorer-toggle desktop-explorer"
@@ -129,6 +168,7 @@ export default ((userOpts?: Partial<ExplorerOptions>) => {
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
+        )}
         <div id={id} class="explorer-content" aria-expanded={false} role="group">
           <OverflowList class="explorer-ul" />
         </div>

@@ -37,3 +37,61 @@ article.list-table {
   position: sticky;
   top: 2rem;
 }
+
+// Explorer: the v4 site's style changes, as overrides of plugins/explorer's styles
+// (component styles are in @layer quartz-base, so these win)
+.explorer {
+  .explorer-content ul li > a,
+  .explorer-content ul li > button {
+    color: var(--darkgray);
+    opacity: 1;
+
+    &.active {
+      color: var(--secondary);
+    }
+  }
+
+  .folder-container {
+    svg {
+      display: none;
+    }
+
+    div > a,
+    div > button {
+      color: var(--dark);
+      font-family: var(--bodyFont);
+      font-size: inherit;
+      line-height: inherit;
+      transition: filter 0.2s ease;
+
+      &:hover {
+        filter: brightness(0.85);
+      }
+
+      &.active {
+        color: var(--secondary);
+      }
+    }
+
+    div > button span {
+      font-size: 1rem;
+      color: var(--darkgray);
+      line-height: inherit;
+    }
+  }
+
+  @media all and ($mobile) {
+    .explorer-content {
+      width: 100%;
+      max-width: none;
+      padding: 4rem 1rem 2rem;
+    }
+  }
+}
+
+@media all and ($mobile) {
+  .page > #quartz-body .sidebar.left:has(.explorer) {
+    padding: 1rem;
+    margin: 0 -1rem;
+  }
+}

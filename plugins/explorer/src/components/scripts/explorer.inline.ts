@@ -164,8 +164,31 @@ async function buildFileTrie(dataFns) {
 // Render generation to prevent race conditions
 let currentRenderGeneration = 0;
 
+// Site patch: a plain link entry (home page, "View more")
+function renderLink(container, href, text, active) {
+  const fileTemplate = document.getElementById("template-file");
+  if (!fileTemplate) return;
+  const clone = fileTemplate.content.cloneNode(true);
+  const link = clone.querySelector("a");
+  if (link) {
+    link.href = href;
+    link.textContent = text;
+    if (active) link.classList.add("active", "is-active");
+  }
+  container.appendChild(clone);
+}
+
 // Render the file tree
-function renderTree(node, container, currentSlug, folderBehavior, savedState, pathPrefix = "") {
+// Site patch: `options` = { defaultCollapsed, folderLimits }
+function renderTree(
+  node,
+  container,
+  currentSlug,
+  folderBehavior,
+  savedState,
+  pathPrefix = "",
+  options = {},
+) {
   const folderTemplate = document.getElementById("template-folder");
   const fileTemplate = document.getElementById("template-file");
 
@@ -200,7 +223,9 @@ function renderTree(node, container, currentSlug, folderBehavior, savedState, pa
     }
 
     // Check saved state for collapsed status
-    const isCollapsed = savedState[node.slug] !== undefined ? savedState[node.slug] : true; // Default collapsed
+    // Site patch: respect folderDefaultState instead of always defaulting to collapsed
+    const isCollapsed =
+      savedState[node.slug] !== undefined ? savedState[node.slug] : (options.defaultCollapsed ?? true);
 
     // if this folder is a prefix of the current path we want to open it anyways
     const simpleFolderPath = simplifySlug(node.slug);
@@ -208,14 +233,25 @@ function renderTree(node, container, currentSlug, folderBehavior, savedState, pa
       simpleFolderPath &&
       simpleFolderPath === simplifiedCurrentSlug.slice(0, simpleFolderPath.length);
 
+    // Site patch: highlight the folder whose page is open
+    if (folderButton && simpleFolderPath === simplifiedCurrentSlug) {
+      folderButton.classList.add("active");
+    }
+
     if ((!isCollapsed || folderIsPrefixOfCurrentSlug) && folderOuter) {
       folderOuter.classList.add("open");
     }
 
     // Render children
     if (node.children && node.children.length > 0 && contentUl) {
-      for (const child of node.children) {
-        renderTree(child, contentUl, currentSlug, folderBehavior, savedState, currentPath);
+      // Site patch: folderLimits caps the entries shown, followed by a "View more" link
+      const limit = options.folderLimits?.[simpleFolderPath.replace(/\/$/, "")];
+      const children = limit ? node.children.slice(0, limit) : node.children;
+      for (const child of children) {
+        renderTree(child, contentUl, currentSlug, folderBehavior, savedState, currentPath, options);
+      }
+      if (limit && node.children.length > limit) {
+        renderLink(contentUl, resolveBasePath(simpleFolderPath), "View more...", false);
       }
     }
 
@@ -265,6 +301,13 @@ async function handleNavOrRender(e) {
       // Get data functions configuration
       const dataFns = explorer.dataset.dataFns;
       const folderBehavior = explorer.dataset.behavior || "collapse";
+      // Site patch: options the upstream script ignored (folderDefaultState, useSavedState)
+      // and site options (showHomePage, folderLimits)
+      const renderOptions = {
+        defaultCollapsed: explorer.dataset.collapsed !== "open",
+        folderLimits: JSON.parse(explorer.dataset.folderLimits || "{}"),
+      };
+      const treeState = explorer.dataset.savestate === "false" ? {} : savedState;
 
       // Build and render the tree
       console.log("[Explorer] Starting tree build...");
@@ -279,8 +322,13 @@ async function handleNavOrRender(e) {
           explorerUl.innerHTML = '<li class="overflow-end"></li>';
 
           console.log("[Explorer] Rendering", trie.children.length, "children");
+          // Site patch: home page first
+          if (explorer.dataset.showHome === "true" && trie.data) {
+            const isHome = simplifySlug(currentSlug) === "/";
+            renderLink(explorerUl, resolveBasePath("/"), trie.data.title, isHome);
+          }
           for (const child of trie.children) {
-            renderTree(child, explorerUl, currentSlug, folderBehavior, savedState, "");
+            renderTree(child, explorerUl, currentSlug, folderBehavior, treeState, "", renderOptions);
           }
           console.log("[Explorer] Render complete, final list length:", explorerUl.children.length);
         } else {
@@ -307,6 +355,16 @@ async function handleNavOrRender(e) {
       const explorerButtons = explorer.getElementsByClassName("explorer-toggle");
       for (const button of explorerButtons) {
         const clickHandler = function () {
+          // Site patch: the mobile back button goes back within the site, or home if the
+          // previous page wasn't on this site (spa.inline.ts records previousPage)
+          if (this.dataset.behavior === "back") {
+            if (history.state?.previousPage) {
+              history.back();
+            } else {
+              window.spaNavigate(new URL(resolveBasePath("/"), window.location.toString()));
+            }
+            return;
+          }
           const nearestExplorer = this.closest(".explorer");
           if (!nearestExplorer) return;
           const explorerCollapsed = nearestExplorer.classList.toggle("collapsed");

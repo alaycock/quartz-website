@@ -48,6 +48,11 @@ componentRegistry.setOptionOverrides("explorer", {
   filterFn: (node: ExplorerNode) =>
     !node.isFolder || !["routes", "templates", "tags"].includes(node.slugSegment ?? ""),
   order: ["sort", "filter", "map"],
+  // Options added by the vendored plugins/explorer
+  showTitle: false,
+  showHomePage: true,
+  folderLimits: { notes: 5 },
+  backButtonTag: "route",
 })
 
 const config = await loadQuartzConfig()
