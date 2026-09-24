@@ -54,12 +54,17 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 - [ ] **Regex literals aren't supported (`Activity` column, By Year).** `Trips.base` `formula.tags` is `tags.filter(value != '#trip')[0].toString().replace(/^#/, '')`. bases-page's lexer reads `/` as division, so the formula fails and the column shows `—` on every Year page. Options:
   - change the `.base` to `replace('#', '')` (works in Obsidian and Quartz; quickest)
   - add regex literals to bases-page's lexer/parser (`src/compiler/lexer.ts`, `parser.ts`), with `replace()` accepting a RegExp. Upstream candidate.
-- [ ] **Durations (later): `Days` column and summary (By Year).** bases-page has no duration type:
+- [ ] **Durations (later): `Days` column and its total (By Year).** The day sum at the bottom of the Days column on Year pages is wrong. bases-page has no duration type:
   - `date - (if(note["end date"], note["end date"], date) + "1d")` returns milliseconds (`-86400000`) where Obsidian returns a duration displayed as "a day"
   - the custom summary `Days: -values.reduce(value + acc, duration('0s')).days.ceil()` needs `reduce()`, duration arithmetic and `.days`, and bases-page only supports built-in summaries (Sum, Average, …)
   - Fix: a duration type in bases-page (Date − Date, `duration()`, `+`/`-`, `.days`/`.hours`/…, humanized rendering like "2 days"), `list.reduce()`, and custom formula summaries. Upstream candidate.
 - [ ] By Year: trips on the same day can come out in a different order (the view only sorts by `formula.Date`). Add a secondary sort in the `.base` if it matters.
-- [ ] Standalone base pages are emitted at `/templates/bases/*.base` (unlinked, but public). Hide them. They also show raw `#`-prefixed tags.
+- [ ] **Disable standalone base pages altogether, if possible** (e.g. `/templates/bases/trips.base`). They're emitted for every `.base` file (unlinked, but public), show raw `#`-prefixed tags, and add backlinks to every page they list (see next item).
+- [ ] Drop the "Posts" backlink on pages like Mount Victoria (`/notes/2025-09-17`): it comes from the standalone `templates/bases/posts.base` page, so disabling base pages should remove it.
+- [ ] Comma-separated values (e.g. People on Year pages) render with a stray space before each comma
+- [ ] Year pages: remove the summary ("sum") from the Date column. The By Year view sets `formula.Date: Filled` in `Trips.base`.
+- [ ] Year pages: floating-point precision in column sums (e.g. the Distance total on `/years/2025`)
+- [ ] Clean up table formatting for all bases
 - [ ] **Broken: base tables render too wide.** They overflow the content column and sit against the edge of the page with no breathing room. Likely cause: Quartz's `.table-container > table { margin: 1rem }` plus bases-page's `.bases-table { width: 100% }` (2rem wider than the column), clipped on the right by `.bases-page { overflow: hidden }`. A margin-only fix (`margin: 1rem 0`) was tried and reverted.
 - [ ] bases-page list, gallery and board views still link entries without pages (only table and cards are patched; the site doesn't use the others yet)
 - [ ] Offer the bases-page fixes upstream as PRs (see "Upstream candidates" below)
