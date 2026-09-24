@@ -3,7 +3,8 @@ name: Deploy Quartz site to GitHub Pages
 on:
   push:
     branches:
-      - v4
+      - v5
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -23,11 +24,22 @@ jobs:
           fetch-depth: 0 # Fetch all history for git info
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: .node-version
+          cache: npm
       - name: Install Dependencies
         run: npm ci
 
-      # Get a fresh Strava access token
+      # Local plugins in plugins/ are symlinked into .quartz/plugins, never built by Quartz.
+      # --from-config resolves them from quartz.config.yaml (quartz.lock.json records local
+      # plugins by absolute path, which only exists on the machine that wrote it).
+      - name: Build and install Quartz plugins
+        run: |
+          npm run plugins:build
+          npx quartz plugin install --from-config
+
+      # Get a fresh Strava access token.
+      # Note: download-artifact only sees artifacts from the current run, so this never finds
+      # a previous token and the refresh always bootstraps from STRAVA_BOOTSTRAP_REFRESH_TOKEN.
       - name: Download previous encrypted token
         uses: actions/download-artifact@v4
         with:
@@ -62,26 +74,27 @@ jobs:
         run: |
           echo "STRAVA_ACCESS_TOKEN=$(jq -r '.access_token' strava-token.json)" >> .env
 
-      - name: Cache map artifacts
-        id: cache-maps
+      # Maps and GPX files from Mapbox/Strava (plugins/activity-map). A new cache is saved on
+      # every run and the newest one restored, so new files are only downloaded once. The last
+      # restore key is the v4 cache, which activity-map migrates to its new layout. (A cache
+      # only restores into the same paths it was saved from, hence two steps.)
+      - name: Cache maps
         uses: actions/cache@v4
-        env:
-          cache-name: cache-maps
         with:
           path: quartz/.quartz-cache/maps
-          key: quartz-maps-v2025.12.01.0
+          key: activity-map-maps-${{ github.run_id }}
           restore-keys: |
+            activity-map-maps-
             quartz-maps-v2025.12.01.0
-      - name: Cache GPX artifacts
-        id: cache-gpx
+      - name: Cache GPX files
         uses: actions/cache@v4
-        env:
-          cache-name: cache-gpx
         with:
           path: quartz/.quartz-cache/gpx
-          key: quartz-gpx-v2025.12.01.0
+          key: activity-map-gpx-${{ github.run_id }}
           restore-keys: |
+            activity-map-gpx-
             quartz-gpx-v2025.12.01.0
+
       - name: Build Quartz
         run: npx quartz build
         env:
