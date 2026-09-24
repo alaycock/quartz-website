@@ -15,3 +15,8 @@ quartz/cli/tui/dist/
 plugins/*/dist/
 # Only records local plugins (by absolute path); nothing to lock
 quartz.lock.json
+
+# Local secrets (kept from the v4 .gitignore)
+.env
+strava-token.json
+strava-token.json.enc

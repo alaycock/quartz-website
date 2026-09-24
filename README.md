@@ -84,11 +84,11 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 ### 3. Layout and components
 
 - [x] Explorer options (`quartz.ts`, `componentRegistry.setOptionOverrides`): v4 sort (Notes/Lists/Years, newest first), hide `routes`/`templates`/`tags`, open folders, no saved state. Dates come from `contentIndex.json` via the vendored `plugins/content-index` (`includeDates`, the v4 patch). Functions are stringified for the browser, so no named inner functions (esbuild's keepNames adds `__name()`).
-- [x] Explorer fork (`plugins/explorer`, vendored unmodified in `6265954f`): new options set in `quartz.ts`: `showTitle: false`, `showHomePage`, `folderLimits: { notes: 5 }` ("View more..."), `backButtonTag: "route"` (mobile back button, uses the `spa` `previousPage` patch). Also highlights the open folder. v4 explorer styles are overrides in `custom.scss`. Tree checked by rendering it in jsdom.
-- [x] Table of contents fork (`plugins/table-of-contents`, vendored unmodified in `6265954f`): `titleEntry: true` (page title first) and `highlight: passed` (v4: headings scrolled past, updated on `scrollend`). Sticky and v4 link styles are in `custom.scss`.
+- [x] Explorer fork (`plugins/explorer`, vendored unmodified in `2b7e7ca1`): new options set in `quartz.ts`: `showTitle: false`, `showHomePage`, `folderLimits: { notes: 5 }` ("View more..."), `backButtonTag: "route"` (mobile back button, uses the `spa` `previousPage` patch). Also highlights the open folder. v4 explorer styles are overrides in `custom.scss`. Tree checked by rendering it in jsdom.
+- [x] Table of contents fork (`plugins/table-of-contents`, vendored unmodified in `2b7e7ca1`): `titleEntry: true` (page title first) and `highlight: passed` (v4: headings scrolled past, updated on `scrollend`). Sticky and v4 link styles are in `custom.scss`.
 - [-] CardList (the v4 card grid on the home page and Notes folder page): dropped
 - [ ] **Add an embedded base (cards view) where the card grid was:** the home page (latest posts/trips, e.g. `limit: 7`) and the Notes folder page. `Posts.base` has a cards view (`image: note.cover`) to start from. For the Notes folder page, the embed goes in a `Notes/index.md`.
-- [x] Folder pages: vendored `plugins/folder-page` (rebuilt from the npm source maps; unmodified in `3adeebab`). No "Folder:" prefix (upstream default), `showFolderCount: false`, new `showDates`/`showTags` options, `<hr />` above the listing.
+- [x] Folder pages: vendored `plugins/folder-page` (rebuilt from the npm source maps; unmodified in `b5059fa4`). No "Folder:" prefix (upstream default), `showFolderCount: false`, new `showDates`/`showTags` options, `<hr />` above the listing.
 - [ ] **Broken: folder pages render too narrow** (e.g. `/lists/`)
 - [x] Footer social icons (`plugins/site-footer`)
 - [x] Page title logo (`plugins/site-title`). As in v4, the mobile styles expect a text `<span>` that the component never rendered, so mobile shows no title; add one if wanted.
@@ -111,17 +111,17 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 
 ### 5. CI and cutover
 
-- [x] Deploy workflow for v5 (`.github/workflows/deploy.yml`): triggers on push to `v5` and manually. Builds local plugins (`npm run plugins:build`), links them (`plugin install --from-config`), same Strava token steps, then `npx quartz build`. Tested on a fresh clone: same output as a local build.
+- [x] Deploy workflow for v5 (`.github/workflows/deploy.yml`): manual trigger only for now (no deploy on push). Builds local plugins (`npm run plugins:build`), links them (`plugin install --from-config`), same Strava token steps, then `npx quartz build`. Tested on a fresh clone: same output as a local build.
 - [x] Map/GPX caches: separate `maps` and `gpx` caches keyed per run and restored by prefix, so new files are cached (the v4 fixed keys were saved once and never updated). The first v5 run restores the v4 caches and `activity-map` migrates them.
 - [x] `quartz.lock.json` untracked: it only lists local plugins, by machine-specific absolute path
 - [ ] (later) The Strava "download previous token" step never finds a token (`download-artifact` only sees the current run without `run-id`/`github-token`), so every build refreshes from `STRAVA_BOOTSTRAP_REFRESH_TOKEN`. Same as v4; fine as long as that refresh token stays valid.
-- [ ] Switch GitHub default branch to `v5` and re-enable deploys
+- [ ] Cutover: add the `push: branches: [v5]` trigger back to the deploy workflow, switch the GitHub default branch to `v5`, and re-enable deploys
 
 ### Upstream candidates
 
 Changes made locally that could become PRs. Each is marked `// Site patch:` in the code.
 
-**[quartz-community/bases-page](https://github.com/quartz-community/bases-page)** (`plugins/bases-page`; diff against commit `af59d8d3` to see every patch):
+**[quartz-community/bases-page](https://github.com/quartz-community/bases-page)** (`plugins/bases-page`; diff against commit `290938d9` to see every patch):
 
 - [ ] View name matching for embeds (`pageType.ts`, `renderBasesInline`): OFM slugifies the `#block` of `![[X.base#View]]` with github-slugger, but `normalize()` only lowercases and dashes spaces, so views with punctuation ("Don't waste your time") aren't found. Fix: normalize with github-slugger. Watch the naming: `slug` is shadowed by a local variable there.
 - [ ] `link(this.file)` in embedded bases (`compiler/functions.ts`): `this.file` is a plain `{name, path, folder, ext}` object, not a full file value, so `link()` returned `[[[object Object]]]`. Fix: accept any object with a `path`.
@@ -135,15 +135,15 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 - [ ] Opt-in for querying `unlisted` pages (`resolver.ts`): we include notes with `dataOnly`. Upstream would need a general option (e.g. `includeUnlisted`, or a per-page flag).
 - [ ] Regex literals and a duration type (see the Bases section).
 
-**[quartz-community/folder-page](https://github.com/quartz-community/folder-page)** (`plugins/folder-page`; diff against `3adeebab`):
+**[quartz-community/folder-page](https://github.com/quartz-community/folder-page)** (`plugins/folder-page`; diff against `b5059fa4`):
 
 - [ ] `showDates` / `showTags` options for the page listing (`components/PageList.tsx`, `FolderContent.tsx`)
 
-**[quartz-community/content-index](https://github.com/quartz-community/content-index)** (`plugins/content-index`; diff against `64e6361f`):
+**[quartz-community/content-index](https://github.com/quartz-community/content-index)** (`plugins/content-index`; diff against `ae1b32b8`):
 
 - [ ] `includeDates` option to keep page dates in `contentIndex.json` (useful for Explorer sort functions)
 
-**[quartz-community/explorer](https://github.com/quartz-community/explorer)** (`plugins/explorer`; diff against `6265954f`):
+**[quartz-community/explorer](https://github.com/quartz-community/explorer)** (`plugins/explorer`; diff against `2b7e7ca1`):
 
 - [ ] Bug: the client script ignores `folderDefaultState` (always collapsed) and `useSavedState` (always reads localStorage)
 - [ ] Bug (not patched): the client script ignores `order` (always filter → map → sort)
@@ -151,7 +151,7 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 - [ ] Highlight the folder whose page is open
 - [ ] `overscroll-behavior: contain` on `ul.explorer-ul` blocks mouse-wheel page scrolling over the explorer when the list doesn't scroll on its own (non-height-limited sidebar). Overridden in `custom.scss` except on mobile; upstream could scope it to the mobile drawer.
 
-**[quartz-community/table-of-contents](https://github.com/quartz-community/table-of-contents)** (`plugins/table-of-contents`; diff against `6265954f`):
+**[quartz-community/table-of-contents](https://github.com/quartz-community/table-of-contents)** (`plugins/table-of-contents`; diff against `2b7e7ca1`):
 
 - [ ] Options: `titleEntry` (page title as the first entry), `highlight: "visible" | "passed"`
 
