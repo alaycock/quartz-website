@@ -2,7 +2,6 @@ import type { ViewRenderer, ViewTypeRegistration } from "../../types";
 import type { FullSlug } from "@quartz-community/types";
 import { i18n } from "../../i18n";
 import {
-  getColumnLabel,
   isEmptyValue,
   renderCellValue,
   resolveEntryPropertyValue,
@@ -59,9 +58,12 @@ const CardsView: ViewRenderer = ({
   linkResolution,
 }) => {
   const imageProperty = typeof view.image === "string" ? view.image : undefined;
-  const cardMetaColumns =
+  // Site patch: like Obsidian, a card shows the view's `order` properties (values only, the
+  // first as the card title) instead of the note title plus labelled properties. With no
+  // `order`, it shows the note title.
+  const cardColumns =
     view.order && view.order.length > 0
-      ? view.order.filter((column) => column !== imageProperty && column !== "file.name")
+      ? view.order.filter((column) => column !== imageProperty)
       : [];
   const localeStrings = i18n(locale).components.bases;
   const cardSize = view.cardSize;
@@ -90,9 +92,11 @@ const CardsView: ViewRenderer = ({
             : undefined;
           const rawImage = imageValue ? String(imageValue) : "";
           const { src: imageSrc, isColor } = resolveImageSrc(rawImage, imageOpts);
+          // Site patch: Obsidian's imageAspectRatio is height / width (0.5 = wide); CSS
+          // aspect-ratio is width / height
           const imageAspect =
             typeof aspectRatio === "number" && aspectRatio > 0
-              ? { aspectRatio: String(aspectRatio) }
+              ? { aspectRatio: String(1 / aspectRatio) }
               : undefined;
           // Site patch: entries without a page (data-only notes) aren't linked
           const hasPage = allSlugs.includes(entry.slug);
@@ -119,20 +123,24 @@ const CardsView: ViewRenderer = ({
                   style={{ ...imageAspect, backgroundColor: imageSrc }}
                 />
               )}
+              {/* Site patch: keep an empty image area when a card has no image, like Obsidian */}
+              {imageProperty && !imageSrc && (
+                <div class="bases-card-image bases-card-no-image" style={imageAspect} />
+              )}
               <div class="bases-card-body">
-                <span class="bases-card-title">{entry.title}</span>
-                <div class="bases-card-meta">
-                  {cardMetaColumns.map((column) => {
+                {cardColumns.length === 0 ? (
+                  <span class="bases-card-title">{entry.title}</span>
+                ) : (
+                  cardColumns.map((column, index) => {
                     const value = resolveEntryPropertyValue(column, entry);
                     if (isEmptyValue(value)) return null;
                     return (
-                      <div class="bases-card-row">
-                        <span class="bases-card-label">{getColumnLabel(column, basesData)}</span>
-                        <span class="bases-card-value">{renderCellValue(value, ctx)}</span>
-                      </div>
+                      <span class={index === 0 ? "bases-card-title" : "bases-card-value"}>
+                        {column === "file.name" ? entry.title : renderCellValue(value, ctx)}
+                      </span>
                     );
-                  })}
-                </div>
+                  })
+                )}
               </div>
             </a>
           );
