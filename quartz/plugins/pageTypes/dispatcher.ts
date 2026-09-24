@@ -214,6 +214,8 @@ export const PageTypeDispatcher: QuartzEmitterPlugin<Partial<DispatcherOptions>>
       for (const [tree, file] of content) {
         const slug = file.data.slug!
         const fileData = file.data
+        // Site patch: data-only notes (plugins/data-only) are queryable but never rendered
+        if (fileData.dataOnly) continue
         for (const pt of pageTypes) {
           if (pt.match({ slug, fileData, cfg })) {
             const layout = resolveLayout(pt, defaults, byPageType)

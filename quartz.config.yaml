@@ -241,6 +241,9 @@ plugins:
     enabled: true
     options: {}
     order: 45
+  - source: ./plugins/data-only
+    enabled: true
+    order: 46
   - source: "@quartz-community/encrypted-pages"
     enabled: true
     options:

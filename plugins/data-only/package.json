@@ -1,0 +1,25 @@
+{
+  "name": "data-only",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Notes without `publish: true` stay available as data (e.g. for bases) but get no page and are never linked.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "quartz": {
+    "name": "data-only",
+    "displayName": "Data-only notes",
+    "description": "Notes without `publish: true` stay available as data (e.g. for bases) but get no page and are never linked.",
+    "category": ["transformer", "filter"],
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "defaultOrder": 46,
+    "defaultEnabled": true,
+    "defaultOptions": {}
+  }
+}
