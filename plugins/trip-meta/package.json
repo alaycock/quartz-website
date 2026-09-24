@@ -1,0 +1,34 @@
+{
+  "name": "trip-meta",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Page header for posts, trips and routes: date, routes, people, stats, and Strava/GPX links.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "import": "./dist/components/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "quartz": {
+    "name": "trip-meta",
+    "displayName": "Trip meta",
+    "description": "Page header for posts, trips and routes: date, routes, people, stats, and Strava/GPX links.",
+    "category": "component",
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "defaultEnabled": true,
+    "defaultOptions": {},
+    "components": {
+      "TripMeta": {
+        "displayName": "Trip meta",
+        "defaultPosition": "beforeBody",
+        "defaultPriority": 20
+      }
+    }
+  }
+}

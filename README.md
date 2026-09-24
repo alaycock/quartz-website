@@ -68,11 +68,17 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 
 ### 2. Strava static maps
 
-- [ ] Port `ActivityMap` emitter, `Map` component and `assetCache` into a local plugin (`plugins/activity-map`)
-- [ ] Fix v4 bugs while porting: `emit` never yielded generated files (`length === 0` check), and map output used `"." + output`, which breaks with absolute `-o` paths
-- [ ] Map/GPX URLs must follow v5 slugs (lowercased), not hard-coded `/${slug}-map.jpg`
-- [ ] ContentMeta Strava/GPX links and trip stats (custom ContentMeta)
-- [ ] `dotenv` loading and `prequartz` Strava token refresh
+- [x] `plugins/activity-map`: emitter + `ActivityMap` sidebar component (right, above backlinks). For every published page with a `location`, a `route` to located routes, or a `strava` activity, it writes `<slug>-strava.gpx` and `<slug>-map.jpg`.
+  - Cache is content-addressed (`quartz/.quartz-cache/gpx/strava-<activity>.gpx`, `maps/map-<hash>.jpg`), so renames and v5's lowercased slugs don't cause refetches. Download failures are logged and skipped; the build carries on.
+  - Fixed v4 bugs: `emit` never yielded its files, and map output broke with an absolute `-o`. Dropped the `cheerio` dependency.
+  - Data-only notes get no map.
+  - If a map is missing (failed download), the sidebar box removes itself (`onerror`).
+- [x] Migrated the local v4 cache: 489 of 490 files reused via the v4 manifests, 1 new map downloaded
+- [ ] **Remove the v4 cache fallback** (`plugins/activity-map/src/cache.ts`, "v4 cache migration") after the CI cache has been migrated, then delete the old `Notes/`, `Routes/` and `.manifest.json` entries from both cache folders
+- [ ] **Refresh the Strava token and rebuild**: 8 activities added since January (2026-02-14 … 2026-08-27 Kirkjufell) failed with a 401 because the access token in `.env` has expired. `npm run quartz -- build` refreshes it (`scripts/prebuild.js`); I didn't run it since it rotates your credentials.
+- [x] `plugins/trip-meta` replaces community `content-meta` (date, routes, people, stats, DWYT/Kane, Strava + GPX links). Header text identical to v4 on all 512 pages the two builds share.
+- [x] `.env` loading without `dotenv` (`process.loadEnvFile`), `node-fetch` dropped from `scripts/refresh-token.js`; `prequartz` runs the plugin build and the Strava token refresh
+- [ ] GPX times are anchored at build time (`Date.now()`), inherited from v4: Strava streams only have offsets from the start. Fetch the activity's `start_date` if accurate times matter.
 
 ### 3. Layout and components
 

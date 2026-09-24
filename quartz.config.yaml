@@ -159,7 +159,7 @@ plugins:
       position: beforeBody
       priority: 10
   - source: "@quartz-community/content-meta"
-    enabled: true
+    enabled: false
     layout:
       position: beforeBody
       priority: 20
@@ -244,6 +244,16 @@ plugins:
   - source: ./plugins/data-only
     enabled: true
     order: 65
+  - source: ./plugins/trip-meta
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 20
+  - source: ./plugins/activity-map
+    enabled: true
+    layout:
+      position: right
+      priority: 10
   - source: "@quartz-community/encrypted-pages"
     enabled: true
     options:

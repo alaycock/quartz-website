@@ -1,5 +1,4 @@
 import fs from "fs"
-import fetch from "node-fetch"
 
 const clientId = process.env.STRAVA_CLIENT_ID
 const clientSecret = process.env.STRAVA_CLIENT_SECRET

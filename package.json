@@ -13,7 +13,7 @@
   },
   "scripts": {
     "plugins:build": "node plugins/build.mjs",
-    "prequartz": "npm run plugins:build",
+    "prequartz": "npm run plugins:build && node scripts/prebuild.js",
     "quartz": "./quartz/bootstrap-cli.mjs",
     "docs": "npx quartz build --serve -d docs",
     "check": "tsc --noEmit && npx prettier . --check",

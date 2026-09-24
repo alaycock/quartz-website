@@ -1,6 +1,12 @@
 {
   "version": "1.0.0",
   "plugins": {
+    "activity-map": {
+      "source": "./plugins/activity-map",
+      "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/activity-map",
+      "commit": "local",
+      "installedAt": "2026-09-24T17:51:42.786Z"
+    },
     "bases-page": {
       "source": "./plugins/bases-page",
       "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/bases-page",
@@ -12,6 +18,12 @@
       "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/data-only",
       "commit": "local",
       "installedAt": "2026-09-24T17:25:12.813Z"
+    },
+    "trip-meta": {
+      "source": "./plugins/trip-meta",
+      "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/trip-meta",
+      "commit": "local",
+      "installedAt": "2026-09-24T17:54:36.504Z"
     }
   }
 }

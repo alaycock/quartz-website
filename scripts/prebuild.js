@@ -4,14 +4,13 @@ import fs from "fs"
 import { execSync } from "child_process"
 import { fileURLToPath } from "url"
 import { dirname, join } from "path"
-import dotenv from "dotenv"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const projectRoot = join(__dirname, "..")
 
 // Load environment variables from .env file
-dotenv.config({ path: join(projectRoot, ".env") })
+if (fs.existsSync(join(projectRoot, ".env"))) process.loadEnvFile(join(projectRoot, ".env"))
 
 // Check if we're in a development environment (not CI)
 const isCI = process.env.CI === "true" || process.env.GITHUB_ACTIONS === "true"

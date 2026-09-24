@@ -1,0 +1,41 @@
+.content-meta {
+  margin-top: 0;
+  color: var(--darkgray);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meta-stats {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: end;
+}
+
+a.meta-stat {
+  .meta-stat-value {
+    height: 1.6rlh;
+    font-size: 1.6rem;
+    align-self: center;
+  }
+}
+
+.meta-stat {
+  display: flex;
+  flex-direction: column;
+
+  .meta-stat-value {
+    font-size: 1.6rem;
+
+    .meta-stat-unit {
+      margin-left: 0.3rem;
+      font-size: 0.875rem;
+    }
+  }
+
+  .meta-stat-name {
+    font-size: 0.875rem;
+  }
+}

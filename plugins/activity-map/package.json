@@ -1,0 +1,34 @@
+{
+  "name": "activity-map",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Static Mapbox maps and Strava GPX files for trips and routes.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "import": "./dist/components/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "quartz": {
+    "name": "activity-map",
+    "displayName": "Activity map",
+    "description": "Static Mapbox maps and Strava GPX files for trips and routes.",
+    "category": ["emitter", "component"],
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "defaultEnabled": true,
+    "defaultOptions": {},
+    "components": {
+      "ActivityMap": {
+        "displayName": "Activity map",
+        "defaultPosition": "right",
+        "defaultPriority": 10
+      }
+    }
+  }
+}
