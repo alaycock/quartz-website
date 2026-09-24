@@ -51,15 +51,19 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
   - [x] `==` compares numbers and numeric strings by value (`date.year == this.file.name`)
   - [x] the `tags` property has a `#` prefix, so `tags.filter(value.startsWith("#kane"))` works. **Inferred** from your formulas and the old Syncer output (Obsidian's bases engine); `file.tags`/`hasTag()` are unchanged. Revert in `resolver.ts` (`withObsidianValues`) if wrong.
   - [x] links to entries without a page (data-only notes) render as broken text in table/cards views and cells
-- [ ] **Formula: `Activity` column (`Trips.base` `formula.tags`, By Year).** `replace(/^#/, '')` uses a regex literal, which bases-page's parser doesn't support. Easiest fix is in the `.base`: `replace('#', '')` works in both Obsidian and Quartz.
-- [ ] **Formula: `Days` column and summary (By Year).** bases-page has no duration type: `date - (end + "1d")` gives milliseconds (`-86400000`) instead of Obsidian's duration ("a day"), and the custom summary `-values.reduce(...).days.ceil()` isn't supported (only built-in summaries). Needs a duration type in bases-page, or a simpler formula (e.g. a day count as a number).
+- [ ] **Regex literals aren't supported (`Activity` column, By Year).** `Trips.base` `formula.tags` is `tags.filter(value != '#trip')[0].toString().replace(/^#/, '')`. bases-page's lexer reads `/` as division, so the formula fails and the column shows `—` on every Year page. Options:
+  - change the `.base` to `replace('#', '')` (works in Obsidian and Quartz; quickest)
+  - add regex literals to bases-page's lexer/parser (`src/compiler/lexer.ts`, `parser.ts`), with `replace()` accepting a RegExp. Upstream candidate.
+- [ ] **Durations (later): `Days` column and summary (By Year).** bases-page has no duration type:
+  - `date - (if(note["end date"], note["end date"], date) + "1d")` returns milliseconds (`-86400000`) where Obsidian returns a duration displayed as "a day"
+  - the custom summary `Days: -values.reduce(value + acc, duration('0s')).days.ceil()` needs `reduce()`, duration arithmetic and `.days`, and bases-page only supports built-in summaries (Sum, Average, …)
+  - Fix: a duration type in bases-page (Date − Date, `duration()`, `+`/`-`, `.days`/`.hours`/…, humanized rendering like "2 days"), `list.reduce()`, and custom formula summaries. Upstream candidate.
 - [ ] By Year: trips on the same day can come out in a different order (the view only sorts by `formula.Date`). Add a secondary sort in the `.base` if it matters.
 - [ ] Standalone base pages are emitted at `/templates/bases/*.base` (unlinked, but public). Hide them. They also show raw `#`-prefixed tags.
 - [ ] bases-page list, gallery and board views still link entries without pages (only table and cards are patched; the site doesn't use the others yet)
-- [ ] Offer the bases-page fixes upstream as PRs
-- [x] `Nugara Scrambles` 117 → 115 rows: the old table had four rows for variant notes that don't exist ("Loaf Mountain north/south", "Mount Rowe southeast/via lakes"); the new one lists the two real route notes. Not a bug.
+- [ ] Offer the bases-page fixes upstream as PRs (see "Upstream candidates" below)
+- [x] `Nugara Scrambles` 117 → 115 rows: the old pre-rendered table was stale. It still listed "Loaf Mountain north/south" and "Mount Rowe southeast/via lakes", route notes deleted from the site on 2025-11-27 (`ed1dcb7f`) and merged into `Loaf Mountain` and `Mount Rowe`. The new table lists the merged notes. Not a bug.
 - [-] "No attempts" row for empty tables (v4 OFM patch). Dropped.
-- Note: `Completed` renders as a checkbox instead of ✅. Two Kane elevations the old renderer left blank now show values.
 - Content: `Notes/2026-09-24.md` in the vault is an unfilled template (`"{ date }"` placeholders), which causes an invalid-date warning on every build.
 
 ### 2. Strava static maps
@@ -98,6 +102,29 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 - [ ] `quartz.lock.json` records local plugins with an absolute `resolved` path. Check that `npx quartz plugin install` works in CI.
 - [ ] Compare against the v4 build and check old (mixed-case) URLs redirect
 - [ ] Switch GitHub default branch to `v5`
+
+### Upstream candidates
+
+Changes made locally that could become PRs. Each is marked `// Site patch:` in the code.
+
+**[quartz-community/bases-page](https://github.com/quartz-community/bases-page)** (`plugins/bases-page`; diff against commit `af59d8d3` to see every patch):
+
+- [ ] View name matching for embeds (`pageType.ts`, `renderBasesInline`): OFM slugifies the `#block` of `![[X.base#View]]` with github-slugger, but `normalize()` only lowercases and dashes spaces, so views with punctuation ("Don't waste your time") aren't found. Fix: normalize with github-slugger. Watch the naming: `slug` is shadowed by a local variable there.
+- [ ] `link(this.file)` in embedded bases (`compiler/functions.ts`): `this.file` is a plain `{name, path, folder, ext}` object, not a full file value, so `link()` returned `[[[object Object]]]`. Fix: accept any object with a `path`.
+- [ ] `list.contains(link)` (`compiler/functions.ts`): compare wikilinks by target note, so `[[Routes/Mount Bourgeau]]` matches `[[Mount Bourgeau]]` (Obsidian resolves links before comparing).
+- [ ] Bare column names (`components/shared/cell.tsx`, `views/table.tsx`): `properties.note.x.displayName` and `columnSize.note.x` should apply when a view's `order` lists `x`, as in Obsidian.
+- [ ] Date-typed frontmatter (`resolver.ts`): Quartz parses YAML with js-yaml's JSON schema, so dates are strings and `date.year`, `.format()`, date sorting and date arithmetic don't work. Fix: convert ISO date strings to `Date`s; sort `Date`s by time (`compareSort`); render `Date` cells (`cell.tsx`). Upstream may prefer reading property types from `.obsidian/types.json` over pattern matching.
+- [ ] `date + "8h"` / `date - "1d"` (`compiler/interpreter.ts`): Obsidian accepts a duration string on the right of a date.
+- [ ] `==` / `!=` between numbers and numeric strings (`compiler/interpreter.ts`): Obsidian compares by value (`date.year == this.file.name`).
+- [ ] `#`-prefixed `tags` property (`resolver.ts`): matches Obsidian, but inferred (see above). Confirm before proposing.
+- [ ] Links to entries that have no page (`components/shared/links.tsx`, `cell.tsx`, `views/table.tsx`, `views/cards.tsx`): render as `<a class="internal broken">` instead of linking to a 404. Still to do for list, gallery and board views.
+- [ ] Opt-in for querying `unlisted` pages (`resolver.ts`): we include notes with `dataOnly`. Upstream would need a general option (e.g. `includeUnlisted`, or a per-page flag).
+- [ ] Regex literals and a duration type (see the Bases section).
+
+**Quartz core / other plugins:**
+
+- [ ] "Data-only" pages as a concept (`plugins/data-only` + `quartz/plugins/pageTypes/dispatcher.ts`): parse a note so plugins like bases can query it, but never emit a page or link to it. Currently a local plugin plus a one-line dispatcher patch; upstream this could be a core `file.data` flag the dispatcher and crawl-links respect.
+- [ ] crawl-links: `disableBrokenWikilinks` adds a `broken` class but keeps the `href`, so broken links still go to a 404. Option to drop the `href` (we do it in `plugins/data-only`).
 
 ### Backlog
 
