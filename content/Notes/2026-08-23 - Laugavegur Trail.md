@@ -1,7 +1,7 @@
 ---
-publish: true
+publish: false
 created: 2026-08-23
-modified: 2026-09-08T16:15:49.003-06:00
+modified: 2026-09-24T12:37:49.526-06:00
 published: 2026-08-23
 tags:
   - trip

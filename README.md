@@ -64,7 +64,7 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 - [ ] Offer the bases-page fixes upstream as PRs (see "Upstream candidates" below)
 - [x] `Nugara Scrambles` 117 → 115 rows: the old pre-rendered table was stale. It still listed "Loaf Mountain north/south" and "Mount Rowe southeast/via lakes", route notes deleted from the site on 2025-11-27 (`ed1dcb7f`) and merged into `Loaf Mountain` and `Mount Rowe`. The new table lists the merged notes. Not a bug.
 - [-] "No attempts" row for empty tables (v4 OFM patch). Dropped.
-- Content: `Notes/2026-09-24.md` in the vault is an unfilled template (`"{ date }"` placeholders), which causes an invalid-date warning on every build.
+- Note: with `allNotesPublishableByDefault` on, Quartz Syncer writes `publish: true` into notes that have no `publish` key, so Quartz can't tell "missing" from "true". Notes need an explicit `publish: false` (the Trip Template has one) to stay data-only.
 
 ### 2. Strava static maps
 
