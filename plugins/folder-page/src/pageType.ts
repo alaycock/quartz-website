@@ -20,6 +20,7 @@ export interface FolderPageOptions {
   // Site patch: listing options (see FolderContentOptions)
   showDates?: boolean;
   showTags?: boolean;
+  hideListing?: string[];
 }
 
 const folderMatcher: PageMatcher = ({ slug }) => {

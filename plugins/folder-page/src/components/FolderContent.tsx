@@ -20,6 +20,9 @@ interface FolderContentOptions {
   // Site patch: show each page's date and tags in the listing
   showDates: boolean;
   showTags: boolean;
+  // Site patch: folders (path without "/index", e.g. "lists") that show only their index
+  // page's content, without the generated page listing
+  hideListing: string[];
 }
 
 const defaultOptions: FolderContentOptions = {
@@ -27,6 +30,7 @@ const defaultOptions: FolderContentOptions = {
   showSubfolders: true,
   showDates: true,
   showTags: true,
+  hideListing: [],
 };
 
 interface TrieNode {
@@ -198,6 +202,8 @@ export default ((opts?: Partial<FolderContentOptions>) => {
         <article class={classes}>
           <div class="markdown-preview-view markdown-rendered">{content}</div>
         </article>
+        {/* Site patch: hideListing */}
+        {!options.hideListing.includes(slug.replace(/\/index$/, "")) && (
         <div class="page-listing">
           {options.showFolderCount && (
             <p>
@@ -212,6 +218,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
           <hr />
           <div>{pageListContent}</div>
         </div>
+        )}
       </div>
     );
   };
