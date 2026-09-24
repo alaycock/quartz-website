@@ -84,7 +84,7 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 
 - [x] Explorer options (`quartz.ts`, `componentRegistry.setOptionOverrides`): v4 sort (Notes/Lists/Years, newest first), hide `routes`/`templates`/`tags`, open folders, no saved state. Dates come from `contentIndex.json` via the vendored `plugins/content-index` (`includeDates`, the v4 patch). Functions are stringified for the browser, so no named inner functions (esbuild's keepNames adds `__name()`).
 - [ ] **Explorer fork** (needs the real source: the npm package's inline script is minified): mobile back button on route pages, homepage entry first, Notes capped at 5 with "View more", active folder highlight, no desktop "Explorer" title button. Needs the `spa` `previousPage` patch below for the back button.
-- [ ] **Table of contents fork** (also needs the real source): page-title entry, `sticky` class, highlight on scroll end instead of IntersectionObserver
+- [ ] **Table of contents fork** (also needs the real source): page-title entry, highlight on scroll end instead of IntersectionObserver. Sticky is done in `custom.scss`.
 - [x] CardList (`plugins/card-list`): home page (`afterBody`, limit 7, via the `is-index` condition registered in `quartz.ts`) and the Notes folder page. Skips data-only notes. Default cover colours differ from v4 because v5 slugs changed; v4 also left some cards without a colour (negative hash index), now fixed.
 - [x] Folder pages: vendored `plugins/folder-page` (rebuilt from the npm source maps; unmodified in `3adeebab`). No "Folder:" prefix (upstream default), `showFolderCount: false`, new `showDates`/`showTags`/`cardFolders` options, `<hr />` above the listing.
 - [x] Footer social icons (`plugins/site-footer`)
@@ -98,7 +98,7 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 
 ### 4. Core patches (check each; re-apply only if still needed)
 
-- [ ] `spa`: `previousPage` history state (used by the Explorer back button), hide the loading bar on file downloads
+- [x] `spa`: `previousPage` history state (for the Explorer back button), hide the loading bar on file downloads (core patch, `quartz/components/scripts/spa.inline.ts`)
 - [x] Content index: keep `date` (vendored `plugins/content-index`, `includeDates` option). The v4 client-side `Date` parsing isn't needed; the sort function parses the date itself.
 - [x] Assets: resize jpg/png with sharp (max width 1200, jpeg quality 80), core patch in `quartz/plugins/emitters/assets.ts`. Output assets 13 MB (same as v4) from 114 MB of originals.
 - [x] Slugs: v4 dropped commas and collapsed repeated dashes; v5 emits e.g. `amesthst-lakes--and--surprise-point`. Matching v4's rules isn't practical (every community plugin bundles its own copy of the slug function), so `plugins/legacy-redirects` writes redirects at the 52 v4 URLs that differ by more than case. `alias-redirects` covers case-only changes, but only on case-sensitive filesystems (it skips on macOS, runs in CI).

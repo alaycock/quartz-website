@@ -30,3 +30,10 @@ article.list-table {
     }
   }
 }
+
+// Keep the table of contents in view while scrolling. v4 added a `sticky` class to the
+// TOC; in v5 it sits inside a display wrapper, which is what has to stick.
+.sidebar.left .desktop-only:has(> .toc) {
+  position: sticky;
+  top: 2rem;
+}

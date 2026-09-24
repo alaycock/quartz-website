@@ -64,6 +64,8 @@ function stopLoading() {
 
 let isNavigating = false
 let p: DOMParser
+// Site patch: history entries record the page they came from (previousPage), so the
+// Explorer's mobile back button can go back within the site or fall back to the home page
 async function _navigate(url: URL, isBack: boolean = false) {
   isNavigating = true
   startLoading()
@@ -81,7 +83,11 @@ async function _navigate(url: URL, isBack: boolean = false) {
       window.location.assign(url)
     })
 
-  if (!contents) return
+  if (!contents) {
+    // Site patch: the link was a file download (e.g. GPX), so there's no page to load
+    stopLoading()
+    return
+  }
 
   // notify about to nav
   const event: CustomEventMap["prenav"] = new CustomEvent("prenav", { detail: {} })
@@ -129,7 +135,7 @@ async function _navigate(url: URL, isBack: boolean = false) {
   // delay setting the url until now
   // at this point everything is loaded so changing the url should resolve to the correct addresses
   if (!isBack) {
-    history.pushState({}, "", url)
+    history.pushState({ previousPage: window.location.toString() }, "", url)
   }
 
   notifyNav(getFullSlug(window))
@@ -163,7 +169,7 @@ function createRouter() {
       if (isSamePage(url) && url.hash) {
         const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
         el?.scrollIntoView()
-        history.pushState({}, "", url)
+        history.pushState({ previousPage: window.location.toString() }, "", url)
         return
       }
 
