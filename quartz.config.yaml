@@ -136,8 +136,7 @@ plugins:
       showFolderCount: false
       showDates: false
       showTags: false
-      hideListing:
-        - lists
+      hideListingWithIndex: true
   - source: "@quartz-community/tag-page"
     enabled: true
   - source: ./plugins/explorer
