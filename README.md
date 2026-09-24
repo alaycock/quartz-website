@@ -32,26 +32,39 @@ Status key: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` dropped
 
 ### 1. Bases (main goal)
 
+How it works: bases are rendered by a vendored copy of [bases-page](https://github.com/quartz-community/bases-page) in `plugins/bases-page` (upstream 1.0.0, `5c729d1`). Every change is marked `// Site patch:`, and the first commit touching that folder is the unmodified upstream code, so `git diff` against it shows every patch. Notes without `publish: true` are handled by `plugins/data-only`.
+
+Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 route pages identical; the other 9 differ only because of trips logged since January):
+
 - [x] Publish `.base` files (Syncer → `content/templates/bases/`) and remove `templates` from `ignorePatterns`
-- [~] **Trip data is unpublished.** `Trips.base#Trip reports` (483 route pages) and `Trips.base#By Year` (7 year pages) query trip notes, but only 9 of 314 trip notes are published. The old tables were pre-rendered from the whole vault. Plan: "data-only" notes.
-  - [ ] Syncer publishes every note (including `publish: false` ones) to the repo
-  - [ ] Site plugin marks notes without `publish: true` as `unlisted` + `dataOnly`. `unlisted` hides them from the content index, sitemap, RSS, search, graph, explorer, backlinks, and folder/tag listings.
-  - [ ] Core patch: the page dispatcher skips emitting `dataOnly` notes
-  - [ ] Remove `dataOnly` slugs from `ctx.allSlugs` before links are crawled, so wikilinks to them render as broken/plain text (as in v4)
-  - [ ] bases-page (vendored fork): include `dataOnly` notes even though they're `unlisted`
-- [ ] bases-page bug: embeds whose view name has an apostrophe fail with "View not found" (`Lists.base#Don't waste your time`). OFM slugifies the `#block` (`dont-waste-your-time`), but bases-page's `normalize()` only lowercases and dashes spaces. Fix upstream in `pageType.ts`.
-- [ ] bases-page bug: `link(this.file)` returns `[[[object Object]]]` because the embedding page's `this.file` is a plain object, not a file value. Breaks `route.contains(link(this.file))` (Trips `Trip reports`). `route.contains(this.file)` works, so either fix upstream or change the formula.
-- [ ] Formula: `tags.filter(value.startsWith("#kane"))` and the equivalents for `#dwyt` and `#nugara` return nothing. Quartz tags don't have the `#` prefix. Affects the Kane, DWYT and Nugara columns.
-- [ ] Column display names from `properties: note.x` don't apply when the view's `order` uses the bare name `x` (e.g. `Elevation (m)` shows as `Elevation`). Probably a bases-page bug.
-- [ ] `Nugara Scrambles` shows 115 rows vs 117 before. Investigate.
-- [ ] Verify in a real build once trip data is available: `date.year == this.file.name` (By Year), `(date + "8h").format(...)`, `date - (... + "1d")` durations, the regex literal in `formula.tags` (`replace(/^#/, "")`), `file(list(route)[0]).properties.region`, and the custom summary `Days: -values.reduce(...)` (bases-page only implements built-in summaries).
-- [ ] Standalone base pages are emitted at `/templates/bases/*.base`. Hide or unlist them, or drop them from backlinks.
+- [x] **Trip data ("data-only" notes).** Syncer publishes every note. `plugins/data-only` marks notes without `publish: true` as `unlisted` + `dataOnly`:
+  - [x] hidden from the content index, sitemap, RSS, search, graph, explorer, backlinks, and folder/tag listings (via `unlisted`)
+  - [x] never emitted as pages (core patch in `quartz/plugins/pageTypes/dispatcher.ts`)
+  - [x] removed from `ctx.allSlugs`, so wikilinks to them are broken links; broken links lose their `href` so nothing links to an unpublished page
+  - [x] bases-page still queries them (the only consumer that sees them)
+  - [x] Site has 0 dead internal links
+- [x] bases-page fixes (vendored, `// Site patch:`):
+  - [x] embeds whose view name has punctuation (`Lists.base#Don't waste your time`) failed with "View not found"
+  - [x] `link(this.file)` returned `[[[object Object]]]` for embedded bases, so `route.contains(link(this.file))` matched nothing; wikilinks in `contains()` now compare by target note
+  - [x] `properties: note.x` display names and `columnSize: note.x` widths weren't applied to bare `x` columns
+  - [x] frontmatter dates were strings: now `Date`s, so `date.year`, `date + "8h"`, `.format()` and date sorting work; dates render as `YYYY-MM-DD`
+  - [x] `==` compares numbers and numeric strings by value (`date.year == this.file.name`)
+  - [x] the `tags` property has a `#` prefix, so `tags.filter(value.startsWith("#kane"))` works. **Inferred** from your formulas and the old Syncer output (Obsidian's bases engine); `file.tags`/`hasTag()` are unchanged. Revert in `resolver.ts` (`withObsidianValues`) if wrong.
+  - [x] links to entries without a page (data-only notes) render as broken text in table/cards views and cells
+- [ ] **Formula: `Activity` column (`Trips.base` `formula.tags`, By Year).** `replace(/^#/, '')` uses a regex literal, which bases-page's parser doesn't support. Easiest fix is in the `.base`: `replace('#', '')` works in both Obsidian and Quartz.
+- [ ] **Formula: `Days` column and summary (By Year).** bases-page has no duration type: `date - (end + "1d")` gives milliseconds (`-86400000`) instead of Obsidian's duration ("a day"), and the custom summary `-values.reduce(...).days.ceil()` isn't supported (only built-in summaries). Needs a duration type in bases-page, or a simpler formula (e.g. a day count as a number).
+- [ ] By Year: trips on the same day can come out in a different order (the view only sorts by `formula.Date`). Add a secondary sort in the `.base` if it matters.
+- [ ] Standalone base pages are emitted at `/templates/bases/*.base` (unlinked, but public). Hide them. They also show raw `#`-prefixed tags.
+- [ ] bases-page list, gallery and board views still link entries without pages (only table and cards are patched; the site doesn't use the others yet)
+- [ ] Offer the bases-page fixes upstream as PRs
+- [x] `Nugara Scrambles` 117 → 115 rows: the old table had four rows for variant notes that don't exist ("Loaf Mountain north/south", "Mount Rowe southeast/via lakes"); the new one lists the two real route notes. Not a bug.
 - [-] "No attempts" row for empty tables (v4 OFM patch). Dropped.
-- Note: the `Completed` column now renders as a checkbox instead of ✅.
+- Note: `Completed` renders as a checkbox instead of ✅. Two Kane elevations the old renderer left blank now show values.
+- Content: `Notes/2026-09-24.md` in the vault is an unfilled template (`"{ date }"` placeholders), which causes an invalid-date warning on every build.
 
 ### 2. Strava static maps
 
-- [ ] Port `ActivityMap` emitter, `Map` component and `assetCache` into the site plugin (`plugins/site`)
+- [ ] Port `ActivityMap` emitter, `Map` component and `assetCache` into a local plugin (`plugins/activity-map`)
 - [ ] Fix v4 bugs while porting: `emit` never yielded generated files (`length === 0` check), and map output used `"." + output`, which breaks with absolute `-o` paths
 - [ ] Map/GPX URLs must follow v5 slugs (lowercased), not hard-coded `/${slug}-map.jpg`
 - [ ] ContentMeta Strava/GPX links and trip stats (custom ContentMeta)
@@ -81,7 +94,8 @@ Status key: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` dropped
 
 ### 5. CI and cutover
 
-- [ ] New deploy workflow: plugin install, `.quartz/plugins` cache, Strava token steps, map/GPX caches
+- [ ] New deploy workflow: `npm run plugins:build` (local plugins in `plugins/` are symlinked, never built by Quartz), plugin install, `.quartz/plugins` cache, Strava token steps, map/GPX caches
+- [ ] `quartz.lock.json` records local plugins with an absolute `resolved` path. Check that `npx quartz plugin install` works in CI.
 - [ ] Compare against the v4 build and check old (mixed-case) URLs redirect
 - [ ] Switch GitHub default branch to `v5`
 

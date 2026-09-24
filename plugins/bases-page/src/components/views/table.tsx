@@ -4,6 +4,7 @@ import { i18n } from "../../i18n";
 import {
   formatValue,
   getColumnLabel,
+  getColumnSetting,
   getColumns,
   isEmptyValue,
   renderCellValue,
@@ -56,13 +57,16 @@ function renderRow(
         const value = resolveEntryPropertyValue(column, entry);
         const display = formatValue(value);
         const isPrimary = column === "file.name" || column === "title";
-        const columnWidth = view.columnSize?.[column];
+        const columnWidth = getColumnSetting(view.columnSize, column);
         const style = columnWidth
           ? { width: `${columnWidth}px`, minWidth: `${columnWidth}px` }
           : undefined;
         return (
           <td data-value={display} style={style}>
-            {isPrimary ? (
+            {isPrimary && !allSlugs.includes(entry.slug) ? (
+              // Site patch: entries without a page (data-only notes) aren't linked
+              <a class="internal broken">{display || entry.title}</a>
+            ) : isPrimary ? (
               <a
                 href={transformLink(slug as FullSlug, entry.slug, transformOpts)}
                 class="internal internal-link"
@@ -110,7 +114,7 @@ const TableView: ViewRenderer = ({
         <thead>
           <tr>
             {columns.map((column) => {
-              const columnWidth = view.columnSize?.[column];
+              const columnWidth = getColumnSetting(view.columnSize, column);
               const style = columnWidth
                 ? { width: `${columnWidth}px`, minWidth: `${columnWidth}px` }
                 : undefined;

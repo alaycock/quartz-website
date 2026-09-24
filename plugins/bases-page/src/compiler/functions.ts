@@ -87,6 +87,12 @@ function isFileValue(value: unknown): value is EvalContext["file"] {
   );
 }
 
+// Site patch: `this.file` for an embedded base is a plain {name, path, folder, ext}
+// object rather than a full file value, so accept anything with a path.
+function isFileLike(value: unknown): value is { name: string; path: string; basename?: string } {
+  return isRecord(value) && typeof value.name === "string" && typeof value.path === "string";
+}
+
 function resolveSelfName(value: unknown): string | null {
   if (!isRecord(value)) return null;
   if (isRecord(value.file) && typeof (value.file as Record<string, unknown>).name === "string") {
@@ -147,7 +153,7 @@ function isDigit(ch: string): boolean {
   return code >= 48 && code <= 57;
 }
 
-function parseDuration(value: string): number | undefined {
+export function parseDuration(value: string): number | undefined {
   const trimmed = value.trim();
   if (!trimmed) return undefined;
 
@@ -325,9 +331,9 @@ registerGlobalFunction("list", ([value]) => {
 });
 
 registerGlobalFunction("link", ([path, display]) => {
-  const target = isFileValue(path) ? path.path.replace(/\.md$/, "") : toStringValue(path);
+  const target = isFileLike(path) ? path.path.replace(/\.md$/, "") : toStringValue(path);
   if (!target) return "";
-  const label = isFileValue(display) ? display.basename : toStringValue(display);
+  const label = isFileLike(display) ? (display.basename ?? display.name) : toStringValue(display);
   return label ? `[[${target}|${label}]]` : `[[${target}]]`;
 });
 
@@ -741,6 +747,13 @@ registerMethodFunction("list", "contains", (target, [needle]) => {
     const slugNeedle = slugifyPath(needle);
     if (target.some((item) => typeof item === "string" && slugifyPath(item) === slugNeedle))
       return true;
+    // Site patch: compare wikilinks by the note they point at, so link(this.file)
+    // ("[[Routes/Mount Bourgeau]]") matches "[[Mount Bourgeau]]" like it does in Obsidian
+    const linkTarget = needle.match(/^\[\[([^\]|#]+)/)?.[1];
+    if (linkTarget) {
+      const name = linkTarget.split("/").pop() ?? linkTarget;
+      if (listContainsName(target, name, `${linkTarget}.md`)) return true;
+    }
   }
   const name = resolveSelfName(needle);
   return name ? listContainsName(target, name, resolveSelfPath(needle)) : false;

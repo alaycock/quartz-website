@@ -1,3 +1,4 @@
+import { slug as githubSlug } from "github-slugger";
 import type {
   QuartzPageTypePlugin,
   PageMatcher,
@@ -199,7 +200,9 @@ function renderBasesInline(
   let views = basesData.views ?? [];
 
   if (viewName) {
-    const normalize = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
+    // Site patch: OFM slugifies the embed's #block with github-slugger, which also drops
+    // punctuation like apostrophes, so normalize view names the same way.
+    const normalize = (s: string) => githubSlug(s);
     const viewNameNorm = normalize(viewName);
     views = views.filter((v) => v.name !== undefined && normalize(v.name) === viewNameNorm);
     if (views.length === 0) {

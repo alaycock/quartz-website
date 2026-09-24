@@ -94,9 +94,15 @@ const CardsView: ViewRenderer = ({
             typeof aspectRatio === "number" && aspectRatio > 0
               ? { aspectRatio: String(aspectRatio) }
               : undefined;
-          const href = transformLink(slug as FullSlug, entry.slug, transformOpts);
+          // Site patch: entries without a page (data-only notes) aren't linked
+          const hasPage = allSlugs.includes(entry.slug);
+          const href = hasPage ? transformLink(slug as FullSlug, entry.slug, transformOpts) : undefined;
           return (
-            <a href={href} class="internal internal-link bases-card" data-slug={entry.slug}>
+            <a
+              href={href}
+              class={hasPage ? "internal internal-link bases-card" : "internal broken bases-card"}
+              data-slug={entry.slug}
+            >
               {imageSrc && !isColor && (
                 <div class="bases-card-image" style={imageAspect}>
                   <img

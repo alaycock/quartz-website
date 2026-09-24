@@ -1,6 +1,8 @@
 import fs from "node:fs"
 import path from "node:path"
 import { parse as parseYaml } from "yaml"
+import { visit } from "unist-util-visit"
+import type { Element, Root } from "hast"
 import { slugifyFilePath } from "@quartz-community/utils/path"
 import type { BuildCtx, FilePath, FullSlug } from "@quartz-community/types"
 
@@ -15,6 +17,8 @@ import type { BuildCtx, FilePath, FullSlug } from "@quartz-community/types"
  *   them (core patch in quartz/plugins/pageTypes/dispatcher.ts)
  * - their slugs are removed from `ctx.allSlugs`, so links to them render as
  *   broken links instead of pointing at pages that don't exist
+ * - broken internal links lose their href, so they're never clickable (this plugin
+ *   must run after crawl-links, which marks them)
  */
 interface Options {
   /** Frontmatter key that must be `true` for a note to be published as a page */
@@ -83,12 +87,19 @@ export default (userOpts?: Partial<Options>) => {
     htmlPlugins(ctx: BuildCtx) {
       hideDataOnlySlugs(ctx, opts)
       return [
-        () => (_tree: unknown, file: { data: Record<string, unknown> }) => {
+        () => (tree: Root, file: { data: Record<string, unknown> }) => {
           const frontmatter = file.data.frontmatter as Record<string, unknown> | undefined
           if (!isPublished(frontmatter, opts)) {
             file.data.unlisted = true
             file.data.dataOnly = true
           }
+
+          visit(tree, "element", (node: Element) => {
+            const classes = node.properties?.className
+            if (node.tagName === "a" && Array.isArray(classes) && classes.includes("broken")) {
+              delete node.properties.href
+            }
+          })
         },
       ]
     },

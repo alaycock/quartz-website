@@ -66,10 +66,16 @@ const plugins = fs
 
 for (const name of plugins) {
   const dir = path.join(pluginsDir, name)
-  const entryPoints = { index: path.join(dir, "src/index.ts") }
-  for (const ext of ["ts", "tsx"]) {
-    const components = path.join(dir, `src/components/index.${ext}`)
-    if (fs.existsSync(components)) entryPoints["components/index"] = components
+  // Entry points come from package.json exports: "./dist/<x>.js" is built from src/<x>.ts(x)
+  const { exports } = JSON.parse(fs.readFileSync(path.join(dir, "package.json"), "utf8"))
+  const entryPoints = {}
+  for (const target of Object.values(exports)) {
+    const out = typeof target === "object" ? target.import : undefined
+    const entry = out?.match(/^\.\/dist\/(.+)\.js$/)?.[1]
+    if (!entry) continue
+    const src = ["ts", "tsx"].map((ext) => path.join(dir, `src/${entry}.${ext}`)).find(fs.existsSync)
+    if (!src) throw new Error(`${name}: no source for export ${out}`)
+    entryPoints[entry] = src
   }
 
   const options = {

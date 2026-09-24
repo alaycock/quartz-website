@@ -18,7 +18,7 @@
     "category": ["transformer", "filter"],
     "version": "0.1.0",
     "quartzVersion": ">=5.0.0",
-    "defaultOrder": 46,
+    "defaultOrder": 65,
     "defaultEnabled": true,
     "defaultOptions": {}
   }

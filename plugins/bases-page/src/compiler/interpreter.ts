@@ -1,4 +1,4 @@
-import { getGlobalFunction, getMethodFunction } from "./functions";
+import { getGlobalFunction, getMethodFunction, parseDuration } from "./functions";
 import type { Instruction } from "./ir";
 
 export type EvalContext = {
@@ -55,15 +55,19 @@ function toStringValue(value: unknown): string {
   return String(value);
 }
 
+// Site patch: Obsidian compares numbers and numeric strings by value (e.g. `date.year == this.file.name`)
+function looseEquals(left: unknown, right: unknown): boolean {
+  if (isDateValue(left) && isDateValue(right)) return left.getTime() === right.getTime();
+  if (typeof left === "number" && typeof right === "string" && right.trim() !== "")
+    return left === Number(right);
+  if (typeof left === "string" && typeof right === "number" && left.trim() !== "")
+    return Number(left) === right;
+  return left === right;
+}
+
 function compareValues(left: unknown, right: unknown, operator: string): boolean {
-  if (operator === "==") {
-    if (isDateValue(left) && isDateValue(right)) return left.getTime() === right.getTime();
-    return left === right;
-  }
-  if (operator === "!=") {
-    if (isDateValue(left) && isDateValue(right)) return left.getTime() !== right.getTime();
-    return left !== right;
-  }
+  if (operator === "==") return looseEquals(left, right);
+  if (operator === "!=") return !looseEquals(left, right);
 
   if (isDateValue(left) && isDateValue(right)) {
     const leftMs = left.getTime();
@@ -96,7 +100,18 @@ function isDateValue(value: unknown): value is Date {
   return value instanceof Date && !Number.isNaN(value.getTime());
 }
 
+// Site patch: Obsidian allows `date + "1d"`; treat a duration string on the right of a date as a duration
+function asDuration(value: unknown): number | undefined {
+  return typeof value === "string" ? parseDuration(value) : undefined;
+}
+
 function applyBinary(operator: string, left: unknown, right: unknown): unknown {
+  if ((operator === "+" || operator === "-") && isDateValue(left)) {
+    const duration = asDuration(right);
+    if (duration !== undefined) {
+      return new Date(left.getTime() + (operator === "+" ? duration : -duration));
+    }
+  }
   if (operator === "+") {
     // Date + number (duration in ms) = new Date
     if (isDateValue(left) && typeof right === "number") {

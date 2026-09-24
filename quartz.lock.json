@@ -1,6 +1,12 @@
 {
   "version": "1.0.0",
   "plugins": {
+    "bases-page": {
+      "source": "./plugins/bases-page",
+      "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/bases-page",
+      "commit": "local",
+      "installedAt": "2026-09-24T17:27:15.044Z"
+    },
     "data-only": {
       "source": "./plugins/data-only",
       "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/data-only",

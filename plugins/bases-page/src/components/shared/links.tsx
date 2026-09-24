@@ -1,7 +1,7 @@
 import type { ComponentChild } from "preact";
 import type { FullSlug } from "@quartz-community/types";
 
-import { transformLink } from "@quartz-community/utils";
+import { slugifyPath, transformLink } from "@quartz-community/utils";
 
 const WIKILINK_RE = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
 const MDLINK_RE = /\[([^\]]*)\]\(([^)]+)\)/g;
@@ -12,6 +12,14 @@ type RenderCtx = {
   allSlugs: string[];
   linkResolution: "absolute" | "relative" | "shortest";
 };
+
+// Site patch: wikilinks to pages that aren't emitted (e.g. data-only notes) render as
+// broken links, like Quartz's own wikilinks, instead of linking to a 404.
+export function wikilinkExists(target: string, allSlugs: string[]): boolean {
+  const slug = slugifyPath(target.split("#")[0]!.replace(/\.md$/, ""));
+  if (!slug) return true; // same-page anchor
+  return allSlugs.some((s) => s === slug || s === `${slug}/index` || s.endsWith(`/${slug}`));
+}
 
 export function renderTextWithLinks(text: string, ctx: RenderCtx): ComponentChild[] {
   const segments: { start: number; end: number; node: ComponentChild }[] = [];
@@ -26,10 +34,12 @@ export function renderTextWithLinks(text: string, ctx: RenderCtx): ComponentChil
     segments.push({
       start: match.index ?? 0,
       end: (match.index ?? 0) + match[0].length,
-      node: (
+      node: wikilinkExists(target, ctx.allSlugs) ? (
         <a href={href} class="internal internal-link">
           {display}
         </a>
+      ) : (
+        <a class="internal broken">{display}</a>
       ),
     });
   }

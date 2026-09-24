@@ -78,8 +78,8 @@ function compareSort(a: unknown, b: unknown): number {
   if (a === undefined || a === null) return 1;
   if (b === undefined || b === null) return -1;
   if (typeof a === "number" && typeof b === "number") return a - b;
-  const dateA = typeof a === "string" ? Date.parse(a) : NaN;
-  const dateB = typeof b === "string" ? Date.parse(b) : NaN;
+  const dateA = typeof a === "string" ? Date.parse(a) : a instanceof Date ? a.getTime() : NaN;
+  const dateB = typeof b === "string" ? Date.parse(b) : b instanceof Date ? b.getTime() : NaN;
   if (!Number.isNaN(dateA) && !Number.isNaN(dateB)) return dateA - dateB;
   return String(a).localeCompare(String(b));
 }
@@ -119,6 +119,31 @@ function sortEntries(entries: BasesEntry[], view?: BasesView): BasesEntry[] {
   });
 }
 
+// Site patch: Quartz parses frontmatter with js-yaml's JSON schema, so dates arrive as
+// strings. Obsidian treats date properties as dates (date.year, date + "1d", .format()).
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?$/;
+
+// Site patch: Obsidian exposes the tags property with a leading "#" (formulas like
+// `tags.filter(value.startsWith("#kane"))` rely on it); file.tags/hasTag() are unaffected.
+function withObsidianValues(frontmatter: Record<string, unknown>): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(frontmatter)) {
+    if (key === "tags" && Array.isArray(value)) {
+      result[key] = value.map((tag) =>
+        typeof tag === "string" && !tag.startsWith("#") ? `#${tag}` : tag,
+      );
+    } else {
+      result[key] = typeof value === "string" && ISO_DATE.test(value) ? new Date(value) : value;
+    }
+  }
+  return result;
+}
+
+function isHidden(fd: QuartzPluginData): boolean {
+  const data = fd as { unlisted?: unknown; dataOnly?: unknown };
+  return data.unlisted === true && data.dataOnly !== true;
+}
+
 export function resolveBasesEntries(
   basesData: BasesData,
   allFiles: QuartzPluginData[],
@@ -130,12 +155,14 @@ export function resolveBasesEntries(
 
   const fileLookup = new Map<string, EvalContext["file"]>();
   for (const fd of allFiles) {
-    if ((fd as { unlisted?: unknown }).unlisted === true) continue;
+    // Site patch: data-only notes (plugins/data-only) are unlisted but still queryable
+    if (isHidden(fd)) continue;
     const fdSlug = typeof fd.slug === "string" ? fd.slug : "";
     if (!fdSlug) continue;
     const fdPath = getFilePath(fd, fdSlug);
-    const fm = (fd.frontmatter ?? {}) as Record<string, unknown>;
-    const fp = buildFileProperties(fd, fdSlug, fm);
+    const rawFm = (fd.frontmatter ?? {}) as Record<string, unknown>;
+    const fm = withObsidianValues(rawFm);
+    const fp = buildFileProperties(fd, fdSlug, rawFm);
     const fileValue: EvalContext["file"] = { ...fp, properties: fm };
 
     fileLookup.set(fdPath, fileValue);
@@ -154,15 +181,17 @@ export function resolveBasesEntries(
   }
 
   for (const fileData of allFiles) {
-    if ((fileData as { unlisted?: unknown }).unlisted === true) continue;
+    // Site patch: data-only notes (plugins/data-only) are unlisted but still queryable
+    if (isHidden(fileData)) continue;
     const slug = typeof fileData.slug === "string" ? fileData.slug : "";
     if (!slug) continue;
 
     const filePath = typeof fileData.filePath === "string" ? fileData.filePath : "";
     if (filePath.endsWith(".base") || slug.endsWith(".base")) continue;
 
-    const frontmatter = (fileData.frontmatter ?? {}) as Record<string, unknown>;
-    const fileProperties = buildFileProperties(fileData, slug, frontmatter);
+    const rawFrontmatter = (fileData.frontmatter ?? {}) as Record<string, unknown>;
+    const frontmatter = withObsidianValues(rawFrontmatter);
+    const fileProperties = buildFileProperties(fileData, slug, rawFrontmatter);
     const context = {
       note: frontmatter,
       file: { ...fileProperties, properties: frontmatter },

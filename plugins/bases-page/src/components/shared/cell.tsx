@@ -2,7 +2,7 @@ import type { ComponentChild } from "preact";
 import type { FullSlug } from "@quartz-community/types";
 
 import type { BasesData, BasesEntry, BasesView } from "../../types";
-import { renderTextWithLinks } from "./links";
+import { renderTextWithLinks, wikilinkExists } from "./links";
 import { transformLink, slugifyPath } from "@quartz-community/utils";
 
 type RenderCtx = {
@@ -29,8 +29,15 @@ function isFileValue(
   );
 }
 
+// Site patch: date-only values (midnight UTC) render as YYYY-MM-DD, others as local date + time
+function formatDateValue(value: Date): string {
+  const iso = value.toISOString();
+  return iso.endsWith("T00:00:00.000Z") ? iso.slice(0, 10) : value.toLocaleString("en-CA");
+}
+
 export function formatValue(value: unknown): string {
   if (value === undefined || value === null) return "";
+  if (value instanceof Date) return formatDateValue(value);
   if (Array.isArray(value)) return value.map((item) => String(item)).join(", ");
   if (typeof value === "object") return JSON.stringify(value);
   return String(value);
@@ -64,8 +71,15 @@ export function renderCellValue(value: unknown, ctx: RenderCtx): ComponentChild 
     return <span class="bases-list">{items}</span>;
   }
 
+  if (value instanceof Date) {
+    return <span class="bases-date">{formatDateValue(value)}</span>;
+  }
+
   if (typeof value === "object") {
     if (isFileValue(value)) {
+      if (!wikilinkExists(value.path, ctx.allSlugs)) {
+        return <a class="internal broken">{value.basename}</a>;
+      }
       const href = transformLink(
         ctx.slug as FullSlug,
         slugifyPath(value.path.replace(/\.md$/, "")),
@@ -92,8 +106,15 @@ export function isEmptyValue(value: unknown): boolean {
   return false;
 }
 
+// Site patch: a bare column name ("elevation") refers to the note property ("note.elevation"),
+// so fall back to the note.-prefixed key for per-column settings.
+export function getColumnSetting<T>(settings: Record<string, T> | undefined, column: string) {
+  if (!settings) return undefined;
+  return settings[column] ?? (column.includes(".") ? undefined : settings[`note.${column}`]);
+}
+
 export function getColumnLabel(column: string, basesData: BasesData): string {
-  const config = basesData.properties?.[column];
+  const config = getColumnSetting(basesData.properties, column);
   if (config?.displayName) return config.displayName;
   const segment = column.split(".").pop() ?? column;
   return segment
