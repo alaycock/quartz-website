@@ -1,0 +1,15 @@
+---
+publish: true
+created: 2025-10-01T10:23:27.597-06:00
+modified: 2025-10-01T10:23:27.597-06:00
+published: 2025-10-01T10:23:27.597-06:00
+tags:
+  - route
+  - kane/moderate
+elevation: 2652
+region: Skoki
+location: 51.4442014, -116.0758884
+completed: false
+---
+
+![[Trips.base#Trip reports]]

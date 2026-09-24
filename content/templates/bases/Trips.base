@@ -1,0 +1,121 @@
+summaries:
+  Days: -values.reduce(value + acc, duration('0s')).days.ceil()
+filters:
+  and:
+    - file.hasTag("trip")
+    - file.folder != "templates"
+formulas:
+  Region: |
+    file(list(route)[0]).properties.region
+  Date: link(file, (date + "8h").format('YYYY-MM-DD'))
+  Days: date - (if(note["end date"], note['end date'], date) + "1d")
+  tags: tags.filter(value != '#trip')[0].toString().replace(/^#/, '')
+properties:
+  note.route:
+    displayName: Route
+  note.people:
+    displayName: People
+  note.gain:
+    displayName: Elevation Gain (m)
+  note.distance:
+    displayName: Distance (km)
+  note.activity:
+    displayName: Activity
+  note.days:
+    displayName: Days
+  file.name:
+    displayName: Date
+  formula.tags:
+    displayName: Activity
+views:
+  - type: table
+    name: All Trips
+    order:
+      - formula.Date
+      - route
+      - activity
+      - gain
+      - distance
+      - people
+      - formula.Region
+      - tags
+      - formula.Days
+    sort:
+      - property: formula.Date
+        direction: DESC
+      - property: date
+        direction: DESC
+    columnSize:
+      formula.Date: 125
+      note.route: 280
+      note.gain: 154
+      note.people: 145
+  - type: table
+    name: Trip reports
+    filters:
+      and:
+        - route.contains(link(this.file))
+    order:
+      - formula.Date
+      - people
+      - distance
+      - gain
+    sort:
+      - property: formula.Date
+        direction: DESC
+    summaries: {}
+    columnSize:
+      note.gain: 159
+  - type: table
+    name: By Year
+    filters:
+      and:
+        - date.year == this.file.name
+    order:
+      - formula.Date
+      - route
+      - formula.tags
+      - gain
+      - distance
+      - people
+      - formula.Days
+    sort:
+      - property: formula.Date
+        direction: DESC
+    summaries:
+      gain: Sum
+      distance: Sum
+      formula.Days: Days
+      formula.Date: Filled
+    columnSize:
+      formula.Date: 166
+      note.route: 280
+      note.gain: 154
+      note.people: 214
+      formula.Days: 82
+  - type: cards
+    name: Index
+    filters:
+      and:
+        - publish == true
+    order:
+      - title
+    sort:
+      - property: file.ctime
+        direction: DESC
+    limit: 12
+    image: note.cover
+    cardSize: 170
+    imageAspectRatio: 1
+  - type: table
+    name: Default
+    order:
+      - file.name
+      - date
+      - distance
+      - end date
+      - gain
+      - people
+      - strava
+      - route
+      - tags

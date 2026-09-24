@@ -1,0 +1,26 @@
+filters:
+  and:
+    - publish == true
+    - '!file.hasTag("route", "list")'
+    - file.name != "index"
+    - file.folder != "Years"
+formulas:
+  title: if(file.properties.title, link( file.name, file.properties.title), link(file.name))
+properties:
+  formula.title:
+    displayName: Posts
+  note.date:
+    displayName: Date
+views:
+  - type: cards
+    name: Posts
+    order:
+      - formula.title
+      - date
+    sort:
+      - property: date
+        direction: DESC
+    image: note.cover
+    imageAspectRatio: 0.65
+    imageFit: ""
+    cardSize: 280

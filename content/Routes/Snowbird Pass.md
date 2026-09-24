@@ -1,0 +1,15 @@
+---
+publish: true
+created: 2025-10-01T10:23:27.587-06:00
+modified: 2025-10-01T10:23:27.587-06:00
+published: 2025-10-01T10:23:27.587-06:00
+tags:
+  - route
+  - dwyt/premiere
+elevation:
+region: Jasper
+location: 53.1450628, -119.0492048
+completed: false
+---
+
+![[Trips.base#Trip reports]]

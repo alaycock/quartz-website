@@ -1,0 +1,15 @@
+---
+publish: true
+created: 2025-10-01T10:23:27.589-06:00
+modified: 2025-10-01T10:23:27.589-06:00
+published: 2025-10-01T10:23:27.589-06:00
+tags:
+  - route
+  - dwyt/shoulder-season
+elevation: 2283
+region: Banff
+location: 51.1470726, -115.5785579
+completed: true
+---
+
+![[Trips.base#Trip reports]]

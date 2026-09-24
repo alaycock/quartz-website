@@ -1,0 +1,15 @@
+---
+publish: true
+created: 2025-11-11T14:35:23.671-07:00
+modified: 2025-11-27T19:33:10.979-07:00
+published: 2025-11-27T19:33:10.979-07:00
+tags:
+  - route
+  - nugara/moderate
+elevation: 2618
+region: West Castle
+completed: false
+location: 49.2892, -114.4467
+---
+
+![[Trips.base#Trip reports]]

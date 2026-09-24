@@ -1,0 +1,15 @@
+---
+publish: true
+created: 2025-10-01T10:23:27.531-06:00
+modified: 2025-10-01T10:23:27.532-06:00
+published: 2025-10-01T10:23:27.532-06:00
+tags:
+  - route
+  - kane/difficult
+elevation: 2909
+region: Yoho
+location: 51.5236035, -116.611926
+completed: false
+---
+
+![[Trips.base#Trip reports]]

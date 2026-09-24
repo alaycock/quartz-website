@@ -1,0 +1,103 @@
+name: Deploy Quartz site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - v4
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for git info
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Dependencies
+        run: npm ci
+
+      # Get a fresh Strava access token
+      - name: Download previous encrypted token
+        uses: actions/download-artifact@v4
+        with:
+          name: strava-token
+        continue-on-error: true
+
+      - name: Decrypt token if present
+        if: hashFiles('strava-token.json.enc') != ''
+        run: node scripts/decrypt-token.js strava-token.json.enc > strava-token.json
+        env:
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+
+      - name: Refresh token if needed
+        run: node scripts/refresh-token.js
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_BOOTSTRAP_REFRESH_TOKEN: ${{ secrets.STRAVA_BOOTSTRAP_REFRESH_TOKEN }}
+
+      - name: Encrypt updated token
+        run: node scripts/encrypt-token.js strava-token.json
+        env:
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+
+      - name: Upload updated encrypted token
+        uses: actions/upload-artifact@v4
+        with:
+          name: strava-token
+          path: strava-token.json.enc
+
+      - name: Use Strava access token
+        run: |
+          echo "STRAVA_ACCESS_TOKEN=$(jq -r '.access_token' strava-token.json)" >> .env
+
+      - name: Cache map artifacts
+        id: cache-maps
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-maps
+        with:
+          path: quartz/.quartz-cache/maps
+          key: quartz-maps-v2025.12.01.0
+          restore-keys: |
+            quartz-maps-v2025.12.01.0
+      - name: Cache GPX artifacts
+        id: cache-gpx
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-gpx
+        with:
+          path: quartz/.quartz-cache/gpx
+          key: quartz-gpx-v2025.12.01.0
+          restore-keys: |
+            quartz-gpx-v2025.12.01.0
+      - name: Build Quartz
+        run: npx quartz build
+        env:
+          MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

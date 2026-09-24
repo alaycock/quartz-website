@@ -1,0 +1,15 @@
+---
+publish: true
+created: 2025-10-01T10:23:27.565-06:00
+modified: 2025-10-01T10:23:27.565-06:00
+published: 2025-10-01T10:23:27.565-06:00
+tags:
+  - route
+  - kane/moderate
+elevation: 3218
+region: Highwood
+location: 50.6232107, -114.9751153
+completed: false
+---
+
+![[Trips.base#Trip reports]]
