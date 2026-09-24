@@ -87,7 +87,8 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 - [x] Explorer fork (`plugins/explorer`, vendored unmodified in `2b7e7ca1`): new options set in `quartz.ts`: `showTitle: false`, `showHomePage`, `folderLimits: { notes: 5 }` ("View more..."), `backButtonTag: "route"` (mobile back button, uses the `spa` `previousPage` patch). Also highlights the open folder. v4 explorer styles are overrides in `custom.scss`. Tree checked by rendering it in jsdom.
 - [x] Table of contents fork (`plugins/table-of-contents`, vendored unmodified in `2b7e7ca1`): `titleEntry: true` (page title first) and `highlight: passed` (v4: headings scrolled past, updated on `scrollend`). Sticky and v4 link styles are in `custom.scss`.
 - [-] CardList (the v4 card grid on the home page and Notes folder page): dropped
-- [x] Home page: embeds `![[Trips.base#Index]]` (cards view, 8 of the published trips)
+- [x] Home page: embeds `![[Trips.base#Index]]` (cards view, 8 of the published trips). Cards view patched to match Obsidian: `imageAspectRatio` is height/width, cards show the `order` properties (first as title, no labels) instead of title + labelled properties, and cards without an image keep an empty image area.
+- [ ] Card order differs from Obsidian: the Index view sorts by `file.ctime`, which in Obsidian is the vault file's creation time on disk; the site only has the `created` frontmatter. Sort by `date` in the `.base` for the same order in both.
 - [ ] Notes folder page: embed a cards base where the card grid was (in a `Notes/index.md`)
 - [x] Folder pages: vendored `plugins/folder-page` (rebuilt from the npm source maps; unmodified in `b5059fa4`). No "Folder:" prefix (upstream default), `showFolderCount: false`, new `showDates`/`showTags` options, `<hr />` above the listing.
 - [ ] **Broken: folder pages render too narrow** (e.g. `/lists/`)
@@ -135,6 +136,7 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 - [ ] Links to entries that have no page (`components/shared/links.tsx`, `cell.tsx`, `views/table.tsx`, `views/cards.tsx`): render as `<a class="internal broken">` instead of linking to a 404. Still to do for list, gallery and board views.
 - [ ] Opt-in for querying `unlisted` pages (`resolver.ts`): we include notes with `dataOnly`. Upstream would need a general option (e.g. `includeUnlisted`, or a per-page flag).
 - [ ] Regex literals and a duration type (see the Bases section).
+- [ ] Cards view (`components/views/cards.tsx`): `imageAspectRatio` is height/width in Obsidian but was used as CSS `aspect-ratio` (width/height), so 0.5 gave tall images; cards should show the `order` properties (values only) rather than the title plus labelled properties; keep an empty image area when a card has no image.
 
 **[quartz-community/folder-page](https://github.com/quartz-community/folder-page)** (`plugins/folder-page`; diff against `b5059fa4`):
 
