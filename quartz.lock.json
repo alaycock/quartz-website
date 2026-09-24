@@ -31,6 +31,12 @@
       "commit": "local",
       "installedAt": "2026-09-24T17:57:35.247Z"
     },
+    "legacy-redirects": {
+      "source": "./plugins/legacy-redirects",
+      "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/legacy-redirects",
+      "commit": "local",
+      "installedAt": "2026-09-24T18:04:21.345Z"
+    },
     "site-footer": {
       "source": "./plugins/site-footer",
       "resolved": "/Users/adam/workspace/adamlaycock.ca/plugins/site-footer",

@@ -13,7 +13,9 @@ export async function fetchActivityStreams(
   const url = `https://www.strava.com/api/v3/activities/${activityId}/streams?keys=latlng,time,altitude&key_by_type=true`
   const res = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } })
   if (!res.ok) {
-    throw new Error(`Strava API error for activity ${activityId}: ${res.status} ${await res.text()}`)
+    throw new Error(
+      `Strava API error for activity ${activityId}: ${res.status} ${await res.text()}`,
+    )
   }
   return (await res.json()) as ActivityStreams
 }
@@ -36,7 +38,9 @@ export function toGpx(name: string, streams: ActivityStreams): string | null {
     const seconds = times[i]
     const children = [
       Number.isFinite(ele) ? `<ele>${ele}</ele>` : "",
-      Number.isFinite(seconds) ? `<time>${new Date(start + seconds! * 1000).toISOString()}</time>` : "",
+      Number.isFinite(seconds)
+        ? `<time>${new Date(start + seconds! * 1000).toISOString()}</time>`
+        : "",
     ].join("")
     return `<trkpt lat="${lat}" lon="${lng}">${children}</trkpt>`
   })

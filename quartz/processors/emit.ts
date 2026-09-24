@@ -73,8 +73,11 @@ export async function emitContent(ctx: BuildCtx, content: ProcessedContent[]) {
   // Phase 2: Run all other emitters with content extended by virtual pages.
   // This ensures emitters like ContentIndex include virtual pages in their output
   // (e.g. sitemap, RSS, contentIndex.json used by the explorer sidebar).
+  // Site patch: data-only notes (plugins/data-only) are only for the dispatcher's allFiles
+  // (e.g. bases); other emitters (content index, redirects, maps, ...) never see them
+  const publishedContent = content.filter(([, file]) => !file.data.dataOnly)
   const contentWithVirtual =
-    ctx.virtualPages.length > 0 ? [...content, ...ctx.virtualPages] : content
+    ctx.virtualPages.length > 0 ? [...publishedContent, ...ctx.virtualPages] : publishedContent
   const otherEmitters = cfg.plugins.emitters.filter(
     (e) => e.name !== "PageTypeDispatcher" && e.name !== "ComponentResources",
   )

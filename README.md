@@ -75,7 +75,7 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
   - If a map is missing (failed download), the sidebar box removes itself (`onerror`).
 - [x] Migrated the local v4 cache: 489 of 490 files reused via the v4 manifests, 1 new map downloaded
 - [ ] **Remove the v4 cache fallback** (`plugins/activity-map/src/cache.ts`, "v4 cache migration") after the CI cache has been migrated, then delete the old `Notes/`, `Routes/` and `.manifest.json` entries from both cache folders
-- [ ] **Refresh the Strava token and rebuild**: 8 activities added since January (2026-02-14 … 2026-08-27 Kirkjufell) failed with a 401 because the access token in `.env` has expired. `npm run quartz -- build` refreshes it (`scripts/prebuild.js`); I didn't run it since it rotates your credentials.
+- [x] Strava token refreshed; all 514 maps/GPX files now build from cache
 - [x] `plugins/trip-meta` replaces community `content-meta` (date, routes, people, stats, DWYT/Kane, Strava + GPX links). Header text identical to v4 on all 512 pages the two builds share.
 - [x] `.env` loading without `dotenv` (`process.loadEnvFile`), `node-fetch` dropped from `scripts/refresh-token.js`; `prequartz` runs the plugin build and the Strava token refresh
 - [ ] GPX times are anchored at build time (`Date.now()`), inherited from v4: Strava streams only have offsets from the start. Fetch the activity's `start_date` if accurate times matter.
@@ -89,9 +89,10 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 - [x] Footer social icons (`plugins/site-footer`)
 - [x] Page title logo (`plugins/site-title`). As in v4, the mobile styles expect a text `<span>` that the component never rendered, so mobile shows no title; add one if wanted.
 - [x] Map component in the right sidebar (`plugins/activity-map`)
-- [ ] Body class `collapse-sidebar-desktop` for pages tagged `list`
-- [ ] Force dark theme (v4 set `saved-theme="dark"`, no toggle)
-- [ ] Styles: `custom.scss`, `base.scss`, component styles
+- [x] Body class `collapse-sidebar-desktop` for pages tagged `list` (core patch, `quartz/components/Body.tsx`)
+- [x] Force dark theme: `saved-theme="dark"` on `<html>` (core patch, `quartz/components/renderPage.tsx`); darkmode plugin disabled
+- [x] Styles: v4 changes to `base.scss`, `custom.scss` and `variables.scss` applied onto v5 (one conflict in `html {}` merged by hand). Dropped the `.empty-table-cell` rule. Component styles live in each plugin.
+- [ ] Visual check of every page type (desktop, tablet, mobile) against the live site
 - [x] Icon, OG image and logo in `quartz/static`
 
 ### 4. Core patches (check each; re-apply only if still needed)
@@ -99,7 +100,8 @@ Comparing against the v4 live site's pre-rendered tables (Trip reports: 474/483 
 - [ ] `spa`: `previousPage` history state (used by the Explorer back button), hide the loading bar on file downloads
 - [ ] Content index: keep `date` and parse it client-side
 - [ ] Assets: resize jpg/png with sharp (max width 1200, jpeg quality 80)
-- [ ] Slugs: v4 dropped commas and collapsed repeated dashes; v5 emits e.g. `amesthst-lakes--and--surprise-point`
+- [x] Slugs: v4 dropped commas and collapsed repeated dashes; v5 emits e.g. `amesthst-lakes--and--surprise-point`. Matching v4's rules isn't practical (every community plugin bundles its own copy of the slug function), so `plugins/legacy-redirects` writes redirects at the 52 v4 URLs that differ by more than case. `alias-redirects` covers case-only changes, but only on case-sensitive filesystems (it skips on macOS, runs in CI).
+- [x] Core patch (`processors/emit.ts`, `build.ts`): emitters other than the page dispatcher never see data-only notes (otherwise alias-redirects would emit ~295 case redirects to pages that don't exist).
 - [ ] Google Fonts `display=swap` removal, favicon format
 
 ### 5. CI and cutover

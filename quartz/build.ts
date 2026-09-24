@@ -319,13 +319,16 @@ async function rebuild(changes: ChangeEvent[], clientRefresh: () => void, buildD
     }
 
     // Phase 2: Run all other emitters with content extended by virtual pages
+    // Site patch: data-only notes are only for the dispatcher (see processors/emit.ts)
+    const publishedFiles = processedFiles.filter(([, file]) => !file.data.dataOnly)
+    const publishedChanges = changeEvents.filter((event) => !event.file?.data.dataOnly)
     const contentWithVirtual =
-      ctx.virtualPages.length > 0 ? [...processedFiles, ...ctx.virtualPages] : processedFiles
+      ctx.virtualPages.length > 0 ? [...publishedFiles, ...ctx.virtualPages] : publishedFiles
     for (const emitter of cfg.plugins.emitters) {
       if (emitter.name === "PageTypeDispatcher") continue
       // Try to use partialEmit if available, otherwise assume the output is static
       const emitFn = emitter.partialEmit ?? emitter.emit
-      const emitted = await emitFn(ctx, contentWithVirtual, staticResources, changeEvents)
+      const emitted = await emitFn(ctx, contentWithVirtual, staticResources, publishedChanges)
       if (emitted === null) {
         continue
       }
