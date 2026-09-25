@@ -54,7 +54,6 @@ How it works: bases are rendered by a vendored copy of [bases-page](https://gith
 
 ### 4. Core patches (check each; re-apply only if still needed)
 
-- [ ] Fonts are loaded twice: core (`quartz/util/theme.ts`) and the `quartz-fonts` plugin both add a Google Fonts stylesheet. Pick one.
 
 ### 5. CI and cutover
 
