@@ -2,11 +2,13 @@
 publish: true
 title: 2025 Retrospective
 created: 2026-01-01
-modified: 2026-01-10T13:25:48.025-07:00
+modified: 2026-09-25T13:46:21.322-06:00
 published: 2026-01-01
 tags:
   - post
+socialImage: "#D28A8C"
 date: 2026-01-01
+cover: "#D28A8C"
 ---
 
 2025 was a year of change. I left my role at Canny to take a few months off. Visited New York and San Francisco for work, and did some really cool trips. It was also my lowest of days spent outdoors in all the years I've been tracking.

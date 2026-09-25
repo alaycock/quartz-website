@@ -4,6 +4,7 @@ filters:
     - file.hasTag("post", "trip")
 formulas:
   title: if(file.properties.title, link( file.name, file.properties.title), link(file.name))
+  Formatted Date: date.format("MMMM D, Y")
 properties:
   formula.title:
     displayName: Posts
@@ -11,10 +12,23 @@ properties:
     displayName: Date
 views:
   - type: cards
-    name: Posts
+    name: 6 Posts
     order:
       - formula.title
-      - date
+      - formula.Formatted Date
+    sort:
+      - property: date
+        direction: DESC
+    limit: 6
+    image: note.cover
+    imageAspectRatio: 0.65
+    imageFit: ""
+    cardSize: 280
+  - type: cards
+    name: All posts
+    order:
+      - formula.title
+      - formula.Formatted Date
     sort:
       - property: date
         direction: DESC
