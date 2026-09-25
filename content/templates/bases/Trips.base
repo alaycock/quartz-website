@@ -38,8 +38,6 @@ views:
       - gain
       - distance
       - people
-      - formula.Region
-      - tags
       - formula.Days
     sort:
       - property: formula.Date
