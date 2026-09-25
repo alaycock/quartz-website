@@ -81,25 +81,20 @@ jobs:
           echo "STRAVA_ACCESS_TOKEN=$(jq -r '.access_token' strava-token.json)" >> .env
 
       # Maps and GPX files from Mapbox/Strava (plugins/activity-map). A new cache is saved on
-      # every run and the newest one restored, so new files are only downloaded once. The last
-      # restore key is the v4 cache, which activity-map migrates to its new layout. (A cache
+      # every run and the newest one restored, so new files are only downloaded once. (A cache
       # only restores into the same paths it was saved from, hence two steps.)
       - name: Cache maps
         uses: actions/cache@v4
         with:
           path: quartz/.quartz-cache/maps
           key: activity-map-maps-${{ github.run_id }}
-          restore-keys: |
-            activity-map-maps-
-            quartz-maps-v2025.12.01.0
+          restore-keys: activity-map-maps-
       - name: Cache GPX files
         uses: actions/cache@v4
         with:
           path: quartz/.quartz-cache/gpx
           key: activity-map-gpx-${{ github.run_id }}
-          restore-keys: |
-            activity-map-gpx-
-            quartz-gpx-v2025.12.01.0
+          restore-keys: activity-map-gpx-
 
       - name: Build Quartz
         run: npx quartz build

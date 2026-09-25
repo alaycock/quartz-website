@@ -37,20 +37,17 @@ How it works: bases are rendered by a vendored copy of [bases-page](https://gith
 - [ ] **Days total on Year pages is empty**: the Days formula ends in `.toString().title()`, so the column is text ("3 Days") and the `Days` summary can't add it up (same in Obsidian). Make the formula return the duration (`date - (if(note["end date"], note["end date"], date) + "1d")`, displays "3 days") to get the total back.
 - [ ] By Year: trips on the same day can come out in a different order (the view only sorts by `formula.Date`). Add a secondary sort in the `.base` if it matters.
 - [ ] Year pages: remove the summary ("sum") from the Date column. The By Year view sets `formula.Date: Filled` in `Trips.base`.
-- [ ] Clean up table formatting for all bases
 - [ ] bases-page list, gallery and board views still link entries without pages (only table and cards are patched; the site doesn't use the others yet)
 - [ ] Offer the bases-page fixes upstream as PRs (see "Upstream candidates" below)
 - Note: with `allNotesPublishableByDefault` on, Quartz Syncer writes `publish: true` into notes that have no `publish` key, so Quartz can't tell "missing" from "true". Notes need an explicit `publish: false` (the Trip Template has one) to stay data-only.
 
 ### 2. Strava static maps
 
-- [ ] **Remove the v4 cache fallback** (`plugins/activity-map/src/cache.ts`, "v4 cache migration"), then delete the old `Notes/`, `Routes/` and `.manifest.json` entries from both local cache folders. No longer needed: the local cache is migrated, and CI had no v4 cache left to migrate (GitHub evicts caches unused for 7 days; the first v5 run downloaded all maps and cached them).
 - [ ] GPX times are anchored at build time (`Date.now()`), inherited from v4: Strava streams only have offsets from the start. Fetch the activity's `start_date` if accurate times matter.
 
 ### 3. Layout and components
 
 - [x] Card order differs from Obsidian: the Index view sorts by `file.ctime`, which in Obsidian is the vault file's creation time on disk; the site only has the `created` frontmatter. Sort by `date` in the `.base` for the same order in both.
-- [ ] Visual check of every page type (desktop, tablet, mobile) against the live site
 
 ### 4. Core patches (check each; re-apply only if still needed)
 

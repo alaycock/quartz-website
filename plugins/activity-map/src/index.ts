@@ -8,7 +8,7 @@ import type {
   ProcessedContent,
   QuartzPluginData,
 } from "@quartz-community/types"
-import { FileCache, hashKey, legacySlug, readLegacy } from "./cache"
+import { FileCache, hashKey } from "./cache"
 import { getActivityId, getLocations, gpxSlug, mapSlug } from "./locations"
 import { downloadMap } from "./mapbox"
 import {
@@ -58,11 +58,9 @@ async function writeOutput(ctx: BuildCtx, slug: string, content: Buffer | string
 
 export default (userOpts?: Partial<Options>) => {
   const opts: Options = { ...defaultOptions, ...userOpts }
-  const mapsDir = path.join(opts.cacheDir, "maps")
-  const gpxDir = path.join(opts.cacheDir, "gpx")
-  const maps = new FileCache(mapsDir)
-  const gpxs = new FileCache(gpxDir)
-  const stats = { cached: 0, migrated: 0, downloaded: 0, failed: 0 }
+  const maps = new FileCache(path.join(opts.cacheDir, "maps"))
+  const gpxs = new FileCache(path.join(opts.cacheDir, "gpx"))
+  const stats = { cached: 0, downloaded: 0, failed: 0 }
 
   async function getGpx(fileData: FileData, activityId: string): Promise<string | null> {
     const key = `strava-${activityId}.gpx`
@@ -70,15 +68,6 @@ export default (userOpts?: Partial<Options>) => {
     if (cached) {
       stats.cached++
       return cached.toString("utf8")
-    }
-
-    const rawId = (fileData.frontmatter as Record<string, unknown>).strava
-    const legacyKey = `${legacySlug(fileData.relativePath as string)}-strava.gpx`
-    const legacy = await readLegacy(gpxDir, legacyKey, { activityId: rawId })
-    if (legacy) {
-      stats.migrated++
-      await gpxs.write(key, legacy)
-      return legacy.toString("utf8")
     }
 
     const token = process.env.STRAVA_ACCESS_TOKEN
@@ -100,15 +89,6 @@ export default (userOpts?: Partial<Options>) => {
     if (cached) {
       stats.cached++
       return cached
-    }
-
-    const rawId = (fileData.frontmatter as Record<string, unknown>).strava
-    const legacyKey = `${legacySlug(fileData.relativePath as string)}-map.jpg`
-    const legacy = await readLegacy(mapsDir, legacyKey, { strava: rawId, location: locations })
-    if (legacy) {
-      stats.migrated++
-      await maps.write(key, legacy)
-      return legacy
     }
 
     const token = process.env.MAPBOX_TOKEN
@@ -151,11 +131,9 @@ export default (userOpts?: Partial<Options>) => {
   }
 
   function logStats() {
-    const { cached, migrated, downloaded, failed } = stats
-    console.log(
-      `[activity-map] ${cached} cached, ${migrated} migrated from v4 cache, ${downloaded} downloaded, ${failed} failed`,
-    )
-    Object.assign(stats, { cached: 0, migrated: 0, downloaded: 0, failed: 0 })
+    const { cached, downloaded, failed } = stats
+    console.log(`[activity-map] ${cached} cached, ${downloaded} downloaded, ${failed} failed`)
+    Object.assign(stats, { cached: 0, downloaded: 0, failed: 0 })
   }
 
   return {
