@@ -31,13 +31,6 @@ article.list-table {
   }
 }
 
-// Keep the table of contents in view while scrolling. v4 added a `sticky` class to the
-// TOC; in v5 it sits inside a display wrapper, which is what has to stick.
-.sidebar.left .desktop-only:has(> .toc) {
-  position: sticky;
-  top: 2rem;
-}
-
 // Explorer: the v4 site's style changes, as overrides of plugins/explorer's styles
 // (component styles are in @layer quartz-base, so these win)
 .explorer {
@@ -102,18 +95,6 @@ article.list-table {
   .page > #quartz-body .sidebar.left:has(.explorer) {
     padding: 1rem;
     margin: 0 -1rem;
-  }
-}
-
-// Table of contents: v4 dims entries with brightness instead of opacity
-ul.toc-content.overflow > li > a {
-  opacity: 1;
-  filter: brightness(0.7);
-  transition: 0.2s ease filter;
-
-  &.in-view {
-    opacity: 1;
-    filter: none;
   }
 }
 

@@ -34,7 +34,6 @@ Status key: `[ ]` todo · `[~]` in progress. Done items are removed; see git his
 
 How it works: bases are rendered by a vendored copy of [bases-page](https://github.com/quartz-community/bases-page) in `plugins/bases-page` (upstream 1.0.0, `5c729d1`). Every change is marked `// Site patch:`, and the first commit touching that folder is the unmodified upstream code, so `git diff` against it shows every patch. Notes without `publish: true` are handled by `plugins/data-only`.
 
-- [ ] Remove table of contents plugin
 - [ ] **Regex literals aren't supported (`Activity` column, By Year).** `Trips.base` `formula.tags` is `tags.filter(value != '#trip')[0].toString().replace(/^#/, '')`. bases-page's lexer reads `/` as division, so the formula fails and the column shows `—` on every Year page. Options:
   - change the `.base` to `replace('#', '')` (works in Obsidian and Quartz; quickest)
   - add regex literals to bases-page's lexer/parser (`src/compiler/lexer.ts`, `parser.ts`), with `replace()` accepting a RegExp. Upstream candidate.
@@ -43,10 +42,7 @@ How it works: bases are rendered by a vendored copy of [bases-page](https://gith
   - the custom summary `Days: -values.reduce(value + acc, duration('0s')).days.ceil()` needs `reduce()`, duration arithmetic and `.days`, and bases-page only supports built-in summaries (Sum, Average, …)
   - Fix: a duration type in bases-page (Date − Date, `duration()`, `+`/`-`, `.days`/`.hours`/…, humanized rendering like "2 days"), `list.reduce()`, and custom formula summaries. Upstream candidate.
 - [ ] By Year: trips on the same day can come out in a different order (the view only sorts by `formula.Date`). Add a secondary sort in the `.base` if it matters.
-- [ ] **Disable standalone base pages altogether, if possible** (e.g. `/templates/bases/trips.base`). They're emitted for every `.base` file (unlinked, but public), show raw `#`-prefixed tags, and add backlinks to every page they list (see next item).
-- [ ] Drop the "Posts" backlink on pages like Mount Victoria (`/notes/2025-09-17`): it comes from the standalone `templates/bases/posts.base` page, so disabling base pages should remove it.
 - [ ] Year pages: remove the summary ("sum") from the Date column. The By Year view sets `formula.Date: Filled` in `Trips.base`.
-- [ ] Year pages: floating-point precision in column sums (e.g. the Distance total on `/years/2025`)
 - [ ] Clean up table formatting for all bases
 - [ ] bases-page list, gallery and board views still link entries without pages (only table and cards are patched; the site doesn't use the others yet)
 - [ ] Offer the bases-page fixes upstream as PRs (see "Upstream candidates" below)
@@ -92,6 +88,8 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 - [ ] Cards view: values that are links (e.g. a `link()` title formula) rendered as `<a>` inside the card's `<a>`, which browsers split apart, leaving the title outside the card; render card values as text (fixed, site patch)
 - [ ] Entry count: "58 entries" / "1 entry" instead of "Showing 58 of 58 entries" when every entry is shown (`components/shared/count.ts`, all views)
 - [ ] List values (`bases.scss`): `.bases-list` as `inline-flex` with a 4px gap puts a space before each comma; render inline
+- [ ] `standalonePages` option (`pageType.ts`): `false` stops emitting a page per `.base` file, so bases only appear where embedded (standalone pages also add backlinks to every page they list)
+- [ ] Sum and Range summaries (`components/shared/summary.tsx`): round to the inputs' decimal places to hide floating-point noise (`55.300000000000004`)
 - [ ] Card and gallery images (`bases.scss`): Quartz's global `img { margin: 1rem 0 }` leaves a gap above them; reset the margin
 - [ ] Cards view: a `data-placeholder` slot on cards without an image, so sites can colour them (this site uses the v4 palette in `custom.scss`)
 - [ ] List separators inherit the text colour instead of `var(--gray)`
@@ -114,10 +112,6 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 - [ ] Options: `showTitle`, `showHomePage`, `folderLimits` ("View more" link), `backButtonTag` (mobile back button; relies on the core `spa` `previousPage` patch, so upstream would need that too)
 - [ ] Highlight the folder whose page is open
 - [ ] `overscroll-behavior: contain` on `ul.explorer-ul` blocks mouse-wheel page scrolling over the explorer when the list doesn't scroll on its own (non-height-limited sidebar). Overridden in `custom.scss` except on mobile; upstream could scope it to the mobile drawer.
-
-**[quartz-community/table-of-contents](https://github.com/quartz-community/table-of-contents)** (`plugins/table-of-contents`; diff against `2b7e7ca1`):
-
-- [ ] Options: `titleEntry` (page title as the first entry), `highlight: "visible" | "passed"`
 
 **Quartz core / other plugins:**
 

@@ -37,6 +37,8 @@ export const BasesPage: QuartzPageTypePlugin<BasesPageOptions> = (opts) => ({
   fileExtensions: [".base"],
   match: basesMatcher,
   generate({ content, ctx }) {
+    // Site patch: standalonePages
+    if (opts?.standalonePages === false) return [];
     const baseFiles = ctx.allFiles.filter((fp) => fp.endsWith(".base"));
     const allFileData = content.map((c) => c[1].data);
     const virtualPages: VirtualPage[] = [];

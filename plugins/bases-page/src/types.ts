@@ -89,6 +89,11 @@ export interface BasesPageOptions {
    * Default: "shortest"
    */
   linkResolution?: "absolute" | "relative" | "shortest";
+  /**
+   * Site patch: emit a page for each `.base` file. When false, bases are only rendered where
+   * they're embedded (`![[X.base]]`). Default: true
+   */
+  standalonePages?: boolean;
 }
 
 // === Sort & Filter Types ===
