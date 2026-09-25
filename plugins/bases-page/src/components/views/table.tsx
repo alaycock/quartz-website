@@ -140,7 +140,8 @@ const TableView: ViewRenderer = ({
                 const summary = summaries[column];
                 if (!summary) return <td />;
                 const values = entries.map((entry) => resolveEntryPropertyValue(column, entry));
-                return <td>{computeSummary(values, summary)}</td>;
+                // Site patch: custom summary formulas from the .base's top-level `summaries`
+                return <td>{computeSummary(values, summary, basesData.summaries)}</td>;
               })}
             </tr>
           </tfoot>

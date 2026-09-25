@@ -34,13 +34,7 @@ Status key: `[ ]` todo · `[~]` in progress. Done items are removed; see git his
 
 How it works: bases are rendered by a vendored copy of [bases-page](https://github.com/quartz-community/bases-page) in `plugins/bases-page` (upstream 1.0.0, `5c729d1`). Every change is marked `// Site patch:`, and the first commit touching that folder is the unmodified upstream code, so `git diff` against it shows every patch. Notes without `publish: true` are handled by `plugins/data-only`.
 
-- [ ] **Regex literals aren't supported (`Activity` column, By Year).** `Trips.base` `formula.tags` is `tags.filter(value != '#trip')[0].toString().replace(/^#/, '')`. bases-page's lexer reads `/` as division, so the formula fails and the column shows `—` on every Year page. Options:
-  - change the `.base` to `replace('#', '')` (works in Obsidian and Quartz; quickest)
-  - add regex literals to bases-page's lexer/parser (`src/compiler/lexer.ts`, `parser.ts`), with `replace()` accepting a RegExp. Upstream candidate.
-- [ ] **Durations (later): `Days` column and its total (By Year).** The day sum at the bottom of the Days column on Year pages is wrong. bases-page has no duration type:
-  - `date - (if(note["end date"], note["end date"], date) + "1d")` returns milliseconds (`-86400000`) where Obsidian returns a duration displayed as "a day"
-  - the custom summary `Days: -values.reduce(value + acc, duration('0s')).days.ceil()` needs `reduce()`, duration arithmetic and `.days`, and bases-page only supports built-in summaries (Sum, Average, …)
-  - Fix: a duration type in bases-page (Date − Date, `duration()`, `+`/`-`, `.days`/`.hours`/…, humanized rendering like "2 days"), `list.reduce()`, and custom formula summaries. Upstream candidate.
+- [ ] **Days total on Year pages is empty**: the Days formula ends in `.toString().title()`, so the column is text ("3 Days") and the `Days` summary can't add it up (same in Obsidian). Make the formula return the duration (`date - (if(note["end date"], note["end date"], date) + "1d")`, displays "3 days") to get the total back.
 - [ ] By Year: trips on the same day can come out in a different order (the view only sorts by `formula.Date`). Add a secondary sort in the `.base` if it matters.
 - [ ] Year pages: remove the summary ("sum") from the Date column. The By Year view sets `formula.Date: Filled` in `Trips.base`.
 - [ ] Clean up table formatting for all bases
@@ -83,7 +77,10 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 - [ ] `#`-prefixed `tags` property (`resolver.ts`): matches Obsidian, but inferred (see above). Confirm before proposing.
 - [ ] Links to entries that have no page (`components/shared/links.tsx`, `cell.tsx`, `views/table.tsx`, `views/cards.tsx`): render as `<a class="internal broken">` instead of linking to a 404. Still to do for list, gallery and board views.
 - [ ] Opt-in for querying `unlisted` pages (`resolver.ts`): we include notes with `dataOnly`. Upstream would need a general option (e.g. `includeUnlisted`, or a per-page flag).
-- [ ] Regex literals and a duration type (see the Bases section).
+- [ ] Regex literals (`compiler/lexer.ts`, `parser.ts`): `/pattern/flags` wherever an operand can start (so `a / b` is still division); `replace()` accepts a RegExp
+- [ ] Durations (`compiler/duration.ts`, `interpreter.ts`, `functions.ts`): date − date is a duration; date ± duration, duration ± duration, × and ÷ by numbers, unary minus, comparisons; `.days`/`.hours`/… fields; `toString()` humanized like Obsidian/moment ("a day", "3 days"); `duration()` returns a duration; cells render humanized and sort by length
+- [ ] `list.reduce(expression, initial)` with `value`, `acc` and `index`
+- [ ] Custom summary formulas: a view summary naming an entry in the top-level `summaries` is evaluated with `values` bound to the column's values; built-in summaries of durations stay durations
 - [ ] `file.hasTag(a, b)` (`compiler/functions.ts`) required all tags; Obsidian matches any (fixed, site patch)
 - [ ] Cards view: values that are links (e.g. a `link()` title formula) rendered as `<a>` inside the card's `<a>`, which browsers split apart, leaving the title outside the card; render card values as text (fixed, site patch)
 - [ ] Entry count: "58 entries" / "1 entry" instead of "Showing 58 of 58 entries" when every entry is shown (`components/shared/count.ts`, all views)

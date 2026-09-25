@@ -1,3 +1,4 @@
+import { isDuration } from "./compiler/duration";
 import type { BasesData, BasesEntry, BasesView, QuartzPluginData, SortEntry } from "./types";
 import { evaluate, evaluateFilter, resolvePropertyValue } from "./compiler";
 import type { EvalContext } from "./compiler";
@@ -78,6 +79,7 @@ function compareSort(a: unknown, b: unknown): number {
   if (a === undefined || a === null) return 1;
   if (b === undefined || b === null) return -1;
   if (typeof a === "number" && typeof b === "number") return a - b;
+  if (isDuration(a) && isDuration(b)) return a.ms - b.ms; // Site patch
   const dateA = typeof a === "string" ? Date.parse(a) : a instanceof Date ? a.getTime() : NaN;
   const dateB = typeof b === "string" ? Date.parse(b) : b instanceof Date ? b.getTime() : NaN;
   if (!Number.isNaN(dateA) && !Number.isNaN(dateB)) return dateA - dateB;

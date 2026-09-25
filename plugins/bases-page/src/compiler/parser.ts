@@ -1,5 +1,6 @@
 import type { Expression } from "./ast";
 import { CompilerError } from "./errors";
+import { parseRegexLiteral } from "./lexer";
 import { TokenType } from "./tokens";
 import type { Span, Token } from "./tokens";
 import type { BinaryOperator, UnaryOperator } from "./ast";
@@ -47,6 +48,9 @@ class Parser {
       }
       case TokenType.String:
         return { type: "Literal", value: token.value, span: token.span };
+      // Site patch: regex literals
+      case TokenType.Regex:
+        return { type: "Literal", value: parseRegexLiteral(token.value), span: token.span };
       case TokenType.True:
         return { type: "Literal", value: true, span: token.span };
       case TokenType.False:

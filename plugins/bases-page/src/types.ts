@@ -160,7 +160,8 @@ export interface BasesView {
   /** Multi-key sort with explicit direction per column */
   sort?: SortEntry[];
   /** Per-property summary aggregations */
-  summaries?: Record<string, SummaryType>;
+  // Site patch: a built-in summary, or the name of a formula in the top-level `summaries`
+  summaries?: Record<string, SummaryType | string>;
 
   // -- Table-specific --
   /** Column widths in pixels, keyed by property path */

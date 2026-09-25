@@ -6,6 +6,7 @@ export type Span = {
 export enum TokenType {
   Number = "Number",
   String = "String",
+  Regex = "Regex", // Site patch: /pattern/flags
   Identifier = "Identifier",
   True = "True",
   False = "False",

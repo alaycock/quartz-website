@@ -2,6 +2,7 @@ import type { ComponentChild } from "preact";
 import type { FullSlug } from "@quartz-community/types";
 
 import type { BasesData, BasesEntry, BasesView } from "../../types";
+import { isDuration } from "../../compiler/duration";
 import { renderTextWithLinks, wikilinkExists } from "./links";
 import { transformLink, slugifyPath } from "@quartz-community/utils";
 
@@ -38,6 +39,7 @@ function formatDateValue(value: Date): string {
 export function formatValue(value: unknown): string {
   if (value === undefined || value === null) return "";
   if (value instanceof Date) return formatDateValue(value);
+  if (isDuration(value)) return value.toString(); // Site patch: humanized, e.g. "3 days"
   if (Array.isArray(value)) return value.map((item) => String(item)).join(", ");
   if (typeof value === "object") return JSON.stringify(value);
   return String(value);
@@ -73,6 +75,11 @@ export function renderCellValue(value: unknown, ctx: RenderCtx): ComponentChild 
 
   if (value instanceof Date) {
     return <span class="bases-date">{formatDateValue(value)}</span>;
+  }
+
+  // Site patch: durations display humanized, e.g. "3 days"
+  if (isDuration(value)) {
+    return <span class="bases-text">{value.toString()}</span>;
   }
 
   if (typeof value === "object") {

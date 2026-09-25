@@ -1,4 +1,5 @@
 import { getGlobalFunction, getMethodFunction, parseDuration } from "./functions";
+import { Duration, durationField, isDuration } from "./duration";
 import type { Instruction } from "./ir";
 
 export type EvalContext = {
@@ -29,6 +30,10 @@ export type EvalContext = {
     };
   };
   _lambdaValue?: unknown;
+  // Site patch: reduce() accumulator and element index, and a summary formula's `values`
+  _lambdaAcc?: unknown;
+  _lambdaIndex?: number;
+  _values?: unknown[];
   _fileLookup?: Map<string, EvalContext["file"]>;
 };
 
@@ -42,6 +47,7 @@ function toBoolean(value: unknown): boolean {
 
 function toNumber(value: unknown): number | null {
   if (typeof value === "number" && !Number.isNaN(value)) return value;
+  if (isDuration(value)) return value.ms; // Site patch: durations compare by length
   if (typeof value === "string") {
     const parsed = Number(value);
     return Number.isNaN(parsed) ? null : parsed;
@@ -58,6 +64,7 @@ function toStringValue(value: unknown): string {
 // Site patch: Obsidian compares numbers and numeric strings by value (e.g. `date.year == this.file.name`)
 function looseEquals(left: unknown, right: unknown): boolean {
   if (isDateValue(left) && isDateValue(right)) return left.getTime() === right.getTime();
+  if (isDuration(left) && isDuration(right)) return left.ms === right.ms;
   if (typeof left === "number" && typeof right === "string" && right.trim() !== "")
     return left === Number(right);
   if (typeof left === "string" && typeof right === "number" && left.trim() !== "")
@@ -105,7 +112,33 @@ function asDuration(value: unknown): number | undefined {
   return typeof value === "string" ? parseDuration(value) : undefined;
 }
 
+// Site patch: arithmetic with durations (Obsidian): date - date = duration, date ± duration =
+// date, duration ± duration = duration, duration * or / number = duration
+function applyDurationBinary(operator: string, left: unknown, right: unknown): unknown {
+  if (operator === "-" && isDateValue(left) && isDateValue(right)) {
+    return new Duration(left.getTime() - right.getTime());
+  }
+  if ((operator === "+" || operator === "-") && isDateValue(left) && isDuration(right)) {
+    return new Date(left.getTime() + (operator === "+" ? right.ms : -right.ms));
+  }
+  if (operator === "+" && isDuration(left) && isDateValue(right)) {
+    return new Date(right.getTime() + left.ms);
+  }
+  if ((operator === "+" || operator === "-") && isDuration(left) && isDuration(right)) {
+    return new Duration(operator === "+" ? left.ms + right.ms : left.ms - right.ms);
+  }
+  if ((operator === "*" || operator === "/") && isDuration(left) && typeof right === "number") {
+    return new Duration(operator === "*" ? left.ms * right : right === 0 ? 0 : left.ms / right);
+  }
+  if (operator === "*" && typeof left === "number" && isDuration(right)) {
+    return new Duration(left * right.ms);
+  }
+  return undefined;
+}
+
 function applyBinary(operator: string, left: unknown, right: unknown): unknown {
+  const durationResult = applyDurationBinary(operator, left, right);
+  if (durationResult !== undefined) return durationResult;
   if ((operator === "+" || operator === "-") && isDateValue(left)) {
     const duration = asDuration(right);
     if (duration !== undefined) {
@@ -210,11 +243,16 @@ function resolveIdentifier(name: string, context: EvalContext): unknown {
   if (name === "file") return context.file;
   if (name === "formula") return context.formula;
   if (name === "value") return context._lambdaValue;
+  // Site patch: reduce()'s `acc` and `index`, and a summary formula's `values`
+  if (name === "acc" && "_lambdaAcc" in context) return context._lambdaAcc;
+  if (name === "index" && "_lambdaIndex" in context) return context._lambdaIndex;
+  if (name === "values" && context._values) return context._values;
   return context.note[name];
 }
 
 function resolveMember(target: unknown, name: string): unknown {
   if (target === undefined || target === null) return undefined;
+  if (isDuration(target)) return durationField(target, name); // Site patch
   if (isDateValue(target)) {
     switch (name) {
       case "year":
@@ -323,6 +361,15 @@ function executeLazyMethod(
         const result = evaluateLambda(body, element, context);
         return Boolean(result);
       });
+    // Site patch: reduce(expression, initial) with `value`, `acc` and `index`
+    case "reduce": {
+      const initial = argPrograms[1] ? interpret(argPrograms[1], context) : undefined;
+      return target.reduce(
+        (acc: unknown, element: unknown, index: number) =>
+          interpret(body, { ...context, _lambdaValue: element, _lambdaAcc: acc, _lambdaIndex: index }),
+        initial,
+      );
+    }
     default:
       return undefined;
   }
@@ -372,6 +419,8 @@ export function interpret(instructions: Instruction[], context: EvalContext): un
         const value = stack.pop();
         if (instruction.operator === "!") {
           stack.push(!toBoolean(value));
+        } else if (instruction.operator === "-" && isDuration(value)) {
+          stack.push(new Duration(-value.ms)); // Site patch
         } else if (instruction.operator === "-") {
           const numberValue = toNumber(value);
           stack.push(numberValue === null ? undefined : -numberValue);

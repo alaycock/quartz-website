@@ -1,10 +1,11 @@
 import type { EvalContext } from "./interpreter";
+import { Duration, isDuration } from "./duration";
 import { slugifyFilePath, slugifyPath } from "@quartz-community/utils";
 import type { FilePath } from "@quartz-community/utils";
 
 export type GlobalFunction = (args: unknown[], context: EvalContext) => unknown;
 export type MethodFunction = (target: unknown, args: unknown[], context: EvalContext) => unknown;
-export type MethodTarget = "string" | "number" | "date" | "list" | "file" | "object";
+export type MethodTarget = "string" | "number" | "date" | "list" | "file" | "object" | "duration"; // Site patch: duration
 
 export const globalFunctions = new Map<string, GlobalFunction>();
 export const methodFunctions = new Map<MethodTarget, Map<string, MethodFunction>>();
@@ -272,6 +273,7 @@ function getMethodTarget(value: unknown): MethodTarget | undefined {
   if (typeof value === "string") return "string";
   if (typeof value === "number" && !Number.isNaN(value)) return "number";
   if (isDateValue(value)) return "date";
+  if (isDuration(value)) return "duration"; // Site patch
   if (Array.isArray(value)) return "list";
   if (isFileValue(value)) return "file";
   if (isRecord(value)) return "object";
@@ -294,11 +296,17 @@ registerGlobalFunction("contains", ([haystack, needle]) => {
 
 registerGlobalFunction("date", ([value]) => parseDate(value));
 
+// Site patch: returns a duration (was milliseconds)
 registerGlobalFunction("duration", ([value]) => {
-  if (typeof value === "number") return value;
-  if (typeof value === "string") return parseDuration(value);
-  return undefined;
+  if (isDuration(value)) return value;
+  const ms = typeof value === "number" ? value : typeof value === "string" ? parseDuration(value) : undefined;
+  return ms === undefined ? undefined : new Duration(ms);
 });
+
+// Site patch: duration methods
+registerMethodFunction("duration", "abs", (target) =>
+  isDuration(target) ? new Duration(Math.abs(target.ms)) : undefined,
+);
 
 registerGlobalFunction("now", () => new Date());
 
@@ -435,6 +443,8 @@ registerMethodFunction("string", "trim", (target) => toStringValue(target).trim(
 
 registerMethodFunction("string", "replace", (target, [search, replacement]) => {
   const source = toStringValue(target);
+  // Site patch: regex patterns follow JS semantics (flags respected; first match without /g)
+  if (search instanceof RegExp) return source.replace(search, toStringValue(replacement));
   const needle = toStringValue(search);
   if (!needle) return source;
   const replacementText = toStringValue(replacement);
@@ -833,7 +843,7 @@ registerMethodFunction("object", "values", (target) => {
 });
 
 function registerAnyMethod(name: string, fn: MethodFunction): void {
-  const targets: MethodTarget[] = ["string", "number", "date", "list", "file", "object"];
+  const targets: MethodTarget[] = ["string", "number", "date", "list", "file", "object", "duration"];
   for (const target of targets) {
     registerMethodFunction(target, name, fn);
   }
@@ -846,6 +856,7 @@ registerAnyMethod("isType", (target, [typeName]) => {
   if (typeof target === "string") return expected === "string";
   if (typeof target === "number") return expected === "number";
   if (isDateValue(target)) return expected === "date";
+  if (isDuration(target)) return expected === "duration"; // Site patch
   if (Array.isArray(target)) return expected === "list" || expected === "array";
   if (isFileValue(target)) return expected === "file";
   if (isRecord(target)) return expected === "object";
@@ -854,6 +865,7 @@ registerAnyMethod("isType", (target, [typeName]) => {
 
 registerAnyMethod("toString", (target) => {
   if (isDateValue(target)) return target.toISOString();
+  if (isDuration(target)) return target.toString(); // Site patch: humanized, e.g. "3 days"
   if (Array.isArray(target)) return target.map((item) => toStringValue(item)).join(", ");
   if (isRecord(target)) return JSON.stringify(target);
   return toStringValue(target);

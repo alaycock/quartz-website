@@ -35,6 +35,28 @@ function isIdentifierPart(ch: string): boolean {
   return isIdentifierStart(ch) || isDigit(ch);
 }
 
+// Site patch: a "/" starts a regex literal only where an operand can start
+const OPERAND_ENDS = new Set<TokenType>([
+  TokenType.Number,
+  TokenType.String,
+  TokenType.Regex,
+  TokenType.Identifier,
+  TokenType.True,
+  TokenType.False,
+  TokenType.Null,
+  TokenType.RightParen,
+  TokenType.RightBracket,
+]);
+
+function regexAllowedAfter(previous: Token | undefined): boolean {
+  return !previous || !OPERAND_ENDS.has(previous.type);
+}
+
+export function parseRegexLiteral(literal: string): RegExp {
+  const end = literal.lastIndexOf("/");
+  return new RegExp(literal.slice(1, end), literal.slice(end + 1));
+}
+
 class Lexer {
   private readonly input: string;
   private index = 0;
@@ -65,6 +87,13 @@ class Lexer {
 
       if (ch === '"' || ch === "'") {
         tokens.push(this.readString());
+        continue;
+      }
+
+      // Site patch: regex literals (/pattern/flags) wherever a value is expected, so that
+      // `a / b` is still division
+      if (ch === "/" && regexAllowedAfter(tokens[tokens.length - 1])) {
+        tokens.push(this.readRegex());
         continue;
       }
 
@@ -135,6 +164,33 @@ class Lexer {
     }
 
     throw new CompilerError("Unterminated string literal", { start, end: this.index });
+  }
+
+  // Site patch: token value is the whole literal, e.g. "/^#/g"
+  private readRegex(): Token {
+    const start = this.index;
+    this.advance(); // opening /
+    let inClass = false;
+    while (!this.isAtEnd()) {
+      const ch = this.advance();
+      if (ch === "\\") {
+        this.advance();
+      } else if (ch === "[") {
+        inClass = true;
+      } else if (ch === "]") {
+        inClass = false;
+      } else if (ch === "/" && !inClass) {
+        while (!this.isAtEnd() && isAlpha(this.peek())) this.advance();
+        const value = this.input.slice(start, this.index);
+        try {
+          parseRegexLiteral(value);
+        } catch {
+          throw new CompilerError("Invalid regular expression", { start, end: this.index });
+        }
+        return this.makeToken(TokenType.Regex, value, start, this.index);
+      }
+    }
+    throw new CompilerError("Unterminated regular expression", { start, end: this.index });
   }
 
   private readSymbol(): Token {
