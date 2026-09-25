@@ -93,7 +93,6 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 - [ ] Entry count: "58 entries" / "1 entry" instead of "Showing 58 of 58 entries" when every entry is shown (`components/shared/count.ts`, all views)
 - [ ] List values (`bases.scss`): `.bases-list` as `inline-flex` with a 4px gap puts a space before each comma; render inline
 - [ ] Card and gallery images (`bases.scss`): Quartz's global `img { margin: 1rem 0 }` leaves a gap above them; reset the margin
-- [ ] Cards view: format dates like Quartz does elsewhere ("Jan 01, 2026", date-only values in UTC) instead of `YYYY-MM-DD`
 - [ ] Cards view: a `data-placeholder` slot on cards without an image, so sites can colour them (this site uses the v4 palette in `custom.scss`)
 - [ ] List separators inherit the text colour instead of `var(--gray)`
 - [ ] (site-specific) Tables use the site's table styles: bases-page's own width, border, cell padding and font size removed, and `columnSize` widths ignored so the content sets column widths

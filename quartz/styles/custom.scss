@@ -124,12 +124,18 @@ ul.toc-content.overflow > li > a {
   gap: 16px;
 }
 
+// bases-page clips its content (.bases-page { overflow: hidden }), which cut off the hover
+// scale on cards at the edges of the grid
+.bases-page:has(.bases-cards) {
+  overflow: visible;
+}
+
 .bases-card {
   position: relative;
   border: none;
   border-radius: 16px;
   box-shadow: none;
-  background: var(--lightgray);
+  background: none;
   color: var(--dark);
   transition: scale 200ms;
 
