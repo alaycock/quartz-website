@@ -132,6 +132,8 @@ ul.toc-content.overflow > li > a {
 
 .bases-card {
   position: relative;
+  // Cards are links, so Quartz's `a.internal { padding: 0 0.1rem }` would inset the image
+  padding: 0;
   border: none;
   border-radius: 16px;
   box-shadow: none;
