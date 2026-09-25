@@ -43,8 +43,10 @@ const MAP_VERSION = 1
 
 type FileData = QuartzPluginData & Record<string, unknown>
 
+// Tokens come from the environment or .env (CI sets MAPBOX_TOKEN directly and writes
+// STRAVA_ACCESS_TOKEN to .env). loadEnvFile doesn't overwrite variables that are already set.
 function loadEnv() {
-  if (!process.env.MAPBOX_TOKEN && fs.existsSync(".env")) process.loadEnvFile(".env")
+  if (fs.existsSync(".env")) process.loadEnvFile(".env")
 }
 
 async function writeOutput(ctx: BuildCtx, slug: string, content: Buffer | string) {
