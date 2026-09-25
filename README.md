@@ -55,7 +55,6 @@ How it works: bases are rendered by a vendored copy of [bases-page](https://gith
 ### 5. CI and cutover
 
 - [ ] (later) The Strava "download previous token" step never finds a token (`download-artifact` only sees the current run without `run-id`/`github-token`), so every build refreshes from `STRAVA_BOOTSTRAP_REFRESH_TOKEN`. Same as v4; fine as long as that refresh token stays valid.
-- [ ] Cutover: add the `push: branches: [v5]` trigger back to the deploy workflow, switch the GitHub default branch to `v5`, and re-enable the workflow (it's disabled in GitHub; that setting covers every branch). Manual runs build only unless the `deploy` input is ticked. Build-only runs on v5 passed (plugins, Strava token, map cache, 1,639 files); the extra ~500 files vs a macOS build are alias-redirects' case redirects.
 
 ### Upstream candidates
 
