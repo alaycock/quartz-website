@@ -9,7 +9,7 @@ formulas:
     file(list(route)[0]).properties.region
   Date: link(file, (date + "8h").format('YYYY-MM-DD'))
   Days: (date - (if(note["end date"], note['end date'], date) + "1d")).toString().title()
-  tags: tags.filter(value != '#trip')[0].toString().replace(/#/, '').replace(/-/, ' ').title()
+  tags: tags.filter(value != '#trip')[0].toString().replace('#', '').replace(/-/, ' ').replace("null", "").title()
 properties:
   note.route:
     displayName: Route
