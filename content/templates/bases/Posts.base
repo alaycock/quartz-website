@@ -4,7 +4,7 @@ filters:
     - file.hasTag("post", "trip")
 formulas:
   title: if(file.properties.title, link( file.name, file.properties.title), link(file.name))
-  Formatted Date: date.format("MMMM D, Y")
+  Formatted Date: date.format("MMMM D, YYYY")
 properties:
   formula.title:
     displayName: Posts
