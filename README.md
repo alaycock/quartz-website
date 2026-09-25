@@ -34,6 +34,7 @@ Status key: `[ ]` todo · `[~]` in progress. Done items are removed; see git his
 
 How it works: bases are rendered by a vendored copy of [bases-page](https://github.com/quartz-community/bases-page) in `plugins/bases-page` (upstream 1.0.0, `5c729d1`). Every change is marked `// Site patch:`, and the first commit touching that folder is the unmodified upstream code, so `git diff` against it shows every patch. Notes without `publish: true` are handled by `plugins/data-only`.
 
+- [ ] Remove table of contents plugin
 - [ ] **Regex literals aren't supported (`Activity` column, By Year).** `Trips.base` `formula.tags` is `tags.filter(value != '#trip')[0].toString().replace(/^#/, '')`. bases-page's lexer reads `/` as division, so the formula fails and the column shows `—` on every Year page. Options:
   - change the `.base` to `replace('#', '')` (works in Obsidian and Quartz; quickest)
   - add regex literals to bases-page's lexer/parser (`src/compiler/lexer.ts`, `parser.ts`), with `replace()` accepting a RegExp. Upstream candidate.
@@ -44,11 +45,9 @@ How it works: bases are rendered by a vendored copy of [bases-page](https://gith
 - [ ] By Year: trips on the same day can come out in a different order (the view only sorts by `formula.Date`). Add a secondary sort in the `.base` if it matters.
 - [ ] **Disable standalone base pages altogether, if possible** (e.g. `/templates/bases/trips.base`). They're emitted for every `.base` file (unlinked, but public), show raw `#`-prefixed tags, and add backlinks to every page they list (see next item).
 - [ ] Drop the "Posts" backlink on pages like Mount Victoria (`/notes/2025-09-17`): it comes from the standalone `templates/bases/posts.base` page, so disabling base pages should remove it.
-- [ ] Comma-separated values (e.g. People on Year pages) render with a stray space before each comma
 - [ ] Year pages: remove the summary ("sum") from the Date column. The By Year view sets `formula.Date: Filled` in `Trips.base`.
 - [ ] Year pages: floating-point precision in column sums (e.g. the Distance total on `/years/2025`)
 - [ ] Clean up table formatting for all bases
-- [ ] **Broken: base tables render too wide.** They overflow the content column and sit against the edge of the page with no breathing room. Likely cause: Quartz's `.table-container > table { margin: 1rem }` plus bases-page's `.bases-table { width: 100% }` (2rem wider than the column), clipped on the right by `.bases-page { overflow: hidden }`. A margin-only fix (`margin: 1rem 0`) was tried and reverted.
 - [ ] bases-page list, gallery and board views still link entries without pages (only table and cards are patched; the site doesn't use the others yet)
 - [ ] Offer the bases-page fixes upstream as PRs (see "Upstream candidates" below)
 - Note: with `allNotesPublishableByDefault` on, Quartz Syncer writes `publish: true` into notes that have no `publish` key, so Quartz can't tell "missing" from "true". Notes need an explicit `publish: false` (the Trip Template has one) to stay data-only.
@@ -61,7 +60,7 @@ How it works: bases are rendered by a vendored copy of [bases-page](https://gith
 ### 3. Layout and components
 
 - [ ] **Broken: card/gallery bases have a 1rem margin above the images**
-- [ ] Card order differs from Obsidian: the Index view sorts by `file.ctime`, which in Obsidian is the vault file's creation time on disk; the site only has the `created` frontmatter. Sort by `date` in the `.base` for the same order in both.
+- [x] Card order differs from Obsidian: the Index view sorts by `file.ctime`, which in Obsidian is the vault file's creation time on disk; the site only has the `created` frontmatter. Sort by `date` in the `.base` for the same order in both.
 - [ ] **Broken: folder pages render too narrow** (e.g. `/lists/`)
 - [ ] Visual check of every page type (desktop, tablet, mobile) against the live site
 
@@ -93,6 +92,9 @@ Changes made locally that could become PRs. Each is marked `// Site patch:` in t
 - [ ] Regex literals and a duration type (see the Bases section).
 - [ ] `file.hasTag(a, b)` (`compiler/functions.ts`) required all tags; Obsidian matches any (fixed, site patch)
 - [ ] Cards view: values that are links (e.g. a `link()` title formula) rendered as `<a>` inside the card's `<a>`, which browsers split apart, leaving the title outside the card; render card values as text (fixed, site patch)
+- [ ] Entry count: "58 entries" / "1 entry" instead of "Showing 58 of 58 entries" when every entry is shown (`components/shared/count.ts`, all views)
+- [ ] List values (`bases.scss`): `.bases-list` as `inline-flex` with a 4px gap puts a space before each comma; render inline
+- [ ] (site-specific) Tables use the site's table styles: bases-page's own width, border, cell padding and font size removed, and `columnSize` widths ignored so the content sets column widths
 - [ ] Cards view (`components/views/cards.tsx`): `imageAspectRatio` is height/width in Obsidian but was used as CSS `aspect-ratio` (width/height), so 0.5 gave tall images; cards should show the `order` properties (values only) rather than the title plus labelled properties; keep an empty image area when a card has no image.
 
 **[quartz-community/folder-page](https://github.com/quartz-community/folder-page)** (`plugins/folder-page`; diff against `b5059fa4`):

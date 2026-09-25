@@ -54,28 +54,17 @@
   overflow-x: auto;
 }
 
+// Site patch: no width, border, cell padding or font size of its own, so base tables look
+// like the site's other tables (quartz/styles/base.scss) and are only as wide as their content
 .bases-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid var(--lightgray);
-  border-radius: 8px;
-  overflow: hidden;
-
-  th,
-  td {
-    padding: 10px 12px;
-    text-align: left;
-    border-bottom: 1px solid var(--lightgray);
-    font-size: 0.9rem;
+  thead th {
+    position: relative;
+    cursor: pointer;
   }
 
-  thead th {
-    position: sticky;
-    top: 0;
-    background: var(--light);
-    color: var(--dark);
-    font-weight: 600;
-    cursor: pointer;
+  thead th.is-sorted-asc,
+  thead th.is-sorted-desc {
+    padding-right: 1.5rem;
   }
 
   td .bases-empty {
@@ -94,11 +83,6 @@
     word-break: break-all;
   }
 
-  td .bases-list {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
 
   td input[type="checkbox"] {
     margin-inline: 0;
@@ -168,10 +152,10 @@ th.is-sorted-desc .bases-table-header-sort {
   font-variant-numeric: tabular-nums;
 }
 
+// Site patch: lists are plain inline text ("Adam, Colton"); as a flex row, the gap put a
+// space before each comma
 .bases-list {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 4px;
+  display: inline;
 }
 
 .bases-list-group {

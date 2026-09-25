@@ -12,6 +12,9 @@ export default {
       noImage: "No image available",
       uncategorized: "Uncategorized",
       showingCount: "Showing {count} of {total} entries",
+      // Site patch: used instead of showingCount when every entry is shown
+      entriesCount: "{count} entries",
+      entryCount: "{count} entry",
     },
   },
 };

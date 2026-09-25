@@ -2,6 +2,7 @@ import type { ComponentChild } from "preact";
 import type { ViewRenderer, ViewTypeRegistration } from "../../types";
 import type { FullSlug } from "@quartz-community/types";
 import { i18n } from "../../i18n";
+import { entryCountMessage } from "../shared/count";
 import {
   getColumns,
   isEmptyValue,
@@ -9,13 +10,6 @@ import {
   resolveEntryPropertyValue,
 } from "../shared/cell";
 import { transformLink } from "@quartz-community/utils";
-
-function formatMessage(template: string, values: Record<string, string | number>): string {
-  return Object.entries(values).reduce(
-    (text, [key, value]) => text.replace(`{${key}}`, String(value)),
-    template,
-  );
-}
 
 const ListView: ViewRenderer = ({
   entries,
@@ -34,10 +28,7 @@ const ListView: ViewRenderer = ({
   return (
     <div class="bases-list-wrapper">
       <div class="bases-view-meta">
-        {formatMessage(localeStrings.showingCount, {
-          count: entries.length,
-          total,
-        })}
+        {entryCountMessage(localeStrings, entries.length, total)}
       </div>
       <div class="bases-list-group">
         <div class="bases-list-group-list">

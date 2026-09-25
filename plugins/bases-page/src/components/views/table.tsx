@@ -1,10 +1,10 @@
 import type { BasesEntry, ViewRenderer, ViewTypeRegistration } from "../../types";
 import type { FullSlug } from "@quartz-community/types";
 import { i18n } from "../../i18n";
+import { entryCountMessage } from "../shared/count";
 import {
   formatValue,
   getColumnLabel,
-  getColumnSetting,
   getColumns,
   isEmptyValue,
   renderCellValue,
@@ -12,13 +12,6 @@ import {
 } from "../shared/cell";
 import { computeSummary } from "../shared/summary";
 import { transformLink } from "@quartz-community/utils";
-
-function formatMessage(template: string, values: Record<string, string | number>): string {
-  return Object.entries(values).reduce(
-    (text, [key, value]) => text.replace(`{${key}}`, String(value)),
-    template,
-  );
-}
 
 function groupEntries(
   entries: BasesEntry[],
@@ -57,12 +50,9 @@ function renderRow(
         const value = resolveEntryPropertyValue(column, entry);
         const display = formatValue(value);
         const isPrimary = column === "file.name" || column === "title";
-        const columnWidth = getColumnSetting(view.columnSize, column);
-        const style = columnWidth
-          ? { width: `${columnWidth}px`, minWidth: `${columnWidth}px` }
-          : undefined;
+        // Site patch: no columnSize widths; the content sets the column width
         return (
-          <td data-value={display} style={style}>
+          <td data-value={display}>
             {isPrimary && !allSlugs.includes(entry.slug) ? (
               // Site patch: entries without a page (data-only notes) aren't linked
               <a class="internal broken">{display || entry.title}</a>
@@ -105,21 +95,15 @@ const TableView: ViewRenderer = ({
   return (
     <div class="bases-table-wrapper">
       <div class="bases-view-meta">
-        {formatMessage(localeStrings.showingCount, {
-          count: entries.length,
-          total,
-        })}
+        {entryCountMessage(localeStrings, entries.length, total)}
       </div>
       <table class="bases-table" data-view-type="table">
         <thead>
           <tr>
             {columns.map((column) => {
-              const columnWidth = getColumnSetting(view.columnSize, column);
-              const style = columnWidth
-                ? { width: `${columnWidth}px`, minWidth: `${columnWidth}px` }
-                : undefined;
+              // Site patch: no columnSize widths; the content sets the column width
               return (
-                <th data-column={column} data-sortable="true" style={style}>
+                <th data-column={column} data-sortable="true">
                   <span class="bases-table-header">{getColumnLabel(column, basesData)}</span>
                   <span class="bases-table-header-sort" aria-hidden="true" />
                 </th>

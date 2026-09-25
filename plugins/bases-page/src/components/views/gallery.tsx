@@ -1,17 +1,11 @@
 import type { ViewRenderer, ViewTypeRegistration } from "../../types";
 import type { FullSlug } from "@quartz-community/types";
 import { i18n } from "../../i18n";
+import { entryCountMessage } from "../shared/count";
 import { resolveEntryPropertyValue } from "../shared/cell";
 import { transformLink } from "@quartz-community/utils";
 import { resolveImageSrc } from "./cards";
 import type { ResolveImageOpts } from "./cards";
-
-function formatMessage(template: string, values: Record<string, string | number>): string {
-  return Object.entries(values).reduce(
-    (text, [key, value]) => text.replace(`{${key}}`, String(value)),
-    template,
-  );
-}
 
 const GalleryView: ViewRenderer = ({
   entries,
@@ -33,10 +27,7 @@ const GalleryView: ViewRenderer = ({
   return (
     <div class="bases-gallery-wrapper">
       <div class="bases-view-meta">
-        {formatMessage(localeStrings.showingCount, {
-          count: entries.length,
-          total,
-        })}
+        {entryCountMessage(localeStrings, entries.length, total)}
       </div>
       <div class="bases-gallery" style={gridStyle}>
         {entries.map((entry) => {
