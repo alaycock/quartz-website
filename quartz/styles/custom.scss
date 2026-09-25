@@ -116,3 +116,74 @@ ul.toc-content.overflow > li > a {
     filter: none;
   }
 }
+
+// Base cards views, styled like the v4 card grid: the image fills the card, with the title and
+// date on a translucent bar along the bottom. The card's shape comes from the view's
+// imageAspectRatio; cards without an image use the palette below.
+.bases-cards {
+  gap: 16px;
+}
+
+.bases-card {
+  position: relative;
+  border: none;
+  border-radius: 16px;
+  box-shadow: none;
+  background: var(--lightgray);
+  color: var(--dark);
+  transition: scale 200ms;
+
+  &:hover,
+  &:focus {
+    scale: 1.02;
+    filter: none;
+    box-shadow: none;
+  }
+
+  .bases-card-image img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bases-card-body {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 16px;
+    gap: 0;
+    background-color: color-mix(in srgb, var(--lightgray) 50%, transparent);
+    backdrop-filter: blur(2px);
+  }
+
+  .bases-card-title {
+    color: var(--dark);
+    line-height: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bases-card-value {
+    font-weight: 400;
+    font-size: 10pt;
+    line-height: 1.2rem;
+  }
+}
+
+// v4 card palette for cards without an image
+.bases-card-no-image[data-placeholder="0"] {
+  background: #fdf6f2;
+}
+.bases-card-no-image[data-placeholder="1"] {
+  background: #e18a7a;
+}
+.bases-card-no-image[data-placeholder="2"] {
+  background: #c0d8e3;
+}
+.bases-card-no-image[data-placeholder="3"] {
+  background: #a78d8a;
+}
+.bases-card-no-image[data-placeholder="4"] {
+  background: #eeb9a2;
+}

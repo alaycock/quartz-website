@@ -43,11 +43,26 @@ export function resolveImageSrc(
 
 // Site patch: the whole card is a link, and links can't nest, so card values render as text:
 // "[[Notes/2025-04-15|Grand Canyon]]" → "Grand Canyon", "[[Mount Bourgeau]]" → "Mount Bourgeau"
-function cardText(value: unknown): string {
+function cardText(value: unknown, locale: string): string {
+  // Site patch: dates as Quartz shows them elsewhere ("Jan 01, 2026"); date-only values are
+  // midnight UTC, so format them in UTC to keep the day
+  if (value instanceof Date) {
+    const dateOnly = value.toISOString().endsWith("T00:00:00.000Z");
+    return value.toLocaleDateString(locale, {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      ...(dateOnly ? { timeZone: "UTC" } : {}),
+    });
+  }
   return formatValue(value)
     .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$2")
     .replace(/\[\[([^\]]+)\]\]/g, (_, target: string) => target.split("/").pop() ?? target);
 }
+
+const placeholderSlot = (slug: string) =>
+  Math.abs(slug.split("").reduce((hash, char) => ((hash << 5) - hash + char.charCodeAt(0)) | 0, 0)) %
+  5;
 
 const CardsView: ViewRenderer = ({
   entries,
@@ -122,8 +137,14 @@ const CardsView: ViewRenderer = ({
                 />
               )}
               {/* Site patch: keep an empty image area when a card has no image, like Obsidian */}
+              {/* Site patch: data-placeholder (0-4, stable per note) lets site styles colour
+                  cards without an image */}
               {imageProperty && !imageSrc && (
-                <div class="bases-card-image bases-card-no-image" style={imageAspect} />
+                <div
+                  class="bases-card-image bases-card-no-image"
+                  style={imageAspect}
+                  data-placeholder={placeholderSlot(entry.slug)}
+                />
               )}
               <div class="bases-card-body">
                 {cardColumns.length === 0 ? (
@@ -134,7 +155,7 @@ const CardsView: ViewRenderer = ({
                     if (isEmptyValue(value)) return null;
                     return (
                       <span class={index === 0 ? "bases-card-title" : "bases-card-value"}>
-                        {column === "file.name" ? entry.title : cardText(value)}
+                        {column === "file.name" ? entry.title : cardText(value, locale)}
                       </span>
                     );
                   })

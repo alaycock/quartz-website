@@ -144,8 +144,9 @@ th.is-sorted-desc .bases-table-header-sort {
   font-weight: 400;
 }
 
+// Site patch: separators use the surrounding text colour
 .bases-separator {
-  color: var(--gray);
+  color: inherit;
 }
 
 .bases-number {
@@ -231,6 +232,14 @@ th.is-sorted-desc .bases-table-header-sort {
     display: block;
     object-fit: cover;
   }
+}
+
+// Site patch: Quartz's global `img { margin: 1rem 0; border-radius: 5px }` left a gap above
+// card and gallery images
+.bases-card-image img,
+.bases-gallery-image img {
+  margin: 0;
+  border-radius: 0;
 }
 
 .bases-card-color {
