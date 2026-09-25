@@ -44,7 +44,7 @@ How it works: bases are rendered by a vendored copy of [bases-page](https://gith
 
 ### 2. Strava static maps
 
-- [ ] **Remove the v4 cache fallback** (`plugins/activity-map/src/cache.ts`, "v4 cache migration") after the CI cache has been migrated, then delete the old `Notes/`, `Routes/` and `.manifest.json` entries from both cache folders
+- [ ] **Remove the v4 cache fallback** (`plugins/activity-map/src/cache.ts`, "v4 cache migration"), then delete the old `Notes/`, `Routes/` and `.manifest.json` entries from both local cache folders. No longer needed: the local cache is migrated, and CI had no v4 cache left to migrate (GitHub evicts caches unused for 7 days; the first v5 run downloaded all maps and cached them).
 - [ ] GPX times are anchored at build time (`Date.now()`), inherited from v4: Strava streams only have offsets from the start. Fetch the activity's `start_date` if accurate times matter.
 
 ### 3. Layout and components
@@ -58,7 +58,7 @@ How it works: bases are rendered by a vendored copy of [bases-page](https://gith
 ### 5. CI and cutover
 
 - [ ] (later) The Strava "download previous token" step never finds a token (`download-artifact` only sees the current run without `run-id`/`github-token`), so every build refreshes from `STRAVA_BOOTSTRAP_REFRESH_TOKEN`. Same as v4; fine as long as that refresh token stays valid.
-- [ ] Cutover: add the `push: branches: [v5]` trigger back to the deploy workflow, switch the GitHub default branch to `v5`, and re-enable deploys
+- [ ] Cutover: add the `push: branches: [v5]` trigger back to the deploy workflow, switch the GitHub default branch to `v5`, and re-enable the workflow (it's disabled in GitHub; that setting covers every branch). Manual runs build only unless the `deploy` input is ticked. Build-only runs on v5 passed (plugins, Strava token, map cache, 1,639 files); the extra ~500 files vs a macOS build are alias-redirects' case redirects.
 
 ### Upstream candidates
 
