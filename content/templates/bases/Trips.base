@@ -8,7 +8,8 @@ formulas:
   Region: |
     file(list(route)[0]).properties.region
   Date: link(file, (date + "8h").format('YYYY-MM-DD'))
-  Days: (date - (if(note["end date"], note['end date'], date) + "1d")).toString().title()
+  Days: |
+    (date - (if(note["end date"], note['end date'], date) + "1d"))
   tags: tags.filter(value != '#trip')[0].toString().replace('#', '').replace(/-/, ' ').replace("null", "").title()
 properties:
   note.route:
