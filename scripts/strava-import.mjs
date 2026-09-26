@@ -5,9 +5,8 @@
 //
 // - Activities come from the Strava API (STRAVA_ACCESS_TOKEN, refreshed by scripts/prebuild.js).
 // - Notes are created through the Obsidian CLI from the "Trip Template", then each property is
-//   set with `property:set`, so Obsidian writes the frontmatter itself. Needs a current Obsidian
-//   installer (the CLI isn't functional in old installers, even with an updated app) and the CLI
-//   enabled in Settings → General.
+//   set with `property:set`, so Obsidian writes the frontmatter itself. Needs Obsidian running
+//   with the CLI enabled (Settings → General).
 // - The vault is only read directly, to find activities that are already imported.
 //
 // By default it imports everything since the newest trip note with a `strava` id. Activities
@@ -92,6 +91,7 @@ function scanVault() {
 
 async function fetchActivities(since, token) {
   const after = Math.floor(new Date(`${since}T00:00:00`).getTime() / 1000)
+  if (after * 1000 > Date.now()) return [] // Strava rejects future dates
   const perPage = 100
   const activities = []
   for (let page = 1; ; page++) {
@@ -125,23 +125,56 @@ function tripProperties(activity) {
   }
 }
 
+const sleep = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms)
+
 function obsidian(...args) {
-  return execFileSync(OBSIDIAN, [`vault=${VAULT}`, ...args], { encoding: "utf8" }).trim()
+  return execFileSync(OBSIDIAN, [`vault=${VAULT}`, ...args], { encoding: "utf8" })
+    .split("\n")
+    .filter((line) => !/Loading updated app package|installer is out of date/.test(line))
+    .join("\n")
+    .trim()
 }
 
+// While Obsidian is still bringing up a vault, commands can return nothing and be dropped
+// (exit code 0). Retry until the output shows the command took effect.
+function obsidianUntil(expected, args, { attempts = 10, beforeRetry } = {}) {
+  let output = ""
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    output = obsidian(...args)
+    if (expected.test(output)) return output
+    if (/^Error:/m.test(output)) break
+    sleep(1000)
+    const recovered = beforeRetry?.()
+    if (recovered) return recovered
+  }
+  throw new Error(`obsidian ${args.join(" ")} failed: ${output || "no response"}`)
+}
+
+const notesOn = (date) =>
+  new Set(fs.readdirSync(path.join(VAULT_PATH, NOTES_FOLDER)).filter((f) => f.startsWith(date)))
+
 function createTripNote(props) {
-  const output = obsidian("create", `path=${NOTES_FOLDER}/${props.date}`, `template=${TEMPLATE}`)
-  const notePath = output.match(/^(?:Created|Overwrote): (.+)$/m)?.[1]
-  if (!notePath) throw new Error(`Unexpected output from obsidian create: ${output}`)
+  // If a "dropped" create actually went through, use that note rather than creating a duplicate
+  const before = notesOn(props.date)
+  const newNote = () => {
+    const added = [...notesOn(props.date)].find((f) => !before.has(f))
+    return added && `Created: ${NOTES_FOLDER}/${added}`
+  }
+  const output = obsidianUntil(
+    /^Created: /m,
+    ["create", `path=${NOTES_FOLDER}/${props.date}`, `template=${TEMPLATE}`],
+    { beforeRetry: newNote },
+  )
+  const notePath = output.match(/^Created: (.+)$/m)[1]
 
   const set = (name, value, type) =>
-    obsidian(
+    obsidianUntil(new RegExp(`^Set ${name}: `, "m"), [
       "property:set",
       `path=${notePath}`,
       `name=${name}`,
       `value=${value}`,
       ...(type ? [`type=${type}`] : []),
-    )
+    ])
   set("date", props.date, "date")
   if (props.endDate) set("end date", props.endDate, "date")
   set("distance", String(props.distance), "number")
@@ -159,16 +192,13 @@ async function main() {
   if (!token) throw new Error("STRAVA_ACCESS_TOKEN is not set (run via `npm run strava:import`)")
 
   if (!args.dryRun) {
-    // Old installers exit 0 but only print an "installer is out of date" notice
-    let version = ""
+    // Wait for the vault to be loaded; the CLI can exit 0 without doing anything until then
     try {
-      version = obsidian("version")
-    } catch {}
-    if (!/^\d+\.\d+\.\d+/m.test(version) || /installer is out of date/i.test(version)) {
+      obsidianUntil(new RegExp(`^name\\t${VAULT.replace(/\./g, "\\.")}$`, "m"), ["vault"])
+    } catch {
       throw new Error(
-        `The Obsidian CLI (${OBSIDIAN}) isn't working. Install the latest Obsidian from ` +
-          `https://obsidian.md/download, enable the CLI in Settings → General, and keep Obsidian open. ` +
-          `Set OBSIDIAN_CLI to use a different path.`,
+        `The Obsidian CLI (${OBSIDIAN}) didn't respond for vault "${VAULT}". Open Obsidian, check ` +
+          `the CLI is enabled in Settings → General, or set OBSIDIAN_CLI to its path.`,
       )
     }
   }

@@ -36,7 +36,7 @@ npm run strava:import -- --since 2026-08-01   # choose the start date
 
 - Filled in: `date` (and `end date` for multi-day activities), `distance`, `gain`, `strava`, `tags` (`trip` + activity), `people: [Adam]`, and `title` when the activity has a real name (not "Morning Hike" etc.). Left for you: `route`, other `people`, `cover`, and the write-up. Notes start as `publish: false`.
 - Skipped: activities already in the vault (by `strava` id), and days that already have a trip note without a `strava` id (listed so you can link them by hand).
-- Requires Obsidian to be running with its CLI working: a current installer from [obsidian.md/download](https://obsidian.md/download) (old installers only print "installer is out of date", even when the app itself is updated) and the CLI enabled in Settings → General. The script calls `/Applications/Obsidian.app/Contents/MacOS/obsidian`; override with `OBSIDIAN_CLI`. `OBSIDIAN_VAULT` / `OBSIDIAN_VAULT_PATH` override the vault (default `adamlaycock.ca` in `~/Documents/notes`).
+- Requires Obsidian to be running with its CLI enabled (Settings → General). The script calls `/Applications/Obsidian.app/Contents/MacOS/obsidian`; override with `OBSIDIAN_CLI`. `OBSIDIAN_VAULT` / `OBSIDIAN_VAULT_PATH` override the vault (default `adamlaycock.ca` in `~/Documents/notes`).
 
 ## Quartz v5 migration
 
