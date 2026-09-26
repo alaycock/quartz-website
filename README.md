@@ -24,6 +24,20 @@ STRAVA_BOOTSTRAP_REFRESH_TOKEN=your_bootstrap_refresh_token_here
 MAPBOX_TOKEN=your_mapbox_token_here
 ```
 
+## Importing Strava activities
+
+`npm run strava:import` creates trip notes in the Obsidian vault for recent Strava activities (`scripts/strava-import.mjs`). It refreshes the Strava token (same as the build), lists your activities since the newest trip note with a `strava` id, and creates a note for each new hike, trail run, ski tour, cross-country ski, mountain bike ride or climb through the Obsidian CLI, from the "Trip Template".
+
+```bash
+npm run strava:import -- --dry-run            # show what would be created
+npm run strava:import                         # create the notes
+npm run strava:import -- --since 2026-08-01   # choose the start date
+```
+
+- Filled in: `date` (and `end date` for multi-day activities), `distance`, `gain`, `strava`, `tags` (`trip` + activity), `people: [Adam]`, and `title` when the activity has a real name (not "Morning Hike" etc.). Left for you: `route`, other `people`, `cover`, and the write-up. Notes start as `publish: false`.
+- Skipped: activities already in the vault (by `strava` id), and days that already have a trip note without a `strava` id (listed so you can link them by hand).
+- Requires Obsidian to be running with its CLI working: a current installer from [obsidian.md/download](https://obsidian.md/download) (old installers only print "installer is out of date", even when the app itself is updated) and the CLI enabled in Settings → General. The script calls `/Applications/Obsidian.app/Contents/MacOS/obsidian`; override with `OBSIDIAN_CLI`. `OBSIDIAN_VAULT` / `OBSIDIAN_VAULT_PATH` override the vault (default `adamlaycock.ca` in `~/Documents/notes`).
+
 ## Quartz v5 migration
 
 The `v5` branch is a fresh start from [upstream Quartz v5](https://github.com/jackyzha0/quartz/tree/v5) (upstream commit `97a2d05f`). The old site is tagged `v4-final`. It was forked from upstream v4 at `0a57d032`, which is the base to diff against when porting customizations.
@@ -50,7 +64,6 @@ How it works: bases are rendered by a vendored copy of [bases-page](https://gith
 - [x] Card order differs from Obsidian: the Index view sorts by `file.ctime`, which in Obsidian is the vault file's creation time on disk; the site only has the `created` frontmatter. Sort by `date` in the `.base` for the same order in both.
 
 ### 4. Core patches (check each; re-apply only if still needed)
-
 
 ### 5. CI and cutover
 
