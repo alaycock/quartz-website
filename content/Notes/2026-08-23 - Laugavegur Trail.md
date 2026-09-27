@@ -2,7 +2,7 @@
 publish: true
 title: Laugavegur Trail
 created: 2026-08-23
-modified: 2026-09-26T19:14:18.481-06:00
+modified: 2026-09-26T19:23:57.402-06:00
 published: 2026-08-23
 tags:
   - trip
@@ -83,7 +83,7 @@ My second day proceeded though the black and green landscape, crossing several r
 
 ![[assets/2026-08-23 - Laugavegur Trail/image-21.jpeg]]
 
-I would have loved to climb some of the hills on my second day, but it would have been a travesty to leave the trail in this pristine landscape. There we no other footprints off the trail, which
+I would have loved to climb some of the hills on my second day, but I would never leave the trail in a pristine landscape like this. Fortunately, there were no other footprints off trail, but I did come across old tire tracks that very clearly left a lasting impact.
 
 ![[assets/2026-08-23 - Laugavegur Trail/image-22.jpeg]]
 
