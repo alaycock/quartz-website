@@ -60,6 +60,26 @@ export function getLocations(fileData: FileData, allFiles: FileData[]): LatLng[]
     .filter((location): location is LatLng => location !== null)
 }
 
+/**
+ * The file a `gpx` property points at, as a path in the content folder. Accepts a wikilink
+ * ("[[assets/track.gpx]]", with or without an alias) or a plain path, and resolves it like
+ * Obsidian: exact path first, then by file name.
+ */
+export function getGpxFile(
+  frontmatter: Frontmatter | undefined,
+  allFiles: readonly string[],
+): string | null {
+  const value = frontmatter?.gpx
+  if (typeof value !== "string" || !value.trim()) return null
+  const target = value
+    .replace(/\[\[|\]\]/g, "")
+    .split("|")[0]!
+    .trim()
+  if (allFiles.includes(target)) return target
+  const name = target.split("/").pop()
+  return allFiles.find((file) => file.split("/").pop() === name) ?? null
+}
+
 /** Output path (without extension) for a page's generated files, e.g. `routes/mount-bourgeau-map` */
 export const mapSlug = (slug: string) => `${slug}-map`
 export const gpxSlug = (slug: string) => `${slug}-strava`

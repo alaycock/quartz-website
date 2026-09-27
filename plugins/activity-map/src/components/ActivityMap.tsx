@@ -5,11 +5,12 @@ import type {
 } from "@quartz-community/types"
 import { pathToRoot } from "@quartz-community/utils/path"
 import { classNames } from "@quartz-community/utils/lang"
-import { getActivityId, getLocations, mapSlug } from "../locations"
+import { getActivityId, getGpxFile, getLocations, mapSlug } from "../locations"
 
 // Sidebar map for pages the emitter generated a map for; links to Google Maps
 export default (() => {
   const ActivityMap: QuartzComponent = ({
+    ctx,
     fileData,
     allFiles,
     displayClass,
@@ -18,7 +19,9 @@ export default (() => {
     if (!frontmatter || !fileData.slug) return null
 
     const locations = getLocations(fileData, allFiles)
-    if (locations.length === 0 && !getActivityId(frontmatter)) return null
+    const contentFiles = (ctx as { allFiles?: string[] })?.allFiles ?? []
+    const hasTrack = getActivityId(frontmatter) || getGpxFile(frontmatter, contentFiles)
+    if (locations.length === 0 && !hasTrack) return null
 
     const slug = fileData.slug as string
     const [first] = locations

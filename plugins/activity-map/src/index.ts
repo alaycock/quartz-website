@@ -9,7 +9,8 @@ import type {
   QuartzPluginData,
 } from "@quartz-community/types"
 import { FileCache, hashKey } from "./cache"
-import { getActivityId, getLocations, gpxSlug, mapSlug } from "./locations"
+import { createHash } from "node:crypto"
+import { getActivityId, getGpxFile, getLocations, gpxSlug, mapSlug } from "./locations"
 import { downloadMap } from "./mapbox"
 import {
   encodePolyline,
@@ -21,9 +22,12 @@ import {
 
 /**
  * For every published page with a `location`, a `route` pointing at located routes,
- * or a `strava` activity, emits:
+ * a `strava` activity or a `gpx` file, emits:
  * - `<slug>-strava.gpx`: the Strava activity track (needs STRAVA_ACCESS_TOKEN)
  * - `<slug>-map.jpg`: a static Mapbox map with the track and pins (needs MAPBOX_TOKEN)
+ *
+ * A `gpx` property (e.g. `"[[assets/track.gpx]]"`) takes precedence over `strava` for the
+ * track; that file is published as-is by the Assets emitter.
  *
  * Downloads are cached in `cacheDir` (kept across CI runs) so builds rarely hit the APIs.
  */
@@ -78,13 +82,13 @@ export default (userOpts?: Partial<Options>) => {
     return gpx
   }
 
+  // `source` identifies the track, e.g. { activityId, locations, polyline: true } for Strava
   async function getMap(
-    fileData: FileData,
+    source: Record<string, unknown>,
     locations: ReturnType<typeof getLocations>,
-    activityId: string | null,
     polyline: string | undefined,
   ): Promise<Buffer> {
-    const key = `map-${hashKey({ v: MAP_VERSION, activityId, locations, polyline: !!polyline })}.jpg`
+    const key = `map-${hashKey({ v: MAP_VERSION, ...source })}.jpg`
     const cached = await maps.read(key)
     if (cached) {
       stats.cached++
@@ -106,11 +110,28 @@ export default (userOpts?: Partial<Options>) => {
   ): AsyncGenerator<FilePath> {
     if (fileData.dataOnly || !fileData.frontmatter || !fileData.slug) return
     const slug = fileData.slug as string
-    const activityId = getActivityId(fileData.frontmatter as Record<string, unknown>)
+    const frontmatter = fileData.frontmatter as Record<string, unknown>
+    const activityId = getActivityId(frontmatter)
+    const gpxFile = getGpxFile(frontmatter, ctx.allFiles)
+    if (frontmatter.gpx && !gpxFile) {
+      console.warn(`[activity-map] ${slug}: gpx file not found: ${String(frontmatter.gpx)}`)
+    }
     const locations = getLocations(fileData, allFiles)
-    if (locations.length === 0 && !activityId) return
+    if (locations.length === 0 && !activityId && !gpxFile) return
 
     try {
+      // A custom GPX file: the map is cached by the file's contents
+      if (gpxFile) {
+        const gpx = await fsp.readFile(path.join(ctx.argv.directory, gpxFile), "utf8")
+        const track = samplePointsEvenly(parseGpxTrack(gpx), opts.maxTrackPoints)
+        const polyline = track.length > 0 ? encodePolyline(track) : undefined
+        if (locations.length === 0 && !polyline) return
+        const gpxHash = createHash("sha256").update(gpx).digest("hex")
+        const map = await getMap({ gpx: gpxHash, locations }, locations, polyline)
+        yield await writeOutput(ctx, `${mapSlug(slug)}.jpg`, map)
+        return
+      }
+
       let polyline: string | undefined
       if (activityId) {
         const gpx = await getGpx(fileData, activityId)
@@ -122,7 +143,9 @@ export default (userOpts?: Partial<Options>) => {
       }
 
       if (locations.length === 0 && !polyline) return
-      const map = await getMap(fileData, locations, activityId, polyline)
+      // Key fields in the same order as before, so existing cached maps stay valid
+      const source = { activityId, locations, polyline: !!polyline }
+      const map = await getMap(source, locations, polyline)
       yield await writeOutput(ctx, `${mapSlug(slug)}.jpg`, map)
     } catch (err) {
       stats.failed++

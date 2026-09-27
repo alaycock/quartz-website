@@ -1,5 +1,6 @@
 import type { JSX } from "preact"
 import type {
+  FilePath,
   FullSlug,
   QuartzComponent,
   QuartzComponentConstructor,
@@ -7,8 +8,8 @@ import type {
 } from "@quartz-community/types"
 import { classNames } from "@quartz-community/utils/lang"
 import { formatDate } from "@quartz-community/utils/date"
-import { pathToRoot, resolveRelative } from "@quartz-community/utils/path"
-import { getActivityId, gpxSlug } from "../../../activity-map/src/locations"
+import { pathToRoot, resolveRelative, slugifyFilePath } from "@quartz-community/utils/path"
+import { getActivityId, getGpxFile, gpxSlug } from "../../../activity-map/src/locations"
 import style from "./tripMeta.scss"
 
 type Frontmatter = Record<string, unknown>
@@ -60,6 +61,7 @@ const Stat = ({ value, unit, name }: StatProps) => (
 export default (() => {
   const TripMeta: QuartzComponent = ({
     cfg,
+    ctx,
     fileData,
     allFiles,
     displayClass,
@@ -85,7 +87,9 @@ export default (() => {
         ? [frontmatter.route]
         : []
     const routeLinks = routes.flatMap((route) => {
-      const name = String(route).replace(/\[\[|\]\]/g, "").split("|")[0]!
+      const name = String(route)
+        .replace(/\[\[|\]\]/g, "")
+        .split("|")[0]!
       const routeSlug = routeSlugs(allFiles).get(baseName(name))
       if (!routeSlug) return []
       return [
@@ -114,7 +118,10 @@ export default (() => {
     const kane = tagRating(tags, "kane")
     if (kane) stats.push(<Stat value={kane} name="Kane difficulty" />)
 
+    // Strava link for a Strava activity; GPX link to a custom `gpx` file, else the Strava track
     const activityId = getActivityId(frontmatter)
+    const contentFiles = (ctx as { allFiles?: string[] })?.allFiles ?? []
+    const gpxFile = getGpxFile(frontmatter, contentFiles)
     if (activityId) {
       stats.push(
         <a
@@ -127,13 +134,16 @@ export default (() => {
           <StravaIcon className="meta-stat-value" />
           <span class="meta-stat-name">Strava</span>
         </a>,
-        <a
-          class="meta-stat"
-          href={`${pathToRoot(slug)}/${gpxSlug(slug)}.gpx`}
-          target="_blank"
-          rel="noopener"
-          aria-label="GPX file"
-        >
+      )
+    }
+    const gpxHref = gpxFile
+      ? `${pathToRoot(slug)}/${slugifyFilePath(gpxFile as FilePath)}`
+      : activityId
+        ? `${pathToRoot(slug)}/${gpxSlug(slug)}.gpx`
+        : undefined
+    if (gpxHref) {
+      stats.push(
+        <a class="meta-stat" href={gpxHref} target="_blank" rel="noopener" aria-label="GPX file">
           <GpxIcon className="meta-stat-value" />
           <span class="meta-stat-name">GPX file</span>
         </a>,
@@ -144,7 +154,9 @@ export default (() => {
       <>
         <div class={classNames(displayClass, "content-meta")}>
           {row.length > 0 ? (
-            <div class="meta-row">{row.flatMap((item, i) => (i === 0 ? [item] : [" • ", item]))}</div>
+            <div class="meta-row">
+              {row.flatMap((item, i) => (i === 0 ? [item] : [" • ", item]))}
+            </div>
           ) : null}
           {stats.length > 0 ? <div class="meta-stats">{stats}</div> : null}
         </div>

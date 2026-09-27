@@ -38,6 +38,12 @@ npm run strava:import -- --since 2026-08-01   # choose the start date
 - Skipped: activities already in the vault (by `strava` id), and days that already have a trip note without a `strava` id (listed so you can link them by hand).
 - Requires Obsidian to be running with its CLI enabled (Settings → General). The script calls `/Applications/Obsidian.app/Contents/MacOS/obsidian`; override with `OBSIDIAN_CLI`. `OBSIDIAN_VAULT` / `OBSIDIAN_VAULT_PATH` override the vault (default `adamlaycock.ca` in `~/Documents/notes`).
 
+## Custom GPX tracks
+
+A trip without a Strava activity (or with a bad recording) can use its own track: add the file to the vault and set `gpx: "[[assets/track.gpx]]"` on the note. `plugins/activity-map` draws the sidebar map from that file (taking precedence over `strava`), and the trip header's "GPX file" link points at it. The map is cached by the file's contents, so editing the GPX redraws it.
+
+The GPX file itself has to be published to `content/` like any other attachment: Quartz Syncer doesn't publish files that are only linked from frontmatter, so also link or embed it in the note body.
+
 ## Quartz v5 migration
 
 The `v5` branch is a fresh start from [upstream Quartz v5](https://github.com/jackyzha0/quartz/tree/v5) (upstream commit `97a2d05f`). The old site is tagged `v4-final`. It was forked from upstream v4 at `0a57d032`, which is the base to diff against when porting customizations.
