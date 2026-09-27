@@ -1,7 +1,7 @@
 ---
-publish: false
+publish: true
 created: 2026-08-23
-modified: 2026-09-24T12:37:49.526-06:00
+modified: 2026-09-26T18:07:39.584-06:00
 published: 2026-08-23
 tags:
   - trip
@@ -15,6 +15,7 @@ people:
 strava:
 route:
   - "[[Laugavegur Trail]]"
+gpx: "[[assets/iceland.gpx]]"
 ---
 
 Camped the the whole trip, no huts

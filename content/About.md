@@ -1,8 +1,8 @@
 ---
 publish: true
 created: 2025-09-09T13:35:18.692-06:00
-modified: 2025-09-29T10:07:33.470-06:00
-published: 2025-09-29T10:07:33.470-06:00
+modified: 2026-09-26T18:03:26.164-06:00
+published: 2026-09-26T18:03:26.164-06:00
 ---
 
 I'm Adam, I'm a software developer and someone who enjoys spending time in the Canadian Rockies. If you're interested in my professional experience, check out my [[Adam Laycock - Resume.pdf|resume]].
