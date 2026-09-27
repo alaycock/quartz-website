@@ -2,7 +2,7 @@
 publish: true
 title: Kirkjufell
 created: 2026-08-27
-modified: 2026-09-26T11:55:30.198-06:00
+modified: 2026-09-26T19:10:01.093-06:00
 published: 2026-08-27
 tags:
   - trip

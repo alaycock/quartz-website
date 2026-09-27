@@ -2,7 +2,7 @@
 publish: true
 title: Laugavegur Trail
 created: 2026-08-23
-modified: 2026-09-26T19:07:58.203-06:00
+modified: 2026-09-26T19:14:18.481-06:00
 published: 2026-08-23
 tags:
   - trip
